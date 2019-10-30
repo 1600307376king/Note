@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="Shortcut Icon" href="{{ url_for('static', filename='images/icon/favicon.ico') }}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Title</title>
+    {% endblock %}
+    <style>
+        body {
+            min-width: 1000px;
+            background: #f5f6f7;
+            margin: 0;
+            padding: 0;
+        }
+        .top_nav {
+            white-space:nowrap;
+            height: 60px;
+            width: 100%;
+            min-width: 1200px;
+            background: white;
+            font-size: 24px;
+            top: 0;
+            position: absolute;
+            text-align: center;
+            line-height: 60px;
+        }
+        .top_nav ul {
+            list-style-type: none;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .top_nav a {
+            text-decoration: none;
+            color: #62AFB7;
+        }
+        .top_nav li:hover{
+            background: #F0F1F2;
+        }
+        .top_nav li {
+            width: 100px;
+            display: inline-block;
+        }
+        .top_middle {
+            margin: 0 auto;
+            height: 60px;
+            width: auto;
+        }
+        .row{
+            margin: 0 auto;
+        }
+        .center-block {
+            display: block;
+        }
+        .all_content {
+            background: blanchedalmond;
+            width: 1200px;
+            height: 100%;
+            position: absolute;
+            top: 60px;
+            bottom: 0;
+            left: 50%;
+            margin-left: -600px;
+
+        }
+        .left_nav {
+            float: left;
+            width: 100px;
+            height: 800px;
+            background: white;
+            margin: 10px;
+        }
+        .note_list {
+            float: left;
+            width: 800px;
+            height: 100%;
+            margin: 10px;
+            background: white;
+        }
+        .other_msg {
+            float: left;
+            width: 240px;
+            height: 800px;
+            background: white;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top_nav">
+        <div class="top_middle">
+            <div class="container">
+                <div class="row center-block">
+                    <div class="col-lg-12">
+                        <div class="nav">
+                            <ul>
+                                <li>
+                                    <img width="50" height="50" src="{{ url_for('static', filename='images/logo/top_logo.jpg') }}" alt="">
+                                </li>
+                                <li><a href="">全部</a></li>
+                                <li>
+                                    <a href="">Python</a>
+                                </li>
+                                <li><a href="">前端</a></li>
+                                <li><a href="">数据库</a></li>
+                                <li><a href="">linux</a></li>
+                                <li><a href="">更多</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="all_content" >
+        <div class="left_nav">
+            <div class="container mt-2">
+                <div class="d-flex mb-2">
+                    <div class="p-2 flex-fill">
+                        1
+                    </div>
+                    <div class="p-2 flex-fill">
+                        2
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="note_list">
+
+        </div>
+        <div class="other_msg">
+
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>
