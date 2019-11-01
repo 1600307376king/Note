@@ -93,7 +93,19 @@
         }
         .list_detail {
             padding: 10px;
+
+        }
+        .notes {
             background: #62AFB7;
+        }
+        .good {
+            float: right;
+        }
+        .read {
+            float: right;
+        }
+        .comment {
+            float: right;
         }
     </style>
 </head>
@@ -135,8 +147,16 @@
                             我是三年前从一名普通程序员转型成为部门负责人。...
                         </div>
                         <div class="note_footer">
-                            <img src="">
-                            <
+                            <span class="good">
+                                <img src="{{ url_for('static', filename='images/icon/good.jpg') }}" alt="">
+                            </span>
+                            <span class="read">
+                                <img src="{{ url_for('static', filename='images/icon/read.jpg') }}" alt="">
+                            </span>
+                            <span class="comment">
+                                <img src="{{ url_for('static', filename='images/icon/comment.jpg') }}" alt="">
+                            </span>
+
                         </div>
                     </div>
                     <dl></dl>
