@@ -1,9 +1,6 @@
 {% extends 'base/base.html' %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/font-awesome-4.5.0/css/font-awesome.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/demo.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/icons.css') }}">
 
     <style>
         .note_list {
@@ -92,11 +89,6 @@
                             <img src="{{ url_for('static', filename='images/icon/comment.png') }}" alt="">
                         </span>
                         <span class="num">48646</span>
-                        <ol class="grid">
-                            <li class="grid__item">
-                                <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
-                            </li>
-                        </ol>
                     </div>
                 </div>
             </div>
@@ -104,7 +96,5 @@
         </li>
     </ul>
 </div>
-<script src="{{ url_for('static', filename='js/mo.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/demo.js') }}"></script>
 
 {% endblock %}
