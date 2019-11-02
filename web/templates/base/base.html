@@ -67,20 +67,7 @@
             margin-left: -600px;
 
         }
-        .left_nav {
-            float: left;
-            width: 100px;
-            height: 800px;
-            background: white;
-            margin: 10px;
-        }
-        .note_list {
-            float: left;
-            width: 70%;
-            height: 100%;
-            margin: 10px;
-            background: white;
-        }
+
         .other_msg {
             float: left;
             width: 25%;
@@ -91,22 +78,7 @@
         .note_list ul {
             list-style-type: none;
         }
-        .list_detail {
-            padding: 10px;
 
-        }
-        .notes {
-            background: #62AFB7;
-        }
-        .good {
-            float: right;
-        }
-        .read {
-            float: right;
-        }
-        .comment {
-            float: right;
-        }
     </style>
 </head>
 <body>
@@ -136,62 +108,13 @@
         </div>
     </div>
     <div class="all_content" >
-        <div class="note_list">
-            <ul class="notes">
-                <li class="one_notes">
-                    <div class="list_detail">
-                        <div class="note_title">
-                            <h2>管理程序员的第三年，给大家的一些建议</h2>
-                        </div>
-                        <div class="note_content">
-                            我是三年前从一名普通程序员转型成为部门负责人。...
-                        </div>
-                        <div class="note_footer">
-                            <span class="good">
-                                <img src="{{ url_for('static', filename='images/icon/good.jpg') }}" alt="">
-                            </span>
-                            <span class="read">
-                                <img src="{{ url_for('static', filename='images/icon/read.jpg') }}" alt="">
-                            </span>
-                            <span class="comment">
-                                <img src="{{ url_for('static', filename='images/icon/comment.jpg') }}" alt="">
-                            </span>
 
-                        </div>
-                    </div>
-                    <dl></dl>
-                </li>
-                <li class="one_notes">
-                    <div>
-                        <h3>管理程序员的第三年，给大家的一些建议</h3>
-                        <p>我是三年前从一名普通程序员转型成为部门负责人。...</p>
-                    </div>
-                </li>
-                <li class="one_notes">
-                    <div>
-                        <h3>管理程序员的第三年，给大家的一些建议</h3>
-                        <p>我是三年前从一名普通程序员转型成为部门负责人。...</p>
-                    </div>
-                </li>
-                <li class="one_notes">
-                    <div>
-                        <h3>管理程序员的第三年，给大家的一些建议</h3>
-                        <p>我是三年前从一名普通程序员转型成为部门负责人。...</p>
-                    </div>
-                </li>
-                <li class="one_notes">
-                    <div>
-                        <h3>管理程序员的第三年，给大家的一些建议</h3>
-                        <p>我是三年前从一名普通程序员转型成为部门负责人。...</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
+
+        {% block content %}
+        {% endblock %}
         <div class="other_msg">
 
         </div>
-        {% block content %}
-        {% endblock %}
     </div>
 
 </body>
