@@ -21,8 +21,10 @@ app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
            static_folder=os.getcwd() + "/web/static/")
 
 from web.view.home import home_index
+from web.view.add_note import add_index
 
 app.register_blueprint(home_index, url_prefix='/')
+app.register_blueprint(add_index, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(debug=True)

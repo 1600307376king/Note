@@ -8,7 +8,7 @@
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <title>Title</title>
+    <title>IAssistant</title>
     {% endblock %}
     <style>
         body {
@@ -68,13 +68,7 @@
 
         }
 
-        .other_msg {
-            float: left;
-            width: 25%;
-            height: 800px;
-            background: white;
-            margin: 10px;
-        }
+
         .note_list ul {
             list-style-type: none;
         }
@@ -90,7 +84,7 @@
                         <div class="nav">
                             <ul>
                                 <li>
-                                    <img width="50" height="50" src="{{ url_for('static', filename='images/logo/top_logo.jpg') }}" alt="">
+                                    <img width="45" height="45" src="{{ url_for('static', filename='images/logo/top_logo.png') }}" alt="">
                                 </li>
                                 <li><a href="">全部</a></li>
                                 <li>
@@ -112,9 +106,7 @@
 
         {% block content %}
         {% endblock %}
-        <div class="other_msg">
 
-        </div>
     </div>
 
 </body>
