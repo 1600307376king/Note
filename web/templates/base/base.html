@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <link rel="Shortcut Icon" href="{{ url_for('static', filename='images/icon/favicon.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>IAssistant</title>
     {% endblock %}
     <style>
@@ -18,96 +20,77 @@
             padding: 0;
         }
         .top_nav {
-            white-space:nowrap;
             height: 60px;
             width: 100%;
-            min-width: 1200px;
             background: white;
-            font-size: 24px;
-            top: 0;
-            position: absolute;
-            text-align: center;
-            line-height: 60px;
-        }
-        .top_nav ul {
-            list-style-type: none;
-            margin: 0 auto;
-            padding: 0;
-        }
-        .top_nav a {
-            text-decoration: none;
-            color: #62AFB7;
-        }
-        .top_nav li:hover{
-            background: #F0F1F2;
-        }
-        .top_nav li {
-            width: 100px;
-            display: inline-block;
+            margin-bottom: 10px;
         }
         .top_middle {
-            margin: 0 auto;
+            width: 70%;
+            min-width: 500px;
             height: 60px;
-            width: auto;
-        }
-        .row{
             margin: 0 auto;
         }
-        .center-block {
-            display: block;
+        .top_m2 {
+            width: 70%;
+            height: 60px;
         }
-        .all_content {
-            background: #f5f6f7;
-            width: 1200px;
-            height: 100%;
-            position: absolute;
-            top: 60px;
-            bottom: 0;
-            left: 50%;
-            margin-left: -600px;
+        .top_logo {
+            width: 30%;
+            height: 60px;
+            float: left;
+        }
+        .search_input {
+            width: 40%;
+            line-height: 60px;
+            float: right;
+            min-width: 330px;
+            right: 100px;
+            padding-left: 50px;
+        }
+        .search_input input {
+            height: 34px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #8a8a8a;
+            font-size: 14px;
+            padding-left: 20px;
 
         }
+        .search_input button {
+            height: 38px;
+            width: 60px;
+            text-align: center;
+            line-height: 34px;
+            background: #54acd2;
+            border-radius: 5px;
+            border: 1px solid white;
+            color: white;
 
-
-        .note_list ul {
-            list-style-type: none;
         }
-
     </style>
 </head>
 <body>
     <div class="top_nav">
         <div class="top_middle">
-            <div class="container">
-                <div class="row center-block">
-                    <div class="col-lg-12">
-                        <div class="nav">
-                            <ul>
-                                <li>
-                                    <img width="45" height="45" src="{{ url_for('static', filename='images/logo/top_logo.png') }}" alt="">
-                                </li>
-                                <li><a href="">全部</a></li>
-                                <li>
-                                    <a href="">Python</a>
-                                </li>
-                                <li><a href="">前端</a></li>
-                                <li><a href="">数据库</a></li>
-                                <li><a href="">linux</a></li>
-                                <li><a href="">更多</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="top_m2">
+                <div class="top_logo"></div>
+                <div class="search_input">
+                    <label>
+                        <input type="text" placeholder="请输入关键词">
+                    </label>
+                    <label>
+                        <button type="button">提交</button>
+                    </label>
                 </div>
             </div>
         </div>
     </div>
     <div class="all_content" >
-
-
-        {% block content %}
-        {% endblock %}
-
+        <div class="mid">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
-
 </body>
 </html>

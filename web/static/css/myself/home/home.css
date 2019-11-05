@@ -1,0 +1,115 @@
+.note_list {
+    width: 70%;
+    min-width: 750px;
+    height: auto;
+    margin: 0 auto;
+    background: #f5f6f7;
+
+}
+.note_list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.le {
+    float: left;
+    width: 70%;
+    min-width: 500px;
+    height: 100%;
+}
+.ri {
+    float: right;
+    width: 29%;
+    min-width: 200px;
+    height: 800px;
+    background: white;
+}
+.sort_note {
+    width: 100%;
+    height: 40px;
+    background: white;
+    margin-bottom: 10px;
+}
+.sort_note ul {
+    list-style: none;
+    line-height: 40px;
+    float: left;
+}
+.sort_note li {
+    text-align: center;
+    width: 100px;
+    display: inline-block;
+}
+.sort_note ul .active{
+    background-color: indianred;
+}
+.sort_note li:hover {
+    background: indianred;
+}
+.sort_input {
+    float: right;
+}
+.one_notes {
+    border-bottom: 2px solid #F0F1F2;
+    height: 120px;
+}
+.list_detail {
+    padding: 15px;
+}
+.note_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.note_content {
+    color: #8a8a8a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+.note_footer img {
+    width: 16px;
+    height: 16px;
+}
+.right_fo {
+    float: right;
+    min-width: 200px;
+    line-height: 36px;
+}
+.right_fo span {
+    float: left;
+    min-width: 20px;
+}
+.notes {
+    background: white;
+}
+.v_line {
+    width: 20px;
+    color: lightgray;
+    text-align: center;
+}
+.num {
+    color: lightskyblue;
+}
+.note_title:hover{
+    color: indianred;
+}
+h4 {
+    font-weight: bold;
+}
+.left_fo {
+    float: left;
+    min-width: 200px;
+}
+.left_fo span {
+    float: left;
+    min-width: 20px;
+    border: 1px solid #F0F1F2;
+    border-radius: 5px;
+    margin: 2px;
+    padding: 3px;
+}
+.left_fo span:hover {
+    border: 1px solid lightskyblue;
+}

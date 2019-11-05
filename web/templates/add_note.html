@@ -2,57 +2,69 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-	<link href="css/froala_editor.min.css" rel="stylesheet" type="text/css">
      <style>
-        body {
-            text-align: center;
-        }
-
-        section {
+        .mid_content {
             width: 80%;
-            margin: auto;
-            text-align: left;
+            height: auto;
+            margin: 0 auto;
+        }
+        .one_note {
+            float: left;
+            width: 80%;
+            height: auto;
+            min-height: 800px;
+            background: white;
+            margin-left: 10px;
+        }
+        .msg_list {
+            float: left;
+            width: 18%;
+            height: auto;
+            min-height: 800px;
+            background: white;
+        }
+        .note_title {
+            padding: 20px;
+        }
+        .note_title span {
+            width: auto;
+            height: 30px;
+            padding-left: 20px;
 
         }
-        #edit {
-            margin-top: 30px;
+        .note_con {
+            padding: 20px;
 
+        }
+        .straight_line {
+            width: 100%;
+            height: 1px;
+            border: 1px solid #F0F1F2;
         }
     </style>
 {% endblock %}
 {% block content %}
-    <section id="editor">
-        <div id='edit'>
+    <div class="mid_content">
+        <div class="msg_list">
 
         </div>
-    </section>
-    <div>
-        <button onclick="up_note()">提交</button>
-    </div>
-    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script src="js/froala_editor.min.js"></script>
-    <script src="js/plugins/tables.min.js"></script>
-    <script src="js/plugins/lists.min.js"></script>
-    <script src="js/plugins/colors.min.js"></script>
-    <script src="js/plugins/media_manager.min.js"></script>
-    <script src="js/plugins/font_family.min.js"></script>
-    <script src="js/plugins/font_size.min.js"></script>
-    <script src="js/plugins/block_styles.min.js"></script>
-    <script src="js/plugins/video.min.js"></script>
+        <div class="one_note">
+            <div class="note_title">
+                <h3>管理程序员的第三年，给大家的一些建议</h3>
+                <br>
+                <p><span>2019-11-02 18:18:37</span><span style="color: #54acd2">作者: hello</span><span>阅读数：123231</span></p>
+                <span class="label label-success">成功标签</span><span class="label label-success">成功标签</span>
+            </div>
+            <div class="straight_line">
 
-    <script>
-      $(function(){
-          $('#edit').editable({
-              inlineMode: false,
-              alwaysBlank: true,
-              height: '700px'
-          })
-      });
-    </script>
-    <script>
-        function up_note(){
-            let content = document.getElementById('edit').innerText;
-            console.log(content);
-        }
-    </script>
+            </div>
+            <div class="note_con">
+                <p>
+                    整理了一些逻辑推理题，这些逻辑推理题能够提高大家的逻辑思考能力，同时也能给大家的学习带来一定的趣味性。希望大家看到题之后，不要着急看答案，要先独立思考解决。答案的获取可以关注我的公众号：[AlbertYang]回复相应题目获得，答案不仅包括了机智类的回答，而且包括了富有数学内涵的办法，当然答案不是唯一的，如果你有更好的答案，请联系我，如果答案合理，我会把你的答案加进去并附上提供者。同时我也把每一个题制成了一个单独的海报，方便大家收藏，保存或者分享给朋友，废话不多说，让我们踏上有趣的推理之路吧。
+                </p>
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}
