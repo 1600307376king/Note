@@ -2,12 +2,15 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-     <style>
+    <link rel="stylesheet" type="text/css" href="/fontawesome-4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/wangEditor-1.1.0-min.css">
+    <style>
         .mid_content {
             width: 80%;
             height: auto;
             margin: 0 auto;
         }
+
         .one_note {
             float: left;
             width: 80%;
@@ -16,6 +19,7 @@
             background: white;
             margin-left: 10px;
         }
+
         .msg_list {
             float: left;
             width: 18%;
@@ -23,24 +27,81 @@
             min-height: 800px;
             background: white;
         }
+
         .note_title {
             padding: 20px;
         }
+
         .note_title span {
             width: auto;
             height: 30px;
-            padding-left: 20px;
+            padding: 10px;
+            margin-right: 20px;
+        }
+        .note_title input {
+            width: 400px;
+            border: 1px solid #8a8a8a;
+            height: 40px;
+            padding-left: 10px;
+        }
+        .add_label {
+            padding: 20px;
+        }
+        .add_label span {
+            width: auto;
+            height: 30px;
+            padding: 10px;
+            margin-right: 20px;
+        }
+        .add_label input {
+            width: 150px;
+            height: 40px;
+            border: 1px solid #8a8a8a;
+            padding-left: 10px;
+
+        }
+        .btn-circle {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 1.33;
+            border-radius: 25px;
+            margin-left: 20px;
+        }
+        .note_label i {
 
         }
         .note_con {
             padding: 20px;
-
         }
         .straight_line {
             width: 100%;
             height: 1px;
             border: 1px solid #F0F1F2;
         }
+        .note_label {
+            padding: 20px;
+
+        }
+
+        .my_label {
+            border: 1px solid;
+            border-radius: 5px;
+            padding-left: 10px;
+            margin: 5px;
+            height: 34px;
+            display: inline-block;
+            line-height: 34px;
+        }
+        .rm {
+            position: relative;
+            top: -15px;
+            right: -7px;
+            color: #cccccc;
+        }
+
     </style>
 {% endblock %}
 {% block content %}
@@ -50,21 +111,97 @@
         </div>
         <div class="one_note">
             <div class="note_title">
-                <h3>管理程序员的第三年，给大家的一些建议</h3>
-                <br>
-                <p><span>2019-11-02 18:18:37</span><span style="color: #54acd2">作者: hello</span><span>阅读数：123231</span></p>
-                <span class="label label-success">成功标签</span><span class="label label-success">成功标签</span>
+                <span style="background: #54acd2; color: white">标题</span>
+                <label>
+                    <input type="text">
+                </label>
+            </div>
+            <div class="add_label">
+                <span style="background: #54acd2; color: white">标签名称</span>
+
+                <label>
+                    <input type="text" id="label_name">
+                </label>
+                <button id="add_label" type="button" class="btn btn-default btn-circle" onclick="add_label()">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+            </div>
+            <div id="note_label" class="note_label">
+
+                <div class="my_label" style="border-color: #cca4e3;">
+                    开心
+                    <i class="glyphicon glyphicon-remove rm"></i>
+                </div>
+
+
+                <div class="my_label" style="border-color: #70f3ff">乐于助人
+                    <i class="glyphicon glyphicon-remove rm"></i>
+                </div>
             </div>
             <div class="straight_line">
 
             </div>
             <div class="note_con">
-                <p>
-                    整理了一些逻辑推理题，这些逻辑推理题能够提高大家的逻辑思考能力，同时也能给大家的学习带来一定的趣味性。希望大家看到题之后，不要着急看答案，要先独立思考解决。答案的获取可以关注我的公众号：[AlbertYang]回复相应题目获得，答案不仅包括了机智类的回答，而且包括了富有数学内涵的办法，当然答案不是唯一的，如果你有更好的答案，请联系我，如果答案合理，我会把你的答案加进去并附上提供者。同时我也把每一个题制成了一个单独的海报，方便大家收藏，保存或者分享给朋友，废话不多说，让我们踏上有趣的推理之路吧。
-                </p>
+                <div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+                    <p>请输入内容...</p>
+                </div>
+                <div style='margin-top:10px;'>
+                    <button id='btnHtml'>查看html</button>
+                    <button id='btnText'>查看text</button>
+                    <button id='btnHide'>隐藏</button>
+                    <textarea id='textarea' style='width:100%; height:100px; margin-top:10px;'></textarea>
+                </div>
             </div>
         </div>
 
     </div>
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/js/wangEditor-1.1.0-min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#spanTime').text((new Date()).toString());
 
+            //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o
+            var $editor = $('#txtDiv').wangEditor();
+
+            //显示 html / text
+            var $textarea = $('#textarea'),
+                $btnHtml = $('#btnHtml'),
+                $btnText = $('#btnText'),
+                $btnHide = $('#btnHide');
+            $textarea.hide();
+            $btnHtml.click(function(){
+                $textarea.show();
+                $textarea.val( $editor.html() );
+            });
+            $btnText.click(function(){
+                $textarea.show();
+                $textarea.val( $editor.text() );
+            });
+            $btnHide.click(function(){
+                $textarea.hide();
+            });
+        });
+    </script>
+
+    <script>
+        // 添加标签
+        function add_label(){
+            let label_name = document.getElementById('label_name');
+
+            let di = document.createElement('div');
+            di.innerHTML = "<div class=\"my_label\" style=\"border-color: #cca4e3;\">\n" +
+                "" + label_name.value + "\n" +
+                "<i class=\"glyphicon glyphicon-remove rm\"></i>\n" +
+                "</div>";
+
+            let note_label = document.getElementById('note_label');
+            note_label.appendChild(di);
+
+        }
+
+
+
+
+    </script>
 {% endblock %}

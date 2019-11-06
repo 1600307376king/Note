@@ -66,7 +66,11 @@
             border-radius: 5px;
             border: 1px solid white;
             color: white;
-
+        }
+        .all_content {
+            width: 100%;
+            height: auto;
+            min-height: 1000px;
         }
     </style>
 </head>
@@ -74,23 +78,23 @@
     <div class="top_nav">
         <div class="top_middle">
             <div class="top_m2">
-                <div class="top_logo"></div>
-                <div class="search_input">
-                    <label>
-                        <input type="text" placeholder="请输入关键词">
-                    </label>
-                    <label>
-                        <button type="button">提交</button>
-                    </label>
-                </div>
+{#                <div class="top_logo"></div>#}
+{#                <div class="search_input">#}
+{#                    <label>#}
+{#                        <input type="text" placeholder="请输入关键词">#}
+{#                    </label>#}
+{#                    <label>#}
+{#                        <button type="button">提交</button>#}
+{#                    </label>#}
+{#                </div>#}
             </div>
         </div>
     </div>
     <div class="all_content" >
-        <div class="mid">
-            {% block content %}
-            {% endblock %}
-        </div>
+
+        {% block content %}
+        {% endblock %}
+
     </div>
 </body>
 </html>

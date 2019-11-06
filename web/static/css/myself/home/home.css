@@ -4,7 +4,6 @@
     height: auto;
     margin: 0 auto;
     background: #f5f6f7;
-
 }
 .note_list ul {
     list-style: none;
@@ -46,9 +45,9 @@
 .sort_note li:hover {
     background: indianred;
 }
-.sort_input {
-    float: right;
-}
+/*.sort_input {*/
+/*    float: right;*/
+/*}*/
 .one_notes {
     border-bottom: 2px solid #F0F1F2;
     height: 120px;
@@ -60,13 +59,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 24px;
+    font-weight: bold;
 }
 .note_content {
     color: #8a8a8a;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
 }
 .note_footer img {
     width: 16px;
@@ -94,9 +94,6 @@
 }
 .note_title:hover{
     color: indianred;
-}
-h4 {
-    font-weight: bold;
 }
 .left_fo {
     float: left;
