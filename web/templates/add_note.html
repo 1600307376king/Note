@@ -1,13 +1,12 @@
 {% extends 'base/base.html' %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-    <link rel="stylesheet" type="text/css" href="/fontawesome-4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/wangEditor-1.1.0-min.css">
+
     <style>
         .mid_content {
             width: 80%;
             height: auto;
+            min-height: 1000px;
             margin: 0 auto;
         }
 
@@ -70,11 +69,22 @@
             border-radius: 25px;
             margin-left: 20px;
         }
-        .note_label i {
+        .note_label div {
 
         }
         .note_con {
             padding: 20px;
+            width: 100%;
+            height: 100%;
+        }
+        .note_con label {
+            width:100%;
+            height: 300px;
+        }
+        .note_con textarea{
+            padding: 10px;
+            width:100%;
+            height:100%;
         }
         .straight_line {
             width: 100%;
@@ -82,7 +92,8 @@
             border: 1px solid #F0F1F2;
         }
         .note_label {
-            padding: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
 
         }
 
@@ -94,12 +105,21 @@
             height: 34px;
             display: inline-block;
             line-height: 34px;
+
         }
         .rm {
             position: relative;
             top: -15px;
             right: -7px;
             color: #cccccc;
+        }
+        .preview_con {
+            margin: 20px;
+            border: 1px solid #8a8a8a;
+            padding: 10px;
+        }
+        h2 {
+            margin: 20px;
         }
 
     </style>
@@ -128,80 +148,63 @@
             </div>
             <div id="note_label" class="note_label">
 
-                <div class="my_label" style="border-color: #cca4e3;">
-                    开心
-                    <i class="glyphicon glyphicon-remove rm"></i>
-                </div>
 
-
-                <div class="my_label" style="border-color: #70f3ff">乐于助人
-                    <i class="glyphicon glyphicon-remove rm"></i>
-                </div>
             </div>
             <div class="straight_line">
 
             </div>
             <div class="note_con">
-                <div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
-                    <p>请输入内容...</p>
-                </div>
-                <div style='margin-top:10px;'>
-                    <button id='btnHtml'>查看html</button>
-                    <button id='btnText'>查看text</button>
-                    <button id='btnHide'>隐藏</button>
-                    <textarea id='textarea' style='width:100%; height:100px; margin-top:10px;'></textarea>
-                </div>
+                <label>
+                    <textarea id="note_c" autofocus="autofocus">
+                    </textarea>
+                </label>
+            </div>
+            <h2>预览</h2>
+            <div id="preview_con" class="preview_con">
+
+
             </div>
         </div>
 
     </div>
-    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="/js/wangEditor-1.1.0-min.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            $('#spanTime').text((new Date()).toString());
 
-            //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o
-            var $editor = $('#txtDiv').wangEditor();
-
-            //显示 html / text
-            var $textarea = $('#textarea'),
-                $btnHtml = $('#btnHtml'),
-                $btnText = $('#btnText'),
-                $btnHide = $('#btnHide');
-            $textarea.hide();
-            $btnHtml.click(function(){
-                $textarea.show();
-                $textarea.val( $editor.html() );
-            });
-            $btnText.click(function(){
-                $textarea.show();
-                $textarea.val( $editor.text() );
-            });
-            $btnHide.click(function(){
-                $textarea.hide();
-            });
-        });
-    </script>
 
     <script>
         // 添加标签
         function add_label(){
             let label_name = document.getElementById('label_name');
 
-            let di = document.createElement('div');
-            di.innerHTML = "<div class=\"my_label\" style=\"border-color: #cca4e3;\">\n" +
-                "" + label_name.value + "\n" +
-                "<i class=\"glyphicon glyphicon-remove rm\"></i>\n" +
-                "</div>";
+            if(label_name.value === "" || label_name.value === null)
+            {
+                alert("请输入标签名");
+            }
+            else {
+                let di = document.createElement('div');
+                di.classList.add("my_label");
+                di.style.borderColor = "#cca4e3";
 
-            let note_label = document.getElementById('note_label');
-            note_label.appendChild(di);
+                console.log(di);
+                di.innerHTML = label_name.value + "<i class=\"glyphicon glyphicon-remove rm\" onclick=\"remove_label(this)\"></i>";
+                let note_label = document.getElementById('note_label');
+                note_label.appendChild(di);
+            }
+
 
         }
+        // 删除标签
+        function remove_label(e) {
+            // console.log(e.parentNode);
+            e.parentNode.remove();
+        }
+        let area_v = document.getElementById("note_c");
+        area_v.addEventListener("input", preview);
 
 
+        function preview() {
+            let n = document.getElementById("preview_con");
+            n.innerText = area_v.value.split['#'];
 
+        }
 
     </script>
 {% endblock %}
