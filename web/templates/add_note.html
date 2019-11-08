@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% block head %}
     {{ super() }}
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='/editor.md/css/editormd.min.css') }}" />
     <style>
         .mid_content {
             width: 80%;
@@ -12,7 +12,7 @@
 
         .one_note {
             float: left;
-            width: 80%;
+            width: 100%;
             height: auto;
             min-height: 800px;
             background: white;
@@ -42,9 +42,11 @@
             border: 1px solid #8a8a8a;
             height: 40px;
             padding-left: 10px;
+            margin-left: 28px;
         }
         .add_label {
             padding: 20px;
+            outline: none;
         }
         .add_label span {
             width: auto;
@@ -72,11 +74,6 @@
         .note_label div {
 
         }
-        .note_con {
-            padding: 20px;
-            width: 100%;
-            height: 100%;
-        }
         .note_con label {
             width:100%;
             height: 300px;
@@ -94,7 +91,7 @@
         .note_label {
             padding-left: 20px;
             padding-right: 20px;
-
+            margin-left: 80px;
         }
 
         .my_label {
@@ -105,7 +102,6 @@
             height: 34px;
             display: inline-block;
             line-height: 34px;
-
         }
         .rm {
             position: relative;
@@ -113,27 +109,48 @@
             right: -7px;
             color: #cccccc;
         }
-        .preview_con {
-            margin: 20px;
-            border: 1px solid #8a8a8a;
-            padding: 10px;
-        }
         h2 {
             margin: 20px;
+        }
+        .foot_button {
+            text-align: center;
+        }
+        .foot_button input{
+            height: 34px;
+            width: 60px;
+            color: white;
+            background: #54acd2;
+            border: 0;
+            border-radius: 5px;
+        }
+        .add_instructions {
+            margin: 20px;
+        }
+        .add_instructions span {
+            width: auto;
+            height: auto;
+            padding: 10px;
+            margin-right: 20px;
+            float: left;
+        }
+        .add_instructions textarea {
+            vertical-align:top;
+            width: 500px;
+            height: 100px;
         }
 
     </style>
 {% endblock %}
 {% block content %}
     <div class="mid_content">
-        <div class="msg_list">
-
-        </div>
+{#        <div class="msg_list">#}
+{##}
+{#        </div>#}
         <div class="one_note">
             <div class="note_title">
                 <span style="background: #54acd2; color: white">标题</span>
                 <label>
-                    <input type="text">
+                    <input id="note_title" type="text" name="note_title">
                 </label>
             </div>
             <div class="add_label">
@@ -142,7 +159,7 @@
                 <label>
                     <input type="text" id="label_name">
                 </label>
-                <button id="add_label" type="button" class="btn btn-default btn-circle" onclick="add_label()">
+                <button id="add_label" style="outline: none" type="button" class="btn btn-default btn-circle" onclick="add_label()">
                     <i class="glyphicon glyphicon-plus"></i>
                 </button>
             </div>
@@ -150,24 +167,34 @@
 
 
             </div>
+
+
             <div class="straight_line">
 
             </div>
-            <div class="note_con">
+
+            <div class="add_instructions">
+                <span style="background: #54acd2; color: white">笔记说明</span>
                 <label>
-                    <textarea id="note_c" autofocus="autofocus">
+                    <textarea id="add_instructions">
+
                     </textarea>
                 </label>
             </div>
-            <h2>预览</h2>
-            <div id="preview_con" class="preview_con">
 
-
+            <div id="editor">
+                <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
+                <label>
+                    <textarea style="display:none;" id="note_content"></textarea>
+                </label>
+            </div>
+            <div class="foot_button">
+                <label>
+                    <input type="button" value="保存" onclick="save_note()">
+                </label>
             </div>
         </div>
-
     </div>
-
 
     <script>
         // 添加标签
@@ -187,24 +214,64 @@
                 di.innerHTML = label_name.value + "<i class=\"glyphicon glyphicon-remove rm\" onclick=\"remove_label(this)\"></i>";
                 let note_label = document.getElementById('note_label');
                 note_label.appendChild(di);
+                label_name.value = "";
             }
-
-
         }
         // 删除标签
         function remove_label(e) {
             // console.log(e.parentNode);
             e.parentNode.remove();
         }
-        let area_v = document.getElementById("note_c");
-        area_v.addEventListener("input", preview);
-
-
-        function preview() {
-            let n = document.getElementById("preview_con");
-            n.innerText = area_v.value.split['#'];
-
+    </script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/editor.md/editormd.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var editor = editormd("editor", {
+                width: "100%",
+                height: "500px",
+                // markdown: "xxxx",     // dynamic set Markdown text
+                path : "http://127.0.0.1:5000/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+            });
+        });
+    </script>
+    <script>
+        function save_note() {
+            let note_title = document.getElementById("note_title").value;
+            // console.log(note_title);
+            let labels = document.getElementById("note_label").childNodes;
+            // console.log(labels.length);
+            let str_labels = "";
+            for(let j = 1; j < labels.length; j++){
+                str_labels += labels[j].innerText + "|";
+            }
+            // console.log(str_labels);
+            let note_instructions = document.getElementById("add_instructions").value;
+            console.log(note_instructions);
+            let note_content = document.getElementsByClassName("CodeMirror-code")[0].childNodes;
+            let str_content = "" ;
+            for(let k = 0; k < note_content.length; k++){
+                str_content += note_content[k].innerText + "\n";
+            }
+            // console.log(str_content);
+            $.ajax({
+                type: "POST",
+                url: "/add/",
+                data: JSON.stringify({'note_title': note_title, 'str_labels': str_labels, 'note_instructions': note_instructions,
+                    'str_content': str_content
+                }),
+                dataType: "json",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                success: function (response) {
+                    if(response.msg === 'ok'){
+                        window.location.href = "/add/";
+                    }else{
+                        alert("保存失败")
+                    }
+                }
+            })
         }
-
     </script>
 {% endblock %}

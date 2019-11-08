@@ -19,18 +19,22 @@
             </ul>
         </div>
         <ul class="notes">
+            {% for r in res.get('note_msg') %}
             <li class="one_notes">
                 <div class="list_detail">
                     <div class="note_title">
-                        管理程序员的第三年，给大家的一些建议
+                        <a href="{{ url }}/det/{{ r[0] }}">{{ r[1] }}</a>
                     </div>
                     <div class="note_content">
-                        整理了一些逻辑推理题，这些逻辑推理题能够提高大家的逻辑思考能力，同时也能给大家的学习带来一定的趣味性。希望大家看到题之后，不要着急看答案，要先独立思考解决。答案的获取可以关注我的公众号：[AlbertYang]回复相应题目获得，答案不仅包括了机智类的回答，而且包括了富有数学内涵的办法，当然答案不是唯一的，如果你有更好的答案，请联系我，如果答案合理，我会把你的答案加进去并附上提供者。同时我也把每一个题制成了一个单独的海报，方便大家收藏，保存或者分享给朋友，废话不多说，让我们踏上有趣的推理之路吧。
+                        {{ r[2] }}
                     </div>
                     <div class="note_footer">
                         <div class="left_fo">
-                            <span>机器学习</span>
-                            <span>Python</span>
+{#                            <span>机器学习</span>#}
+{#                            <span>Python</span>#}
+                            {% for i in r[3] %}
+                            <span>{{ i }}</span>
+                            {% endfor %}
                         </div>
                         <div class="right_fo">
                             <span>
@@ -55,6 +59,7 @@
                     </div>
                 </div>
             </li>
+            {% endfor %}
         </ul>
     </div>
     <div id="ri" class="ri">

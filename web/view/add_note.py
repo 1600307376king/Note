@@ -1,10 +1,30 @@
 from flask import Blueprint, render_template, url_for, jsonify, request, redirect
+import datetime
 
 
 add_index = Blueprint('add_page', __name__)
 
+from main import db
+from model.notes import Notes
 
-@add_index.route('/add/')
-def home():
+
+@add_index.route('/add/', methods=['POST', 'GET'])
+def add_n():
+    if request.method == 'POST':
+        note_title = request.json.get('note_title')
+        str_labels = request.json.get('str_labels')
+        note_instructions = request.json.get('note_instructions')
+        str_content = request.json.get('str_content')
+
+        creation_time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
+        db.session.add(Notes(
+            note_title=note_title,
+            note_labels=str_labels,
+            note_instructions=note_instructions,
+            note_content=str_content,
+            creation_time=creation_time
+        ))
+        db.session.commit()
+        return jsonify({'msg': 'ok'})
     return render_template('add_note.html')
 

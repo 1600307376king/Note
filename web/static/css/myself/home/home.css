@@ -50,10 +50,11 @@
 /*}*/
 .one_notes {
     border-bottom: 2px solid #F0F1F2;
-    height: 120px;
+    height: 130px;
 }
 .list_detail {
-    padding: 15px;
+    padding: 15px 15px 0 15px;
+    height: 130px;
 }
 .note_title {
     overflow: hidden;
@@ -67,6 +68,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .note_footer img {
     width: 16px;
@@ -75,7 +78,8 @@
 .right_fo {
     float: right;
     min-width: 200px;
-    line-height: 36px;
+    height: 42px;
+    line-height: 42px;
 }
 .right_fo span {
     float: left;
@@ -98,6 +102,8 @@
 .left_fo {
     float: left;
     min-width: 200px;
+    height: auto;
+    line-height: 32px;
 }
 .left_fo span {
     float: left;
