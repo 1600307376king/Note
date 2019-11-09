@@ -60,8 +60,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 24px;
-    font-weight: bold;
+
+    min-width: 300px;
+}
+.edit_note {
+    float: right;
+    width: auto;
+    height: 34px;
+    line-height: 34px;
+
 }
 .note_content {
     color: #8a8a8a;
@@ -96,7 +103,7 @@
 .num {
     color: lightskyblue;
 }
-.note_title:hover{
+.note_title a:hover{
     color: indianred;
 }
 .left_fo {
@@ -116,3 +123,10 @@
 .left_fo span:hover {
     border: 1px solid lightskyblue;
 }
+
+.note_title a {
+    color: black;
+    text-decoration: none;
+}
+
+

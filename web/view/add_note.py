@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template, url_for, jsonify, request, redirect
+from web.view.filter_text import *
 import datetime
+import uuid
+import re
 
 
 add_index = Blueprint('add_page', __name__)
@@ -18,10 +21,11 @@ def add_n():
 
         creation_time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         db.session.add(Notes(
+            uuid=str(uuid.uuid1()),
             note_title=note_title,
             note_labels=str_labels,
             note_instructions=note_instructions,
-            note_content=str_content,
+            note_content=filter_note_con(str_content),
             creation_time=creation_time
         ))
         db.session.commit()

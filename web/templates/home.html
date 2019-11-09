@@ -23,15 +23,20 @@
             <li class="one_notes">
                 <div class="list_detail">
                     <div class="note_title">
-                        <a href="{{ url }}/det/{{ r[0] }}">{{ r[1] }}</a>
+                        <a style="font-size: 24px;font-weight: bold;" href="{{ url }}/{{ r[0] }}">{{ r[1] }}</a>
+
+                        <div class="edit_note">
+                            <span><a href="{{ url }}/update/{{ r[0] }}">修改</a></span>
+                            <span class="v_line">|</span>
+                            <span><a href="{{ url }}/delete/{{ r[0] }}">删除</a></span>
+                        </div>
                     </div>
+
                     <div class="note_content">
                         {{ r[2] }}
                     </div>
                     <div class="note_footer">
                         <div class="left_fo">
-{#                            <span>机器学习</span>#}
-{#                            <span>Python</span>#}
                             {% for i in r[3] %}
                             <span>{{ i }}</span>
                             {% endfor %}

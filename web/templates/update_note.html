@@ -146,11 +146,12 @@
 {#        <div class="msg_list">#}
 {##}
 {#        </div>#}
+        {% set x = res.get('note_cur_msg') %}
         <div class="one_note">
             <div class="note_title">
                 <span style="background: #54acd2; color: white">标题</span>
                 <label>
-                    <input id="note_title" type="text" name="note_title">
+                    <input id="note_title" type="text" name="note_title" value="{{ x[0] }}">
                 </label>
             </div>
             <div class="add_label">
@@ -164,7 +165,12 @@
                 </button>
             </div>
             <div id="note_label" class="note_label">
-
+                {% for i in x[1] %}
+                <div class="my_label">
+                    {{ i }}
+                    <i class="glyphicon glyphicon-remove rm" onclick="remove_label(this)"></i>
+                </div>
+                {% endfor %}
 
             </div>
 
@@ -177,21 +183,24 @@
                 <span style="background: #54acd2; color: white">笔记说明</span>
                 <label>
                     <textarea id="add_instructions">
-
+                        {{ x[2] }}
                     </textarea>
                 </label>
             </div>
 
             <div id="editor">
                 <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
-                <label>
-                    <textarea style="display:none;" id="note_content"></textarea>
-                </label>
+
+                <textarea style="display:none;" id="note_content">{{ x[3] }}</textarea>
+
             </div>
             <div class="foot_button">
                 <label>
                     <input type="button" value="保存" onclick="save_note()">
                 </label>
+            </div>
+            <div id="note_uuid" class="{{ x[4] }}">
+
             </div>
         </div>
     </div>
@@ -236,18 +245,36 @@
         });
     </script>
     <script>
+        let labels = document.getElementById("note_label").childNodes;
+        let str_labels = "";
+        console.log(labels);
+        console.log(labels.length);
+        let even_n = 0;
+        for(let j = 0; j < labels.length; j++){
+            if(even_n %2 == 0){
+
+            }
+            if(labels[j].innerText !== "" || labels[j].innerText !== null || labels[j].innerText !== "undefined") {
+                str_labels += labels[j].innerText + "|";
+            }
+            even_n += 1;
+        }
+        console.log(str_labels);
         function save_note() {
+            let note_uuid = document.getElementById("note_uuid").className;
             let note_title = document.getElementById("note_title").value;
             // console.log(note_title);
             let labels = document.getElementById("note_label").childNodes;
             // console.log(labels.length);
             let str_labels = "";
             for(let j = 1; j < labels.length; j++){
-                str_labels += labels[j].innerText + "|";
+                if(labels[j].innerText !== "" || labels[j].innerText !== null || labels[j].innerText !== "undefined") {
+                    str_labels += labels[j].innerText + "|";
+                }
             }
             // console.log(str_labels);
             let note_instructions = document.getElementById("add_instructions").value;
-            console.log(note_instructions);
+            // console.log(note_instructions);
             let note_content = document.getElementsByClassName("CodeMirror-code")[0].childNodes;
             let str_content = "" ;
             for(let k = 0; k < note_content.length; k++){
@@ -256,7 +283,7 @@
             // console.log(str_content);
             $.ajax({
                 type: "POST",
-                url: "/add/",
+                url: "/modification/" + note_uuid,
                 data: JSON.stringify({'note_title': note_title, 'str_labels': str_labels, 'note_instructions': note_instructions,
                     'str_content': str_content
                 }),
@@ -266,10 +293,10 @@
                 },
                 success: function (response) {
                     if(response.msg === 'ok'){
-                        alert("保存成功！");
-                        window.location.href = "/add/";
+                        alert("修改成功！");
+                        window.location.href = "/update/" + note_uuid;
                     }else{
-                        alert("保存失败")
+                        alert("修改失败")
                     }
                 }
             })

@@ -3,6 +3,7 @@
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
     <link rel="stylesheet" href="editor.md/css/editormd.preview.css" />
+
      <style>
         .mid_content {
             width: 80%;
@@ -82,9 +83,9 @@
             <div class="note_con">
                 <div id="test-markdown-view">
                     <!-- Server-side output Markdown text -->
-                    <label>
-                        <textarea style="display:none;">{{ j[3] }}</textarea>
-                    </label>
+                        <textarea style="display:none;">
+{{ j[3] }}
+                        </textarea>
                 </div>
             </div>
 
@@ -106,5 +107,10 @@
                 path : "http://127.0.0.1:5000/editor.md/lib/"
             });
         });
+
+    </script>
+    <script>
+        let con = document.getElementById("test-markdown-view");
+        console.log(con);
     </script>
 {% endblock %}

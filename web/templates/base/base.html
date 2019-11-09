@@ -20,7 +20,7 @@
             padding: 0;
         }
         .top_nav {
-            height: 60px;
+            height: 40px;
             width: 100%;
             background: white;
             margin-bottom: 10px;
@@ -72,12 +72,36 @@
             height: auto;
             min-height: 1000px;
         }
+        .top_m2 ul {
+            list-style: none;
+            margin-bottom: 0;
+            height: 40px;
+            line-height: 40px;
+
+        }
+        .top_m2 li {
+            display: inline-block;
+            text-align: center;
+            width: 100px;
+        }
+        .top_m2 li:hover {
+            background: #F0F1F2;
+        }
+        .top_m2 a {
+            text-decoration: none;
+            color: black;
+        }
     </style>
 </head>
 <body>
     <div class="top_nav">
         <div class="top_middle">
             <div class="top_m2">
+                <ul>
+                    <li><a href="http://127.0.0.1:5000/home/">首页</a></li>
+                    <li><a href="http://127.0.0.1:5000/add/">添加笔记</a></li>
+                    <li><a href="#">我的笔记</a></li>
+                </ul>
 {#                <div class="top_logo"></div>#}
 {#                <div class="search_input">#}
 {#                    <label>#}
