@@ -23,10 +23,12 @@ app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
 from web.view.home import home_index
 from web.view.add_note import add_index
 from web.view.note_detail import detail_index
+from web.view.modification import mod_index
 
 app.register_blueprint(home_index, url_prefix='/')
 app.register_blueprint(add_index, url_prefix='/')
 app.register_blueprint(detail_index, url_prefix='/')
+app.register_blueprint(mod_index, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(debug=True)

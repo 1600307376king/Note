@@ -135,7 +135,8 @@
         }
         .add_instructions textarea {
             vertical-align:top;
-            width: 500px;
+            width: 800px;
+            min-width: 500px;
             height: 100px;
         }
 
@@ -182,9 +183,7 @@
             <div class="add_instructions">
                 <span style="background: #54acd2; color: white">笔记说明</span>
                 <label>
-                    <textarea id="add_instructions">
-                        {{ x[2] }}
-                    </textarea>
+                    <textarea id="add_instructions">{{ x[2] }}</textarea>
                 </label>
             </div>
 
@@ -215,6 +214,9 @@
                 alert("请输入标签名");
             }
             else {
+                if(/^[a-zA-Z]+$/.test(label_name.value)){
+                    label_name.value = label_name.value.replace(label_name.value[0], label_name.value[0].toUpperCase());
+                }
                 let di = document.createElement('div');
                 di.classList.add("my_label");
                 di.style.borderColor = "#cca4e3";
@@ -229,7 +231,11 @@
         // 删除标签
         function remove_label(e) {
             // console.log(e.parentNode);
+
             e.parentNode.remove();
+            let labels = document.getElementById("note_label").childNodes;
+            console.log(labels);
+
         }
     </script>
     <script src="/js/jquery.min.js"></script>
@@ -238,28 +244,13 @@
         $(function() {
             var editor = editormd("editor", {
                 width: "100%",
-                height: "500px",
+                height: "100%",
                 // markdown: "xxxx",     // dynamic set Markdown text
-                path : "http://127.0.0.1:5000/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+                path : "{{ url }}/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
         });
     </script>
     <script>
-        let labels = document.getElementById("note_label").childNodes;
-        let str_labels = "";
-        console.log(labels);
-        console.log(labels.length);
-        let even_n = 0;
-        for(let j = 0; j < labels.length; j++){
-            if(even_n %2 == 0){
-
-            }
-            if(labels[j].innerText !== "" || labels[j].innerText !== null || labels[j].innerText !== "undefined") {
-                str_labels += labels[j].innerText + "|";
-            }
-            even_n += 1;
-        }
-        console.log(str_labels);
         function save_note() {
             let note_uuid = document.getElementById("note_uuid").className;
             let note_title = document.getElementById("note_title").value;
@@ -268,10 +259,16 @@
             // console.log(labels.length);
             let str_labels = "";
             for(let j = 1; j < labels.length; j++){
-                if(labels[j].innerText !== "" || labels[j].innerText !== null || labels[j].innerText !== "undefined") {
-                    str_labels += labels[j].innerText + "|";
+                if(j % 2 === 1){
+                    if(labels[j].toString() !== labels[0].toString()) {
+                        str_labels += labels[j].innerText + "|";
+                        console.log(labels[j]);
+                        console.log(labels[0]);
+                        console.log(str_labels);
+                    }
                 }
             }
+
             // console.log(str_labels);
             let note_instructions = document.getElementById("add_instructions").value;
             // console.log(note_instructions);

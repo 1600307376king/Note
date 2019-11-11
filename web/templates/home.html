@@ -23,8 +23,11 @@
             <li class="one_notes">
                 <div class="list_detail">
                     <div class="note_title">
+                        {% if r[1] | length <= 30 %}
                         <a style="font-size: 24px;font-weight: bold;" href="{{ url }}/{{ r[0] }}">{{ r[1] }}</a>
-
+                        {% else %}
+                        <a style="font-size: 24px;font-weight: bold;" href="{{ url }}/{{ r[0] }}">{{ r[1][:25] }} ...</a>
+                        {% endif%}
                         <div class="edit_note">
                             <span><a href="{{ url }}/update/{{ r[0] }}">修改</a></span>
                             <span class="v_line">|</span>

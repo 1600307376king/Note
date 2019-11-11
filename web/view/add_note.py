@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, url_for, jsonify, request, redirect
 from web.view.filter_text import *
+from config.base_setting import *
 import datetime
 import uuid
-import re
 
 
 add_index = Blueprint('add_page', __name__)
@@ -18,17 +18,17 @@ def add_n():
         str_labels = request.json.get('str_labels')
         note_instructions = request.json.get('note_instructions')
         str_content = request.json.get('str_content')
-
+        print(str_content)
         creation_time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         db.session.add(Notes(
             uuid=str(uuid.uuid1()),
             note_title=note_title,
             note_labels=str_labels,
-            note_instructions=note_instructions,
+            note_instructions=note_instructions.strip(),
             note_content=filter_note_con(str_content),
             creation_time=creation_time
         ))
         db.session.commit()
         return jsonify({'msg': 'ok'})
-    return render_template('add_note.html')
+    return render_template('add_note.html',  url=URL)
 

@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, url_for, jsonify, request, redirect
+from config.base_setting import *
 
 
 detail_index = Blueprint('detail_page', __name__)
@@ -12,7 +13,7 @@ def note_det(uuid):
     res = dict()
     query_obj = Notes.query.filter(Notes.uuid == uuid).first()
     note_list = [query_obj.note_title, query_obj.creation_time, query_obj.note_labels.split('|')[:-1],
-                 query_obj.note_content]
+                 query_obj.note_instructions, query_obj.note_content]
     res['note_det'] = note_list
-    return render_template('note_detail.html', res=res)
+    return render_template('note_detail.html', res=res, url=URL)
 

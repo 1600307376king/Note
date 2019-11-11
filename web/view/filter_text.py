@@ -15,4 +15,4 @@ def filter_note_con(str_content):
         else:
             m += '\n'
 
-    return m[1:]
+    return m[1:].strip()

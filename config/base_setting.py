@@ -1,5 +1,6 @@
 SERVER_PORT = '5000'
 IP = '127.0.0.1'
+URL = 'http://' + IP + ':' + SERVER_PORT
 DEBUG = False
 SQLALCHEMY_ECHO = False
 
