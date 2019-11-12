@@ -18,7 +18,7 @@ def add_n():
         str_labels = request.json.get('str_labels')
         note_instructions = request.json.get('note_instructions')
         str_content = request.json.get('str_content')
-        print(str_content)
+
         creation_time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         db.session.add(Notes(
             uuid=str(uuid.uuid1()),
