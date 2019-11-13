@@ -65,30 +65,64 @@
         .spec_description h4 {
             font-weight: bold;
         }
+        .title_list {
+            height: 100%;
+            width: 100%;
+            padding: 20px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #F0F1F2;
+        }
+        .title_list:hover {
+            background: indianred;
+        }
+        .title_list a {
+            color: black;
+            text-decoration: none;
+        }
+        .recommend_title {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 20px;
+            border-bottom: 3px solid indianred;
+            text-align: center;
+        }
+
+
     </style>
 {% endblock %}
 {% block content %}
     <div class="mid_content">
         <div class="msg_list">
-
+            <div class="recommend_title">推荐</div>
+            {% for i in res.get('note_title') %}
+            <div class="title_list" onclick="window.location.href='{{ url }}/{{ i[0] }}'">
+                <a>{{ i[1] }}</a>
+            </div>
+            {% endfor %}
         </div>
         <div class="one_note">
             {% set j = res.get('note_det') %}
             <div class="note_title">
-                <h3>{{ j[0] }}</h3>
+                <h3>{{ j[1] }}</h3>
                 <br>
-                <p><span>{{ j[1] }}</span><span style="color: #54acd2">作者: hello</span><span>阅读数：123231</span></p>
+                <p><span>{{ j[2] }}</span><span style="color: #54acd2">作者: hello</span><span>阅读数：{{ j[6] }}</span>
+                    <span class="up_ri"><a href="{{ url }}/update/{{ j[0] }}">修改</a></span></p>
 
             </div>
             <div class="note_label">
-                {% for i in j[2] %}
+                {% for i in j[3] %}
                 <span class="my_label" style="border-color: #cca4e3; text-align: center">{{ i }}</span>
                 {% endfor %}
             </div>
             <div class="spec_description">
                 <h4>笔记说明</h4>
                 <br>
-                {{ j[3] }}
+                {{ j[4] }}
             </div>
             <div class="straight_line">
 
@@ -96,9 +130,7 @@
             <div class="note_con">
                 <div id="test-markdown-view">
                     <!-- Server-side output Markdown text -->
-                        <textarea style="display:none;">
-{{ j[4] }}
-                        </textarea>
+                        <textarea style="display:none;">{{ j[5] }}</textarea>
                 </div>
             </div>
 

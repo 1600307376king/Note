@@ -10,6 +10,7 @@ class Notes(db.Model):
     note_instructions = db.Column(db.TEXT)
     note_content = db.Column(db.TEXT)
     creation_time = db.Column(db.String)
+    click_number = db.Column(db.INT)
 
     def __init__(self, **kwargs):
         self.uuid = kwargs['uuid']
@@ -18,6 +19,7 @@ class Notes(db.Model):
         self.note_instructions = kwargs['note_instructions']
         self.note_content = kwargs['note_content']
         self.creation_time = kwargs['creation_time']
+        self.click_number = kwargs['click_number']
 
     @property
     def pri_time(self):

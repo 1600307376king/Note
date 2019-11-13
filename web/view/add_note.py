@@ -26,7 +26,8 @@ def add_n():
             note_labels=str_labels,
             note_instructions=note_instructions.strip(),
             note_content=filter_note_con(str_content),
-            creation_time=creation_time
+            creation_time=creation_time,
+            click_number=0
         ))
         db.session.commit()
         return jsonify({'msg': 'ok'})

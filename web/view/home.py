@@ -10,8 +10,9 @@ from model.notes import Notes
 @home_index.route('/home/')
 def home():
     res = dict()
-    note_list = Notes.query.all()
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels.split('|')[:-1], obj.creation_time] for obj in note_list]
+    note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
+    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels.split('|')[:-1],
+                        obj.creation_time, obj.click_number] for obj in note_list]
 
     return render_template('home.html', res=res, url=URL)
 
@@ -34,7 +35,8 @@ def delete_note(uuid):
     db.session.delete(delete_obj)
     db.session.commit()
     note_list = note_obj.all()
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels.split('|')[:-1], obj.creation_time] for obj in note_list]
+    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels.split('|')[:-1],
+                        obj.creation_time] for obj in note_list]
 
     return render_template('home.html', res=res, url=URL)
 

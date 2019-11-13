@@ -88,6 +88,7 @@
 .right_fo span {
     float: left;
     min-width: 20px;
+    text-align: center;
 }
 .notes {
     background: white;
@@ -95,7 +96,6 @@
 .v_line {
     width: 20px;
     color: lightgray;
-    text-align: center;
 }
 .num {
     color: lightskyblue;
