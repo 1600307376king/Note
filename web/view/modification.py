@@ -19,7 +19,7 @@ def com_modification(uuid):
     query_obj.note_labels = request.json.get('str_labels')
     query_obj.note_instructions = request.json.get('note_instructions')
     str_content = request.json.get('str_content')
-    print(str_content)
+
     query_obj.note_content = filter_note_con(str_content)
     db.session.commit()
 
