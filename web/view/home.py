@@ -11,7 +11,7 @@ from model.notes import Notes
 @home_index.route('/home/')
 def home():
     res = dict()
-    is_has_cache = redis_obj.hget('home_len', 'note_list_len')
+    is_has_cache = redis_obj.get('note_list_len')
 
     if is_has_cache:
         res['note_msg'] = [
@@ -23,10 +23,12 @@ def home():
         return render_template('home.html', res=res, url=URL)
 
     note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
-
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
 
+    # 清除缓存
+    redis_obj.flushdb(asynchronous=False)
+    # 添加缓存
     for i, v in enumerate(note_list):
         dic = {'uuid': str(v.uuid),
                'note_title': str(v.note_title),
@@ -34,11 +36,10 @@ def home():
                'note_labels': str(v.note_labels),
                'creation_time': str(v.creation_time),
                'click_number': str(v.click_number)}
-        redis_obj.expire('home' + str(i), 10)
+
         redis_obj.hmset('home' + str(i), dic)
 
-    redis_obj.hset('home_len', 'note_list_len', str(len(res['note_msg'])))
-
+    redis_obj.set('note_list_len', str(len(res['note_msg'])), ex=100)
     return render_template('home.html', res=res, url=URL)
 
 
