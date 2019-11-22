@@ -16,3 +16,7 @@ def filter_note_con(str_content):
             m += '\n'
 
     return m[1:].strip()
+
+
+def decode_text(de):
+    return str(de, encoding='utf-8')

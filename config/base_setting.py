@@ -1,3 +1,8 @@
+import redis
+
+pool = redis.ConnectionPool(host='localhost', port=6379)
+redis_obj = redis.Redis(connection_pool=pool)
+
 SERVER_PORT = '5000'
 IP = '127.0.0.1'
 URL = 'http://' + IP + ':' + SERVER_PORT

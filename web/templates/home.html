@@ -40,7 +40,7 @@
                     </div>
                     <div class="note_footer">
                         <div class="left_fo">
-                            {% for i in r[3] %}
+                            {% for i in r[3].split('|')[:-1] %}
                             <span>{{ i }}</span>
                             {% endfor %}
                         </div>

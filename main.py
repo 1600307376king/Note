@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask, jsonify
+from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 import os
-from datetime import timedelta
 
 
 class Main(Flask):
@@ -17,6 +17,7 @@ class Main(Flask):
 
 
 db = SQLAlchemy()
+
 app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
            static_folder=os.getcwd() + "/web/static/")
 
@@ -29,6 +30,11 @@ app.register_blueprint(home_index, url_prefix='/')
 app.register_blueprint(add_index, url_prefix='/')
 app.register_blueprint(detail_index, url_prefix='/')
 app.register_blueprint(mod_index, url_prefix='/')
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
