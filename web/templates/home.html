@@ -71,7 +71,18 @@
         </ul>
     </div>
     <div id="ri" class="ri">
+        <div id="searchBox" class="searchBox">
+            <form method="post" action="http://127.0.0.1:5000/search/" enctype="multipart/form-data">
+                {{ formhome.csrf_token() }}
+                {{ formhome.keyword.label }}
+                {{ formhome.keyword }}
+                {% for message in get_flashed_messages() %}
+                    {{ message }}
+                {% endfor %}
+            </form>
 
+            <input typeof="submit" />
+        </div>
     </div>
 </div>
 {% endblock %}

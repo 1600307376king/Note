@@ -1,11 +1,21 @@
-from flask import Blueprint, render_template, url_for, jsonify, request, redirect
-from config.base_setting import *
+from flask import Blueprint, render_template, url_for, jsonify, request, redirect, flash
 from web.view.filter_text import *
+from config.base_setting import *
+from wtforms.validators import *
+from flask_wtf import FlaskForm
+from flask_wtf.file import *
+from wtforms import *
 import time
 
 home_index = Blueprint('home_page', __name__)
 from main import db
 from model.notes import Notes
+
+
+class SearchForm(FlaskForm):
+    keyword = StringField('keyword', validators=[DataRequired(), validators.Length(min=1, max=20,
+                                                                                   message='搜索条件为空或输入字符太长')])
+    submit = SubmitField('submit')
 
 
 @home_index.route('/home/')
@@ -18,7 +28,8 @@ def home():
     if is_has_cache:
         res['note_msg'] = [
             list(map(decode_text,
-                     redis_obj.hmget('home' + str(ip) + str(i), 'uuid', 'note_title', 'note_instructions', 'note_labels',
+                     redis_obj.hmget('home' + str(ip) + str(i), 'uuid', 'note_title', 'note_instructions',
+                                     'note_labels',
                                      'creation_time', 'click_number')))
             for i in range(int(bytes.decode(is_has_cache)))]
 
@@ -69,6 +80,24 @@ def delete_note(uuid):
                         obj.creation_time] for obj in note_list]
 
     return render_template('home.html', res=res, url=URL)
+
+
+@home_index.route('/search/')
+def search_note():
+    search_form = SearchForm()
+    res = dict()
+    if request.method == 'POST':
+        if search_form.validate_on_submit():
+            search_keyword = search_form.keyword.data
+            print(search_keyword)
+            search_result = Notes.query.order_by(Notes.note_labels.like('%' + search_keyword + '%')).all()
+            res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+                                obj.creation_time, obj.click_number] for obj in search_result]
+        else:
+            error_msg = search_form.errors
+            flash(error_msg.get('keyword')[0])
+
+        return render_template('home.html', res=res, formhome=search_form, url=URL)
 
 
 @home_index.route('/delete_cache/')

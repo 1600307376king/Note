@@ -33,3 +33,5 @@ def add_n():
         return jsonify({'msg': 'ok'})
     return render_template('add_note.html',  url=URL)
 
+
+
