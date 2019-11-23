@@ -17,6 +17,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # session必须要设置key
 SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
+# 限制文件上传大小
+MAX_CONTENT_LENGTH = 100 * 1024 * 1024
+
 # mysql数据库连接信息
 DIALECT = 'mysql'
 DRIVER = 'pymysql'
