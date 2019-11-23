@@ -166,7 +166,7 @@
                 </button>
             </div>
             <div id="note_label" class="note_label">
-                {% for i in x[1] %}
+                {% for i in x[1].split('|')[:-1] %}
                 <div class="my_label">
                     {{ i }}
                     <i class="glyphicon glyphicon-remove rm" onclick="remove_label(this)"></i>

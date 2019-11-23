@@ -2,7 +2,7 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-    <link rel="stylesheet" href="editor.md/css/editormd.preview.css" />
+    <link rel="stylesheet" href="/editor.md/css/editormd.preview.css" />
 
      <style>
         .mid_content {
@@ -116,7 +116,7 @@
 
             </div>
             <div class="note_label">
-                {% for i in j[3] %}
+                {% for i in j[3].split('|')[:-1] %}
                 <span class="my_label" style="border-color: #cca4e3; text-align: center">{{ i }}</span>
                 {% endfor %}
             </div>

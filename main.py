@@ -25,15 +25,13 @@ from web.view.home import home_index
 from web.view.add_note import add_index
 from web.view.note_detail import detail_index
 from web.view.modification import mod_index
+from web.view.test import test_index
 
 app.register_blueprint(home_index, url_prefix='/')
 app.register_blueprint(add_index, url_prefix='/')
-app.register_blueprint(detail_index, url_prefix='/')
+app.register_blueprint(detail_index, url_prefix='/detail/')
 app.register_blueprint(mod_index, url_prefix='/')
-
-
-
-
+app.register_blueprint(test_index, url_prefix='/')
 
 
 if __name__ == '__main__':
