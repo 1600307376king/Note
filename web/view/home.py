@@ -96,23 +96,6 @@ def delete_note(uuid):
     return render_template('home.html', res=res, url=URL)
 
 
-# @home_index.route('/search/')
-# def search_note():
-#     res = dict()
-#     if request.method == 'POST':
-#         if search_form.validate_on_submit():
-#             search_keyword = search_form.keyword.data
-#             print(search_keyword)
-#             search_result = Notes.query.order_by(Notes.note_labels.like('%' + search_keyword + '%')).all()
-#             res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
-#                                 obj.creation_time, obj.click_number] for obj in search_result]
-#         else:
-#             error_msg = search_form.errors
-#             flash(error_msg.get('keyword')[0])
-#
-#         return render_template('home.html', res=res, formhome=search_form, url=URL)
-
-
 @home_index.route('/delete_cache/')
 def delete_all_cache():
     redis_obj.flushdb(asynchronous=False)
