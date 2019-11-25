@@ -12,8 +12,8 @@ from model.notes import Notes
 
 
 class SearchForm(FlaskForm):
-    keyword = StringField('关键词：', validators=[DataRequired(), validators.Length(min=1, max=10,
-                                                                                message='搜索条件为空或输入字符太长')])
+    keyword = StringField('关键词：', validators=[DataRequired(),
+                          validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
     submit = SubmitField('搜索')
 
 
