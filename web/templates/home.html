@@ -3,7 +3,26 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/home/home.css') }}">
     <style>
-
+        .searchBox {
+            margin: 10px;
+        }
+        .searchBox input {
+            margin-left: 10px;
+        }
+        .searchBox label {
+            margin-left: 10px;
+        }
+        #submit {
+            background: #FF8C69;
+            border-radius: 5px;
+            border: none;
+            width: 60px;
+            height: 30px;
+            text-align: center;
+        }
+        #submit:hover {
+            background: #EE3B3B
+        }
     </style>
 {% endblock %}
 
@@ -24,9 +43,9 @@
                 <div class="list_detail">
                     <div class="note_title">
                         {% if r[1] | length <= 30 %}
-                        <a style="font-size: 24px;font-weight: bold;" href="{{ url }}/detail/{{ r[0] }}">{{ r[1] }}</a>
+                        <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}">{{ r[1] }}</a>
                         {% else %}
-                        <a style="font-size: 24px;font-weight: bold;" href="{{ url }}//detail/{{ r[0] }}">{{ r[1][:25] }} ...</a>
+                        <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}">{{ r[1][:25] }} ...</a>
                         {% endif%}
                         <div class="edit_note">
                             <span><a href="{{ url }}/update/{{ r[0] }}">修改</a></span>
@@ -72,16 +91,14 @@
     </div>
     <div id="ri" class="ri">
         <div id="searchBox" class="searchBox">
-            <form method="post" action="http://127.0.0.1:5000/search/" enctype="multipart/form-data">
-                {{ formhome.csrf_token() }}
-                {{ formhome.keyword.label }}
-                {{ formhome.keyword }}
+            <form method="post" enctype="multipart/form-data">
+                {{ form.csrf_token() }}
+                {{ form.keyword.label }}{{ form.keyword(size=10) }}
+                {{ form.submit }}
                 {% for message in get_flashed_messages() %}
                     {{ message }}
                 {% endfor %}
             </form>
-
-            <input typeof="submit" />
         </div>
     </div>
 </div>
