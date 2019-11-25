@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, url_for, jsonify, request, redirect, flash
 from web.view.filter_text import *
 from config.base_setting import *
-from wtforms.validators import *
 from flask_wtf import FlaskForm
 from flask_wtf.file import *
 from wtforms import *
@@ -14,7 +13,7 @@ from model.notes import Notes
 
 class SearchForm(FlaskForm):
     keyword = StringField('关键词：', validators=[DataRequired(), validators.Length(min=1, max=10,
-                                                                                   message='搜索条件为空或输入字符太长')])
+                                                                                message='搜索条件为空或输入字符太长')])
     submit = SubmitField('搜索')
 
 
@@ -22,18 +21,37 @@ class SearchForm(FlaskForm):
 def home():
     res = dict()
     search_form = SearchForm()
+    note_obj = Notes.query
+
+    note_labels = note_obj.all()
+    tmp = [obj.note_labels for obj in note_labels]
+    tmp_s = ''
+    for i in tmp:
+        tmp_s += i
+    res['note_labels'] = list(set(tmp_s.split('|')[:-1]))
+
     if request.method == 'POST':
-        if search_form.validate_on_submit():
-            search_keyword = search_form.keyword.data
-            search_result = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()).\
-                filter(Notes.note_labels.like('%' + search_keyword + '%') |
-                       Notes.note_title.like('%' + search_keyword + '%') |
-                       Notes.note_content.like('%' + search_keyword + '%')).all()
+        label_name = request.form.get('label_name')
+        if label_name:
+            label_name = label_name.strip()
+            labels_res = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+                filter(Notes.note_labels.like('%' + label_name + '%') |
+                       Notes.note_title.like('%' + label_name + '%') |
+                       Notes.note_content.like('%' + label_name + '%')).all()
             res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
-                                obj.creation_time, obj.click_number] for obj in search_result]
+                                obj.creation_time, obj.click_number] for obj in labels_res]
         else:
-            error_msg = search_form.errors
-            flash(error_msg.get('keyword')[0])
+            if search_form.validate_on_submit():
+                search_keyword = search_form.keyword.data
+                search_result = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+                    filter(Notes.note_labels.like('%' + search_keyword + '%') |
+                           Notes.note_title.like('%' + search_keyword + '%') |
+                           Notes.note_content.like('%' + search_keyword + '%')).all()
+                res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+                                    obj.creation_time, obj.click_number] for obj in search_result]
+            else:
+                error_msg = search_form.errors
+                flash(error_msg.get('keyword')[0])
 
         return render_template('home.html', res=res, form=search_form, url=URL)
 
@@ -49,7 +67,7 @@ def home():
 
         return render_template('home.html', form=search_form, res=res, url=URL)
 
-    note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
+    note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
 
@@ -94,6 +112,11 @@ def delete_note(uuid):
                         obj.creation_time] for obj in note_list]
 
     return render_template('home.html', res=res, url=URL)
+
+
+@home_index.route('/filter_label/')
+def filter_label():
+    pass
 
 
 @home_index.route('/delete_cache/')

@@ -19,9 +19,29 @@
             width: 60px;
             height: 30px;
             text-align: center;
+            color: white;
         }
         #submit:hover {
             background: #EE3B3B
+        }
+        .labelInput {
+            margin-bottom: 10px;
+            background: #BFEFFF;
+            color: white;
+            min-width: 50px;
+            width: 100%;
+            border: none;
+            border-radius: 3px;
+            height: 34px;
+            font-size: 16px;
+        }
+        .line {
+            width: 100%;
+            height: 34px;
+        }
+        .redLine {
+            margin-top: 15px;
+            border: 3px solid #CD5C5C;
         }
     </style>
 {% endblock %}
@@ -100,6 +120,44 @@
                 {% endfor %}
             </form>
         </div>
+        <div class="line">
+            <div class="redLine"></div>
+        </div>
+        <div id="choiceLabel" class="choiceLabel">
+            <div class="container" style="width: 100%">
+                <form method="post">
+                     <div class="row">
+                    {% for z in res.get('note_labels')%}
+                    <div class="col-xs-6">
+                        <input type="submit" id="labelInput" class="labelInput" name="label_name" value="{{ z }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                </form>
+
+
+            </div>
+
+        </div>
     </div>
 </div>
+{#    <script>#}
+{#        function label_filter(e) {#}
+{#            let label_name = e.innerText;#}
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: "/home/",#}
+{#                data: JSON.stringify({'label_name': label_name}),#}
+{#                dataType: "json",#}
+{#                headers: {#}
+{#                    'Content-Type': 'application/json',#}
+{#                },#}
+{#                success: function () {#}
+                    {#console.log('a');#}
+                    {#window.location.href = "/home/";#}
+{#                }#}
+{#            });#}
+{##}
+{#        }#}
+{#    </script>#}
 {% endblock %}

@@ -10,7 +10,7 @@ from model.notes import Notes
 # 笔记详情
 @detail_index.route('/<uuid>/')
 def note_det(uuid):
-    print(222)
+
     if uuid:
         res = dict()
         note_obj = Notes.query
