@@ -4,8 +4,6 @@ from config.base_setting import *
 from flask_wtf import FlaskForm
 from flask_wtf.file import *
 from wtforms import *
-import time
-import itertools
 
 home_index = Blueprint('home_page', __name__)
 from main import db
