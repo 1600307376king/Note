@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import *
 from wtforms import *
 import time
+import itertools
 
 home_index = Blueprint('home_page', __name__)
 from main import db
@@ -17,6 +18,10 @@ class SearchForm(FlaskForm):
     submit = SubmitField('搜索')
 
 
+def clean_data(x):
+    return x.strip()
+
+
 @home_index.route('/home/', methods=['GET', 'POST'])
 def home():
     res = dict()
@@ -25,10 +30,9 @@ def home():
 
     note_labels = note_obj.all()
     tmp = [obj.note_labels for obj in note_labels]
-    tmp_s = ''
-    for i in tmp:
-        tmp_s += i
-    res['note_labels'] = list(set(tmp_s.split('|')[:-1]))
+
+    # list({}.fromkeys(f).keys()) 去重
+    res['note_labels'] = list({}.fromkeys(map(clean_data, ''.join(tmp).split('|')[:-1])).keys())
 
     if request.method == 'POST':
         label_name = request.form.get('label_name')
