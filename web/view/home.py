@@ -9,7 +9,7 @@ home_index = Blueprint('home_page', __name__)
 from main import db
 from model.notes import Notes
 
-
+#hello
 class SearchForm(FlaskForm):
     keyword = StringField('关键词：', validators=[DataRequired(),
                           validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
