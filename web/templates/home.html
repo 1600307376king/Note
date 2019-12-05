@@ -2,6 +2,7 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/home/home.css') }}">
+
     <style>
         .searchBox {
             margin: 10px;
@@ -24,17 +25,6 @@
         #submit:hover {
             background: #EE3B3B
         }
-        .labelInput {
-            margin-bottom: 10px;
-            background: #BFEFFF;
-            color: white;
-            min-width: 50px;
-            width: 100%;
-            border: none;
-            border-radius: 3px;
-            height: 34px;
-            font-size: 16px;
-        }
         .line {
             width: 100%;
             height: 34px;
@@ -42,6 +32,35 @@
         .redLine {
             margin-top: 15px;
             border: 3px solid #CD5C5C;
+        }
+        .labelInput {
+            margin-bottom: 10px;
+            background: white;
+            color: white;
+            min-width: 50px;
+            width: 100%;
+            {#border: none;#}
+            border-radius: 5px;
+            height: 34px;
+            font-size: 16px;
+            border: 1px solid #E8EAED;
+        }
+        .labelInput {
+          transition: all 0.35s;
+          transition-timing-function: cubic-bezier(0.31, -0.105, 0.43, 1.59);
+        }
+        .labelInput {
+            -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+            overflow: hidden;
+
+            box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.1);
+            opacity: 0.99;
+        }
+        .labelInput:hover {
+            color: white;
+            -webkit-transform: scale(1);
+            transform: scale(1);
         }
     </style>
 {% endblock %}
@@ -134,30 +153,21 @@
                     {% endfor %}
                 </div>
                 </form>
-
-
             </div>
-
         </div>
     </div>
 </div>
-{#    <script>#}
-{#        function label_filter(e) {#}
-{#            let label_name = e.innerText;#}
-{#            $.ajax({#}
-{#                type: "POST",#}
-{#                url: "/home/",#}
-{#                data: JSON.stringify({'label_name': label_name}),#}
-{#                dataType: "json",#}
-{#                headers: {#}
-{#                    'Content-Type': 'application/json',#}
-{#                },#}
-{#                success: function () {#}
-                    {#console.log('a');#}
-                    {#window.location.href = "/home/";#}
-{#                }#}
-{#            });#}
-{##}
-{#        }#}
-{#    </script>#}
+<script>
+    let lb = document.getElementsByClassName("labelInput");
+    console.log(lb);
+    let colorArray = ["#EEC591", "#EEAD0E", "#D8BFD8", "#A2CD5A", "#9BCD9B", "#7EC0EE"];
+    let c = 0;
+    for(let i=0; i<lb.length; i ++){
+        if(c % 6 === 0){
+            c = 0;
+        }
+        lb[i].style.color = colorArray[c];
+        c += 1;
+    }
+</script>
 {% endblock %}
