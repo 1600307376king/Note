@@ -1,0 +1,21 @@
+warn
+2019-12-05 15:48:53,974 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:51:20,817 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:51:34,533 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:53:37,872 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:53:51,333 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:54:02,830 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:55:23,159 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:55:33,736 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:56:11,595 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:57:07,770 - WARNING - home.py - home - 93 - warn
+2019-12-05 15:59:45,443 - WARNING - home.py - home - 93 - warn
+2019-12-05 16:04:13,992 - WARNING - home.py - home - 32 - [<Notes 13>, <Notes 14>, <Notes 15>, <Notes 16>, <Notes 17>, <Notes 18>, <Notes 19>, <Notes 20>, <Notes 21>, <Notes 22>, <Notes 23>, <Notes 24>, <Notes 25>, <Notes 26>, <Notes 27>, <Notes 28>, <Notes 29>, <Notes 30>, <Notes 31>, <Notes 32>, <Notes 33>]
+2019-12-05 16:04:17,029 - WARNING - home.py - home - 32 - [<Notes 13>, <Notes 14>, <Notes 15>, <Notes 16>, <Notes 17>, <Notes 18>, <Notes 19>, <Notes 20>, <Notes 21>, <Notes 22>, <Notes 23>, <Notes 24>, <Notes 25>, <Notes 26>, <Notes 27>, <Notes 28>, <Notes 29>, <Notes 30>, <Notes 31>, <Notes 32>, <Notes 33>]
+2019-12-05 16:04:20,820 - WARNING - home.py - home - 32 - [<Notes 13>, <Notes 14>, <Notes 15>, <Notes 16>, <Notes 17>, <Notes 18>, <Notes 19>, <Notes 20>, <Notes 21>, <Notes 22>, <Notes 23>, <Notes 24>, <Notes 25>, <Notes 26>, <Notes 27>, <Notes 28>, <Notes 29>, <Notes 30>, <Notes 31>, <Notes 32>, <Notes 33>]
+2019-12-05 16:06:18,354 - WARNING - home.py - home - 32 - [<Notes 13>, <Notes 14>, <Notes 15>, <Notes 16>, <Notes 17>, <Notes 18>, <Notes 19>, <Notes 20>, <Notes 21>, <Notes 22>, <Notes 23>, <Notes 24>, <Notes 25>, <Notes 26>, <Notes 27>, <Notes 28>, <Notes 29>, <Notes 30>, <Notes 31>, <Notes 32>, <Notes 33>]
+2019-12-05 16:06:19,976 - WARNING - home.py - home - 32 - [<Notes 13>, <Notes 14>, <Notes 15>, <Notes 16>, <Notes 17>, <Notes 18>, <Notes 19>, <Notes 20>, <Notes 21>, <Notes 22>, <Notes 23>, <Notes 24>, <Notes 25>, <Notes 26>, <Notes 27>, <Notes 28>, <Notes 29>, <Notes 30>, <Notes 31>, <Notes 32>, <Notes 33>]
+2019-12-05 16:29:45,564 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2019-12-16 16:10:44,620 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2019-12-16 16:10:49,218 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2019-12-16 16:11:03,337 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.

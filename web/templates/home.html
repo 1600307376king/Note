@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/home/home.css') }}">
+    <link rel="stylesheet" href="/css/myself/home/home.css">
 
     <style>
         .searchBox {
@@ -62,18 +62,24 @@
             -webkit-transform: scale(1);
             transform: scale(1);
         }
+        .sort_note a {
+            {#display: block;#}
+            padding: 10px 20px;
+            color: black;
+            text-decoration: none;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="note_list">
     <div id="le" class="le">
-        <div class="sort_note">
+        <div id="sort_note" class="sort_note">
             <ul>
-                <li class="active">推荐</li>
-                <li>最新添加</li>
-                <li>最多点赞</li>
-                <li>最多查看</li>
+                <li class="active filter_col">推荐</li>
+                <li class="filter_col">最新添加</li>
+{#                <li>最多点赞</li>#}
+{#                <li>最多查看</li>#}
             </ul>
         </div>
         <ul class="notes">
@@ -82,14 +88,14 @@
                 <div class="list_detail">
                     <div class="note_title">
                         {% if r[1] | length <= 30 %}
-                        <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}">{{ r[1] }}</a>
+                        <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}/">{{ r[1] }}</a>
                         {% else %}
-                        <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}">{{ r[1][:25] }} ...</a>
+                        <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}/">{{ r[1][:25] }} ...</a>
                         {% endif%}
                         <div class="edit_note">
-                            <span><a href="{{ url }}/update/{{ r[0] }}">修改</a></span>
+                            <span><a href="{{ url }}/update/{{ r[0] }}/">修改</a></span>
                             <span class="v_line">|</span>
-                            <span><a href="{{ url }}/delete/{{ r[0] }}">删除</a></span>
+                            <span><a href="{{ url }}/delete/{{ r[0] }}/">删除</a></span>
                         </div>
                     </div>
 
@@ -158,8 +164,17 @@
     </div>
 </div>
 <script>
+    $('.filter_col').on('click', function () {
+        console.log($(this).parents("ul").children().length);
+        let d = $(this).parents("ul").children();
+        for(let i = 0; i < d.length; i ++){
+            d[i].style.className = "filter_col";
+        }
+
+
+    });
     let lb = document.getElementsByClassName("labelInput");
-    console.log(lb);
+    {#console.log(lb);#}
     let colorArray = ["#EEC591", "#EEAD0E", "#D8BFD8", "#A2CD5A", "#9BCD9B", "#7EC0EE"];
     let c = 0;
     for(let i=0; i<lb.length; i ++){

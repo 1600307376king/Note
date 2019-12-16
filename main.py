@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 import os
+import logging
 
 
 class Main(Flask):
@@ -34,5 +35,19 @@ app.register_blueprint(mod_index, url_prefix='/')
 app.register_blueprint(test_index, url_prefix='/')
 
 
+# 设置404页面
+@app.errorhandler(404)
+def page_not_found(error):
+    app.logger.error(error)
+    return 'This page does not exist', 404
+
+
 if __name__ == '__main__':
+    handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
+    handler.setFormatter(logging.DEBUG)
+    logging_format = logging.Formatter(
+        '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s'
+    )
+    handler.setFormatter(logging_format)
+    app.logger.addHandler(handler)
     app.run(debug=True)

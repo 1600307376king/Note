@@ -58,3 +58,5 @@ def flask_test():
 
     return render_template('test.html', form=test_form)
 # ------------------------>>>
+
+

@@ -8,6 +8,7 @@ from wtforms import *
 home_index = Blueprint('home_page', __name__)
 from main import db
 from model.notes import Notes
+from main import app
 
 
 class SearchForm(FlaskForm):
@@ -22,7 +23,10 @@ def clean_data(x):
 
 @home_index.route('/home/', methods=['GET', 'POST'])
 def home():
+
     res = dict()
+    filter_type = request.args.get('req', '').strip()
+
     search_form = SearchForm()
     note_obj = Notes.query
 
@@ -33,7 +37,7 @@ def home():
     res['note_labels'] = list({}.fromkeys(map(clean_data, ''.join(tmp).split('|')[:-1])).keys())
 
     if request.method == 'POST':
-        label_name = request.form.get('label_name')
+        label_name = request.form.get('label_name', '')
         if label_name:
             label_name = label_name.strip()
             labels_res = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
@@ -67,9 +71,13 @@ def home():
                                      'note_labels', 'creation_time', 'click_number')))
             for i in range(int(bytes.decode(is_has_cache)))]
 
-        return render_template('home.html', form=search_form, res=res, url=URL)
+        return render_template('home.html', form=search_form, res=res, url=URL, filter=0)
 
-    note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
+    if filter_type == 'latest':
+        note_list = note_obj.order_by(Notes.creation_time.desc())
+    else:
+        note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
+
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
 
@@ -77,7 +85,6 @@ def home():
     # redis_obj.flushdb(asynchronous=False)
     # 添加缓存
     for i, v in enumerate(note_list):
-        # redis_obj.expire('home' + str(ip) + str(i), 10)
         dic = {'uuid': str(v.uuid),
                'note_title': str(v.note_title),
                'note_instructions': str(v.note_instructions),
@@ -87,12 +94,12 @@ def home():
 
         redis_obj.hmset('home' + str(ip) + str(i), dic)
 
-    redis_obj.set('home' + str(ip), len(res['note_msg']), ex=10)
+    redis_obj.set('home' + str(ip), len(res['note_msg']), ex=1)
 
     return render_template('home.html', res=res, form=search_form, url=URL)
 
 
-@home_index.route('/update/<uuid>')
+@home_index.route('/update/<uuid>/')
 def go_update(uuid):
     res = dict()
     query_obj = Notes.query.filter(Notes.uuid == uuid).first()
@@ -102,7 +109,7 @@ def go_update(uuid):
     return render_template('update_note.html', res=res, url=URL)
 
 
-@home_index.route('/delete/<uuid>')
+@home_index.route('/delete/<uuid>/')
 def delete_note(uuid):
     res = dict()
     note_obj = Notes.query
