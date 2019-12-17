@@ -11,17 +11,24 @@
     padding: 0;
 }
 .le {
-    float: left;
-    width: 70%;
-    min-width: 500px;
-    height: 100%;
-}
-.ri {
-    float: right;
+    position: absolute;
+    top: 50px;
+
+    /*float: right;*/
     width: 300px;
     /*min-width: 300px;*/
     height: 800px;
     background: white;
+}
+.ri {
+
+
+    float: left;
+    width: 70%;
+    min-width: 500px;
+    height: 100%;
+    margin-left: 350px;
+
 }
 .sort_note {
     width: 100%;
@@ -83,9 +90,10 @@
 }
 .right_fo {
     float: right;
-    min-width: 200px;
+    min-width: 100px;
     height: 42px;
     line-height: 42px;
+    color: #B5B5B5;
 }
 .right_fo span {
     float: left;

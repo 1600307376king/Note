@@ -68,16 +68,18 @@
             color: black;
             text-decoration: none;
         }
+
+
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="note_list">
-    <div id="le" class="le">
+    <div id="ri" class="ri">
         <div id="sort_note" class="sort_note">
             <ul>
-                <li class="active filter_col">推荐</li>
-                <li class="filter_col">最新添加</li>
+                <li class="filterCol">推荐</li>
+                <li class="filterCol">最新添加</li>
 {#                <li>最多点赞</li>#}
 {#                <li>最多查看</li>#}
             </ul>
@@ -109,24 +111,25 @@
                             {% endfor %}
                         </div>
                         <div class="right_fo">
+{#                            <span>#}
+{#                                <img src="{{ url_for('static', filename='images/icon/good.png') }}" alt="">#}
+{#                            </span>#}
+{#                            <span class="num">18646</span>#}
+{#                            <span class="v_line">#}
+{#                                |#}
+{#                            </span>#}
                             <span>
-                                <img src="{{ url_for('static', filename='images/icon/good.png') }}" alt="">
+                                阅读数：
+{#                                <img src="{{ url_for('static', filename='images/icon/read.png') }}" alt="">#}
                             </span>
-                            <span class="num">18646</span>
-                            <span class="v_line">
-                                |
-                            </span>
-                            <span>
-                                <img src="{{ url_for('static', filename='images/icon/read.png') }}" alt="">
-                            </span>
-                            <span class="num" style="text-align: center;">{{ r[5] }}</span>
-                            <span class="v_line">
-                                |
-                            </span>
-                            <span>
-                                <img src="{{ url_for('static', filename='images/icon/comment.png') }}" alt="">
-                            </span>
-                            <span class="num">48646</span>
+                            <span class="num">{{ r[5] }}</span>
+{#                            <span class="v_line">#}
+{#                                |#}
+{#                            </span>#}
+{#                            <span>#}
+{#                                <img src="{{ url_for('static', filename='images/icon/comment.png') }}" alt="">#}
+{#                            </span>#}
+{#                            <span class="num">48646</span>#}
                         </div>
                     </div>
                 </div>
@@ -134,7 +137,7 @@
             {% endfor %}
         </ul>
     </div>
-    <div id="ri" class="ri">
+    <div id="le" class="le">
         <div id="searchBox" class="searchBox">
             <form method="post" enctype="multipart/form-data">
                 {{ form.csrf_token() }}
@@ -164,17 +167,67 @@
     </div>
 </div>
 <script>
-    $('.filter_col').on('click', function () {
-        console.log($(this).parents("ul").children().length);
-        let d = $(this).parents("ul").children();
-        for(let i = 0; i < d.length; i ++){
-            d[i].style.className = "filter_col";
-        }
 
 
+    // 筛选
+    $('.filterCol').on('click', function () {
+        let filter = $(this);
+        let filterName = filter[0].innerText;
+        $.ajax({
+            type: "POST",
+            url: "/filter_col/",
+            data: JSON.stringify({'filterName': filterName}),
+            dataType: "json",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                // 删除所有active 对当前添加active
+                let filter_list = filter.parent("ul").children();
+                for(let i = 0; i < filter_list.length; i++){
+                    filter_list[i].classList.remove('active');
+                }
+                filter[0].classList.add("active");
+
+                // 删除所有li 并重新添加li
+                let liOneNotes = document.getElementsByClassName("one_notes");
+                let notes = document.getElementsByClassName("notes")[0];
+                let count = liOneNotes.length;
+                let copyData = liOneNotes[0].cloneNode(true);
+
+                for(let k = 0; k < count; k++){
+                    notes.removeChild(liOneNotes[0]);
+                }
+                let responseData = response.note_msg;
+                for(let j = 0; j < responseData.length; j ++){
+                    let cloneData = copyData.cloneNode(true);
+                    if(responseData[j][1].length > 50){
+                        responseData[j][1] = responseData[j][1].substring(0, 50) + '...'
+                    }
+                    cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
+                    if(responseData[j][2].length > 80){
+                        responseData[j][2] = responseData[j][2].split('\n').join('');
+                        responseData[j][2] = responseData[j][2].substring(0, 80)
+                    }
+                    cloneData.childNodes[1].childNodes[3].innerText = responseData[j][2];
+                    let labelList = responseData[j][3].split('|');
+                    for(let m = 0; m < labelList.length - 1; m++){
+                        let index = (m + 1) * 2 - 1;
+                        if(cloneData.childNodes[1].childNodes[5].childNodes[1].childNodes[index] === undefined){
+                            cloneData.childNodes[1].childNodes[5].childNodes[1].appendChild(document.createElement("span"));
+                        }
+                        cloneData.childNodes[1].childNodes[5].childNodes[1].childNodes[index].innerText = labelList[m];
+                    }
+
+                    cloneData.childNodes[1].childNodes[5].childNodes[3].childNodes[3].innerText = responseData[j][5];
+                    notes.append(cloneData);
+                }
+            }
+        })
     });
+    // 标签添加颜色
     let lb = document.getElementsByClassName("labelInput");
-    {#console.log(lb);#}
+
     let colorArray = ["#EEC591", "#EEAD0E", "#D8BFD8", "#A2CD5A", "#9BCD9B", "#7EC0EE"];
     let c = 0;
     for(let i=0; i<lb.length; i ++){

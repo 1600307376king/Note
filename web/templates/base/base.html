@@ -23,26 +23,31 @@
             height: 40px;
             width: 100%;
             background: white;
-            margin-bottom: 10px;
+            display: inline-block;
+            position: fixed;
+            top: 0;
+            border-top: 1px solid #FF7F24;
+            border-bottom: 2px solid #F5F6F7;
+            z-index: 100;
         }
         .top_middle {
             width: 70%;
             min-width: 500px;
-            height: 60px;
+            height: 40px;
             margin: 0 auto;
         }
         .top_m2 {
             width: 70%;
-            height: 60px;
+            height: 40px;
         }
         .top_logo {
             width: 30%;
-            height: 60px;
+            height: 40px;
             float: left;
         }
         .search_input {
             width: 40%;
-            line-height: 60px;
+            line-height: 40px;
             float: right;
             min-width: 330px;
             right: 100px;
@@ -68,16 +73,18 @@
             color: white;
         }
         .all_content {
+            margin-top: 50px;
             width: 100%;
-            height: auto;
-            min-height: 1000px;
+            height: 100%;
+            min-height: 800px;
+            overflow: auto;
         }
         .top_m2 ul {
             list-style: none;
             margin-bottom: 0;
             height: 40px;
             line-height: 40px;
-
+            padding-left: 350px;
         }
         .top_m2 li {
             display: inline-block;
@@ -114,11 +121,39 @@
             </div>
         </div>
     </div>
-    <div class="all_content" >
+    <div class="all_content">
 
         {% block content %}
         {% endblock %}
 
     </div>
 </body>
+<script>
+
+    let cloneScroll = 0;
+    let sign = 80;//定义默认的向上滚与向下滚的边界
+    window.onscroll = window.onresize = function(){
+
+        let oScrollTop = $(window).scrollTop();
+
+        if(cloneScroll > oScrollTop){
+            {#console.log('向上');#}
+            if(oScrollTop === 0){
+                document.getElementById("le").style.position = "fixed";
+                document.getElementById("le").style.top = "50px";
+            }
+
+        }
+        if(cloneScroll < oScrollTop){
+            {#console.log('向下');#}
+            document.getElementById("le").style.position = "fixed";
+            document.getElementById("le").style.top = "41px";
+        }
+        cloneScroll = oScrollTop
+
+    }
+
+
+
+</script>
 </html>

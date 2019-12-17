@@ -25,7 +25,6 @@ def clean_data(x):
 def home():
 
     res = dict()
-    filter_type = request.args.get('req', '').strip()
 
     search_form = SearchForm()
     note_obj = Notes.query
@@ -73,10 +72,7 @@ def home():
 
         return render_template('home.html', form=search_form, res=res, url=URL, filter=0)
 
-    if filter_type == 'latest':
-        note_list = note_obj.order_by(Notes.creation_time.desc())
-    else:
-        note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
+    note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
@@ -123,12 +119,26 @@ def delete_note(uuid):
     return render_template('home.html', res=res, url=URL)
 
 
-@home_index.route('/filter_label/')
+@home_index.route('/filter_col/', methods=['POST'])
 def filter_label():
-    pass
+    filter_name = request.json.get('filterName')
+    res = dict()
+    note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()).all()
+    if filter_name == '最新添加':
+        note_list = Notes.query.order_by(Notes.creation_time.desc()).all()
+
+    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+                        obj.creation_time, obj.click_number] for obj in note_list[:5]]
+    print(len(note_list))
+    return jsonify(res)
 
 
 @home_index.route('/delete_cache/')
 def delete_all_cache():
     redis_obj.flushdb(asynchronous=False)
     return 'ok'
+
+
+'''
+ ["b371e484-0760-11ea-a6ea-0242ac110002", "配置uwsgi服务", "配置uwsgi服务", "Uwsgi|Centos|", "Fri, 15 Nov 2019 12:30:49 GMT", 10]
+'''
