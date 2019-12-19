@@ -107,6 +107,7 @@
                 <ul>
                     <li onclick="window.location.href='{{ url }}/home/'"><a>首页</a></li>
                     <li onclick="window.location.href='{{ url }}/add/'"><a>添加笔记</a></li>
+                    <li><a>我的计划</a></li>
 {#                    <li><a href="#">我的笔记</a></li>#}
                 </ul>
 {#                <div class="top_logo"></div>#}
@@ -129,30 +130,6 @@
     </div>
 </body>
 <script>
-
-    let cloneScroll = 0;
-    let sign = 80;//定义默认的向上滚与向下滚的边界
-    window.onscroll = window.onresize = function(){
-
-        let oScrollTop = $(window).scrollTop();
-
-        if(cloneScroll > oScrollTop){
-            {#console.log('向上');#}
-            if(oScrollTop === 0){
-                document.getElementById("le").style.position = "fixed";
-                document.getElementById("le").style.top = "50px";
-            }
-
-        }
-        if(cloneScroll < oScrollTop){
-            {#console.log('向下');#}
-            document.getElementById("le").style.position = "fixed";
-            document.getElementById("le").style.top = "41px";
-        }
-        cloneScroll = oScrollTop
-
-    }
-
 
 
 </script>

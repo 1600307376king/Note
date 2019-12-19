@@ -168,7 +168,6 @@
 </div>
 <script>
 
-
     // 筛选
     $('.filterCol').on('click', function () {
         let filter = $(this);
@@ -236,6 +235,43 @@
         }
         lb[i].style.color = colorArray[c];
         c += 1;
+    }
+
+    let cloneScroll = 0;
+    let currentPage = 0;
+    window.onscroll = window.onresize = function(){
+        let oScrollTop = $(window).scrollTop();
+        if(cloneScroll > oScrollTop){
+            {#console.log('向上');#}
+            if(oScrollTop === 0){
+                document.getElementById("le").style.position = "fixed";
+                document.getElementById("le").style.top = "50px";
+            }
+        }
+        if(cloneScroll < oScrollTop){
+            {#console.log('向下');#}
+            document.getElementById("le").style.position = "fixed";
+            document.getElementById("le").style.top = "41px";
+        }
+        cloneScroll = oScrollTop;
+        {#console.log(oScrollTop);#}
+        {#console.log($(document).height());#}
+        let totalHeight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
+        if($(document).height() - 15 <= totalHeight){
+            currentPage += 1;
+            $.ajax({
+                type: "POST",
+                url: "/filter_col/",
+                data: JSON.stringify({'page': currentPage}),
+                dataType: "json",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                success: function (response) {
+                    console.log('post success')
+                }
+            })
+        }
     }
 </script>
 {% endblock %}

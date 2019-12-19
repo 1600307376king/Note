@@ -134,6 +134,13 @@ def filter_sort():
     return jsonify(res)
 
 
+@home_index.route('/load_data/', methods=['GET'])
+def loading_data():
+    cur_page = request.json.get('page')
+
+
+
+
 @home_index.route('/delete_cache/')
 def delete_all_cache():
     redis_obj.flushdb(asynchronous=False)
