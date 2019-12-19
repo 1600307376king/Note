@@ -3,15 +3,11 @@
 # @Time    : 2019/11/9 0009 11:23
 # @Author  : HelloWorld
 # @File    : test.py
-import re
 from flask import render_template, Blueprint, request, flash
 from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import DataRequired, EqualTo
 from flask_wtf.file import FileRequired, FileAllowed
-from werkzeug.utils import secure_filename
-from main import app
-from flask_uploads import UploadSet, IMAGES
 import os
 
 test_index = Blueprint('test_page', __name__)

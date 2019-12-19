@@ -20,7 +20,7 @@ def clean_data(x):
     return x.strip()
 
 
-@home_index.route('/home/', methods=['GET', 'POST'])
+@home_index.route('/', methods=['GET', 'POST'])
 def home():
 
     res = dict()

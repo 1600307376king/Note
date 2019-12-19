@@ -21,3 +21,5 @@ warn
 2019-12-16 16:11:03,337 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2019-12-18 09:37:26,314 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2019-12-18 09:37:26,362 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2019-12-19 11:41:49,084 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2019-12-19 11:41:49,213 - ERROR - main.py - page_not_found - 41 - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
