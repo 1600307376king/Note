@@ -8,7 +8,6 @@ from wtforms import *
 home_index = Blueprint('home_page', __name__)
 from main import db
 from model.notes import Notes
-from main import app
 
 
 class SearchForm(FlaskForm):
@@ -25,7 +24,6 @@ def clean_data(x):
 def home():
 
     res = dict()
-
     search_form = SearchForm()
     note_obj = Notes.query
 
@@ -95,6 +93,7 @@ def home():
     return render_template('home.html', res=res, form=search_form, url=URL)
 
 
+# 进入修改页
 @home_index.route('/update/<uuid>/')
 def go_update(uuid):
     res = dict()
@@ -105,6 +104,7 @@ def go_update(uuid):
     return render_template('update_note.html', res=res, url=URL)
 
 
+# 删除当前note
 @home_index.route('/delete/<uuid>/')
 def delete_note(uuid):
     res = dict()
@@ -119,8 +119,9 @@ def delete_note(uuid):
     return render_template('home.html', res=res, url=URL)
 
 
+# 条件排序
 @home_index.route('/filter_col/', methods=['POST'])
-def filter_label():
+def filter_sort():
     filter_name = request.json.get('filterName')
     res = dict()
     note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()).all()
@@ -128,7 +129,7 @@ def filter_label():
         note_list = Notes.query.order_by(Notes.creation_time.desc()).all()
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
-                        obj.creation_time, obj.click_number] for obj in note_list[:5]]
+                        obj.creation_time, obj.click_number] for obj in note_list]
     print(len(note_list))
     return jsonify(res)
 
@@ -137,8 +138,3 @@ def filter_label():
 def delete_all_cache():
     redis_obj.flushdb(asynchronous=False)
     return 'ok'
-
-
-'''
- ["b371e484-0760-11ea-a6ea-0242ac110002", "配置uwsgi服务", "配置uwsgi服务", "Uwsgi|Centos|", "Fri, 15 Nov 2019 12:30:49 GMT", 10]
-'''
