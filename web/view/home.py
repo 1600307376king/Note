@@ -12,7 +12,7 @@ from model.notes import Notes
 
 class SearchForm(FlaskForm):
     keyword = StringField('关键词：', validators=[DataRequired(),
-                          validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
+                                              validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
     submit = SubmitField('搜索')
 
 
@@ -22,7 +22,6 @@ def clean_data(x):
 
 @home_index.route('/', methods=['GET', 'POST'])
 def home():
-
     res = dict()
     search_form = SearchForm()
     note_obj = Notes.query
@@ -40,7 +39,8 @@ def home():
             labels_res = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
                 filter(Notes.note_labels.like('%' + label_name + '%') |
                        Notes.note_title.like('%' + label_name + '%') |
-                       Notes.note_content.like('%' + label_name + '%')).all()
+                       Notes.note_content.like('%' + label_name + '%')). \
+                paginate(1, per_page=PER_PAGE_MAX_NUM).items
             res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                                 obj.creation_time, obj.click_number] for obj in labels_res]
         else:
@@ -49,7 +49,8 @@ def home():
                 search_result = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
                     filter(Notes.note_labels.like('%' + search_keyword + '%') |
                            Notes.note_title.like('%' + search_keyword + '%') |
-                           Notes.note_content.like('%' + search_keyword + '%')).all()
+                           Notes.note_content.like('%' + search_keyword + '%')). \
+                    paginate(1, per_page=PER_PAGE_MAX_NUM).items
                 res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                                     obj.creation_time, obj.click_number] for obj in search_result]
             else:
@@ -58,19 +59,20 @@ def home():
 
         return render_template('home.html', res=res, form=search_form, url=URL)
 
-    ip = request.headers.get('Remote Address')
-    is_has_cache = redis_obj.get('home' + str(ip))
+    # ip = request.headers.get('Remote Address')
+    # is_has_cache = redis_obj.get('home' + str(ip))
 
-    if is_has_cache:
-        res['note_msg'] = [
-            list(map(decode_text,
-                     redis_obj.hmget('home' + str(ip) + str(i), 'uuid', 'note_title', 'note_instructions',
-                                     'note_labels', 'creation_time', 'click_number')))
-            for i in range(int(bytes.decode(is_has_cache)))]
+    # if is_has_cache:
+    #     res['note_msg'] = [
+    #         list(map(decode_text,
+    #                  redis_obj.hmget('home' + str(ip) + str(i), 'uuid', 'note_title', 'note_instructions',
+    #                                  'note_labels', 'creation_time', 'click_number')))
+    #         for i in range(int(bytes.decode(is_has_cache)))]
+    #
+    #     return render_template('home.html', form=search_form, res=res, url=URL, filter=0)
 
-        return render_template('home.html', form=search_form, res=res, url=URL, filter=0)
-
-    note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc())
+    note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+        paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
@@ -78,17 +80,17 @@ def home():
     # 清除缓存
     # redis_obj.flushdb(asynchronous=False)
     # 添加缓存
-    for i, v in enumerate(note_list):
-        dic = {'uuid': str(v.uuid),
-               'note_title': str(v.note_title),
-               'note_instructions': str(v.note_instructions),
-               'note_labels': str(v.note_labels),
-               'creation_time': str(v.creation_time),
-               'click_number': str(v.click_number)}
+    # for i, v in enumerate(note_list):
+    #     dic = {'uuid': str(v.uuid),
+    #            'note_title': str(v.note_title),
+    #            'note_instructions': str(v.note_instructions),
+    #            'note_labels': str(v.note_labels),
+    #            'creation_time': str(v.creation_time),
+    #            'click_number': str(v.click_number)}
+    #
+    #     redis_obj.hmset('home' + str(ip) + str(i), dic)
 
-        redis_obj.hmset('home' + str(ip) + str(i), dic)
-
-    redis_obj.set('home' + str(ip), len(res['note_msg']), ex=1)
+    # redis_obj.set('home' + str(ip), len(res['note_msg']), ex=1)
 
     return render_template('home.html', res=res, form=search_form, url=URL)
 
@@ -124,21 +126,48 @@ def delete_note(uuid):
 def filter_sort():
     filter_name = request.json.get('filterName')
     res = dict()
-    note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()).all()
+    note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+        paginate(1, per_page=PER_PAGE_MAX_NUM).items
     if filter_name == '最新添加':
-        note_list = Notes.query.order_by(Notes.creation_time.desc()).all()
+        note_list = Notes.query.order_by(Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
-    print(len(note_list))
     return jsonify(res)
 
 
-@home_index.route('/load_data/', methods=['GET'])
+# 页面向下滚动加载
+@home_index.route('/load_data/')
 def loading_data():
-    cur_page = request.json.get('page')
+    cur_page = request.args.get('page')
+    filter_type = request.args.get('type')
+    cur_page = int(cur_page)
+    filter_type = int(filter_type)
+    msg = dict()
+    msg['msg'] = 'None'
+    msg['res'] = ''
+    msg['cur_num'] = cur_page
+    try:
+        if filter_type == 3:
+            load_result_obj = Notes.query.order_by(Notes.creation_time.desc()). \
+                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
+        else:
+            load_result_obj = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
+        if load_result_obj:
+            load_data_list = load_result_obj.items
 
+            msg['res'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+                           obj.creation_time, obj.click_number] for obj in load_data_list]
 
+            if load_result_obj.has_next or len(msg['res']) > 0:
+                msg['msg'] = 'continue'
+                msg['cur_num'] += 1
+    except:
+        print('')
+
+    return jsonify(msg)
 
 
 @home_index.route('/delete_cache/')

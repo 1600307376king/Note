@@ -172,6 +172,10 @@
     $('.filterCol').on('click', function () {
         let filter = $(this);
         let filterName = filter[0].innerText;
+        cloneScroll = 0;
+        currentPage = 2;
+        filterType = 1;
+        is_append = 1;
         $.ajax({
             type: "POST",
             url: "/filter_col/",
@@ -237,9 +241,20 @@
         c += 1;
     }
 
+    // 左侧下拉加载数据
+
+
     let cloneScroll = 0;
-    let currentPage = 0;
+    // 当前页
+    let currentPage = 2;
+    // 筛选类型
+    let filterType = 1;
+    // 是否允许加载数据
+    let is_append = 1;
+    console.log($(document).height());
+
     window.onscroll = window.onresize = function(){
+        // 滚动条移到顶部，左侧筛选框滑动效果
         let oScrollTop = $(window).scrollTop();
         if(cloneScroll > oScrollTop){
             {#console.log('向上');#}
@@ -254,23 +269,72 @@
             document.getElementById("le").style.top = "41px";
         }
         cloneScroll = oScrollTop;
-        {#console.log(oScrollTop);#}
-        {#console.log($(document).height());#}
         let totalHeight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
-        if($(document).height() - 15 <= totalHeight){
-            currentPage += 1;
-            $.ajax({
-                type: "POST",
-                url: "/filter_col/",
-                data: JSON.stringify({'page': currentPage}),
-                dataType: "json",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                success: function (response) {
-                    console.log('post success')
-                }
-            })
+
+        // 数据动态加载
+
+        if($(document).height() <= totalHeight){
+
+            if($(".sort_note ul .active")[0].innerText === '最新添加'){
+                filterType = 3;
+            }
+            console.log(document.getElementsByClassName("notes")[0].childNodes.length);
+            if(is_append !== -1){
+                $.ajax({
+                    type: "GET",
+                    url: "/load_data/" + "?page=" + currentPage + "&type=" + filterType,
+                    {#data: JSON.stringify({'page': currentPage}),#}
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    success: function (response) {
+                        {#console.log(response.res);#}
+                        {#console.log(currentPage);#}
+                        {#console.log(response.cur_num);#}
+                        if(response.msg === 'continue') {
+                            if(currentPage === parseInt(response.cur_num)){
+                                is_append = -1
+                            }
+                            currentPage = response.cur_num;
+                            let liOneNotes = document.getElementsByClassName("one_notes");
+                            let notes = document.getElementsByClassName("notes")[0];
+                            let copyData = liOneNotes[0].cloneNode(true);
+                            let responseData = response.res;
+                            for(let j = 0; j < responseData.length; j ++){
+                                let cloneData = copyData.cloneNode(true);
+                                if(responseData[j][1].length > 50){
+                                    responseData[j][1] = responseData[j][1].substring(0, 50) + '...'
+                                }
+                                cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
+                                if(responseData[j][2].length > 80){
+                                    responseData[j][2] = responseData[j][2].split('\n').join('');
+                                    responseData[j][2] = responseData[j][2].substring(0, 80)
+                                }
+                                cloneData.childNodes[1].childNodes[3].innerText = responseData[j][2];
+                                let labelList = responseData[j][3].split('|');
+                                for(let m = 0; m < labelList.length - 1; m++){
+                                    let index = (m + 1) * 2 - 1;
+                                    if(cloneData.childNodes[1].childNodes[5].childNodes[1].childNodes[index] === undefined){
+                                        cloneData.childNodes[1].childNodes[5].childNodes[1].appendChild(document.createElement("span"));
+                                    }
+                                    cloneData.childNodes[1].childNodes[5].childNodes[1].childNodes[index].innerText = labelList[m];
+                                }
+
+                                cloneData.childNodes[1].childNodes[5].childNodes[3].childNodes[3].innerText = responseData[j][5];
+                                notes.append(cloneData);
+                            }
+
+                        }else {
+                            console.log('none')
+                        }
+
+
+
+                    }
+                })
+            }
+
         }
     }
 </script>

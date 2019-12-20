@@ -6,6 +6,9 @@ redis_obj = redis.Redis(connection_pool=pool)
 SERVER_PORT = '5000'
 IP = '127.0.0.1'
 URL = 'http://' + IP + ':' + SERVER_PORT
+
+PER_PAGE_MAX_NUM = 10
+
 DEBUG = False
 SQLALCHEMY_ECHO = False
 
