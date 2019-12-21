@@ -3,9 +3,8 @@
 # @Time    : 2019/11/11 0011 9:12
 # @Author  : HelloWorld
 # @File    : modification.py
-from flask import Blueprint, render_template, url_for, jsonify, request, redirect
-from config.base_setting import *
-from web.view.filter_text import *
+from flask import Blueprint, jsonify, request
+from web.view.tool.filter_text import *
 
 mod_index = Blueprint('mod_page', __name__)
 from main import db

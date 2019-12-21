@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, url_for, jsonify, request, redirect
-from web.view.filter_text import *
+from flask import Blueprint, render_template, jsonify, request
+from web.view.tool.filter_text import *
 from config.base_setting import *
 import datetime
 import uuid

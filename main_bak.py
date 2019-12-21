@@ -1,8 +1,8 @@
-from flask import Flask
+from flask import Flask, jsonify
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
-
 import os
+import logging
 
 
 class Main(Flask):
@@ -14,7 +14,6 @@ class Main(Flask):
         self.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)  # 设置session的保存时间
         self.config.setdefault('SQLALCHEMY_POOL_SIZE', 100)
         self.config.setdefault('SQLALCHEMY_MAX_OVERFLOW', 20)
-
         db.init_app(self)
 
 
@@ -23,6 +22,18 @@ db = SQLAlchemy()
 app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
            static_folder=os.getcwd() + "/web/static/")
 
+from web.view.home import home_index
+from web.view.add_note import add_index
+from web.view.note_detail import detail_index
+from web.view.modification import mod_index
+from web.view.test import test_index
+
+app.register_blueprint(home_index, url_prefix='/')
+app.register_blueprint(add_index, url_prefix='/')
+app.register_blueprint(detail_index, url_prefix='/detail/')
+app.register_blueprint(mod_index, url_prefix='/')
+app.register_blueprint(test_index, url_prefix='/')
+
 
 # 设置404页面
 @app.errorhandler(404)
@@ -30,21 +41,6 @@ def page_not_found(error):
     app.logger.error(error)
     return 'This page does not exist', 404
 
-
-from web.view.home import home_index
-from web.view.add_note import add_index
-from web.view.note_detail import detail_index
-from web.view.modification import mod_index
-from web.view.test import test_index
-from web.view.tool.static_file_version import CreateNewVersion
-
-app.add_template_global(CreateNewVersion.get_version(), 'getVersion')
-
-app.register_blueprint(home_index, url_prefix='/')
-app.register_blueprint(add_index, url_prefix='/')
-app.register_blueprint(detail_index, url_prefix='/detail/')
-app.register_blueprint(mod_index, url_prefix='/')
-app.register_blueprint(test_index, url_prefix='/')
 
 # if __name__ == '__main__':
 #     handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
