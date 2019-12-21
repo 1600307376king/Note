@@ -102,14 +102,17 @@
             background: white;
             width: 100%;
             height: 100px;
-            position: fixed;
-            bottom: 0;
+            {#position: fixed;#}
+            {#bottom: 0;#}
+            margin-top: 0;
+            margin-bottom: 0;
             text-align: center;
             line-height: 100px;
         }
         .filingNumber a{
             text-decoration: none;
         }
+
     </style>
 </head>
 <body>
@@ -120,17 +123,7 @@
                     <li onclick="window.location.href='{{ url }}'"><a>首页</a></li>
                     <li onclick="window.location.href='{{ url }}/add/'"><a>添加笔记</a></li>
                     <li><a>我的计划</a></li>
-{#                    <li><a href="#">我的笔记</a></li>#}
                 </ul>
-{#                <div class="top_logo"></div>#}
-{#                <div class="search_input">#}
-{#                    <label>#}
-{#                        <input type="text" placeholder="请输入关键词">#}
-{#                    </label>#}
-{#                    <label>#}
-{#                        <button type="button">提交</button>#}
-{#                    </label>#}
-{#                </div>#}
             </div>
         </div>
     </div>
@@ -140,6 +133,7 @@
         {% endblock %}
 
     </div>
+
     <div class="myFooter">
         <div class="filingNumber">
             <a href="http://www.beian.miit.gov.cn">浙ICP备19037818号-1</a>

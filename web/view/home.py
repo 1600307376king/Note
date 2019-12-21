@@ -76,7 +76,6 @@ def home():
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
-
     # 清除缓存
     # redis_obj.flushdb(asynchronous=False)
     # 添加缓存
@@ -161,9 +160,19 @@ def loading_data():
             msg['res'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                            obj.creation_time, obj.click_number] for obj in load_data_list]
 
-            if load_result_obj.has_next or len(msg['res']) > 0:
+            # if load_result_obj.has_next or len(msg['res']) > 0:
+            #     msg['msg'] = 'continue'
+            #     msg['cur_num'] += 1
+            #     if len(msg['res']) < PER_PAGE_MAX_NUM:
+            #         msg['warning'] = 'break'
+            #     print(len(msg['res']))
+            if len(msg['res']) == PER_PAGE_MAX_NUM:
                 msg['msg'] = 'continue'
                 msg['cur_num'] += 1
+            if len(msg['res']) < PER_PAGE_MAX_NUM:
+                msg['msg'] = 'continue'
+                msg['warning'] = 'break'
+            print(len(msg['res']))
     except:
         print('')
 

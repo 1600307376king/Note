@@ -11,24 +11,18 @@
     padding: 0;
 }
 .le {
-    position: absolute;
+    position: fixed;
     top: 50px;
-
-    /*float: right;*/
     width: 300px;
-    /*min-width: 300px;*/
     height: 800px;
     background: white;
 }
 .ri {
-
-
     float: left;
     width: 70%;
     min-width: 500px;
-    height: 800px;
+    height: 830px;
     margin-left: 350px;
-
 }
 .sort_note {
     width: 100%;
@@ -102,6 +96,10 @@
 }
 .notes {
     background: white;
+    height: 750px;
+    overflow: scroll;
+    overflow-x: hidden;
+
 }
 .v_line {
     width: 20px;
