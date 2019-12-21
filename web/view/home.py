@@ -172,7 +172,7 @@ def loading_data():
             if len(msg['res']) < PER_PAGE_MAX_NUM:
                 msg['msg'] = 'continue'
                 msg['warning'] = 'break'
-        
+
     except:
         print('')
 
