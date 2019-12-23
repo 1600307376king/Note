@@ -30,7 +30,7 @@ server_list = {
         'debug': True,
         'mysql_password': ''
     },
-    'production_setting': {
+    'production': {
         'port': '80',
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:80',
