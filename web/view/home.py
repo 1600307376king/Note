@@ -10,8 +10,8 @@ from model.notes import Notes
 
 
 class SearchForm(FlaskForm):
-    keyword = StringField('关键词：', validators=[DataRequired(),
-                                              validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
+    keyword = StringField('关键词：',
+                          validators=[DataRequired(), validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
     submit = SubmitField('搜索')
 
 
@@ -31,6 +31,7 @@ def home():
     # list({}.fromkeys(f).keys()) 去重
     res['note_labels'] = list({}.fromkeys(map(clean_data, ''.join(tmp).split('|')[:-1])).keys())
 
+    # 首页输入关键字搜索
     if request.method == 'POST':
         label_name = request.form.get('label_name', '')
         if label_name:
@@ -159,12 +160,6 @@ def loading_data():
             msg['res'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
                            obj.creation_time, obj.click_number] for obj in load_data_list]
 
-            # if load_result_obj.has_next or len(msg['res']) > 0:
-            #     msg['msg'] = 'continue'
-            #     msg['cur_num'] += 1
-            #     if len(msg['res']) < PER_PAGE_MAX_NUM:
-            #         msg['warning'] = 'break'
-            #     print(len(msg['res']))
             if len(msg['res']) == PER_PAGE_MAX_NUM:
                 msg['msg'] = 'continue'
                 msg['cur_num'] += 1
@@ -172,8 +167,8 @@ def loading_data():
                 msg['msg'] = 'continue'
                 msg['warning'] = 'break'
 
-    except:
-        print('')
+    except Exception as e:
+        print(e)
 
     return jsonify(msg)
 

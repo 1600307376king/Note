@@ -7,7 +7,7 @@ redis_obj = redis.Redis(connection_pool=pool)
 PER_PAGE_MAX_NUM = 10
 
 # css 版本
-CSS_VERSION = '201912222145'
+CSS_VERSION = '2019122231106'
 
 SQLALCHEMY_ECHO = False
 

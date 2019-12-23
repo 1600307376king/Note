@@ -166,13 +166,20 @@
     // 标签添加颜色
     let lb = document.getElementsByClassName("labelInput");
 
-    let colorArray = ["#EEC591", "#EEAD0E", "#D8BFD8", "#A2CD5A", "#9BCD9B", "#7EC0EE"];
+    let colorArrayRed = ["#FF6666"];
+    let colorArrayYellow = ["#FF9966"];
+    let colorArrayBlue = ["#0066CC"];
     let c = 0;
     for(let i=0; i<lb.length; i ++){
-        if(c % 6 === 0){
-            c = 0;
+        if(c <= 6){
+            lb[i].style.borderColor = colorArrayRed[0];
         }
-        lb[i].style.color = colorArray[c];
+        else if(12 <= c <= 18){
+            lb[i].style.borderColor = colorArrayYellow[0];
+        }
+        else{
+            lb[i].style.borderColor = colorArrayBlue[0];
+        }
         c += 1;
     }
 
