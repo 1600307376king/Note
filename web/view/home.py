@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, url_for, jsonify, request, redirect, flash
-from web.view.filter_text import *
+from flask import Blueprint, render_template, jsonify, request, flash
 from config.base_setting import *
 from flask_wtf import FlaskForm
 from flask_wtf.file import *
