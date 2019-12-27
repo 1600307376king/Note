@@ -53,11 +53,11 @@
 /*}*/
 .one_notes {
     border-bottom: 2px solid #F0F1F2;
-    height: 130px;
+    height: 100px;
 }
 .list_detail {
     padding: 15px 15px 0 15px;
-    height: 130px;
+    height: 100px;
 }
 .note_title {
     min-width: 300px;
@@ -111,6 +111,7 @@
 .note_title a:hover{
     color: indianred;
 }
+
 .left_fo {
     text-align: center;
     float: left;

@@ -80,6 +80,10 @@
         background: #EDEDED;
     }
 
+    .two a {
+        text-align: center;
+    }
+
 
 </style>
 {% endblock %}
@@ -110,20 +114,23 @@
                         </div>
                     </div>
 
-                    <div class="note_content">
-                        {{ r[2] }}
-                    </div>
+{#                    <div class="note_content">#}
+{#                        {{ r[2] }}#}
+{#                    </div>#}
                     <div class="note_footer">
+                        <span style="float: left;height: 44px; line-height: 44px;">标签：</span>
                         <div class="left_fo">
-                            {% for i in r[3].split('|')[:-1] %}
+
+                            {% for i in r[2].split('|')[:-1] %}
                             <span>{{ i }}</span>
                             {% endfor %}
                         </div>
+
                         <div class="right_fo">
                             <span>
                                 阅读数：
                             </span>
-                            <span class="num">{{ r[5] }}</span>
+                            <span class="num">{{ r[4] }}</span>
                         </div>
                     </div>
                 </div>
@@ -188,14 +195,24 @@
     $('.one').on('click', function () {
         let fartherNode = $(this)[0].parentNode;
         let childrenMenu = document.createElement("li");
-        childrenMenu.className = "one";
-        childrenMenu.innerHTML = "<a><h4>Python</h4></a>";
-        {#$(this)[0].insertBefore(childrenMenu);#}
-        {#fartherNode.insert(childrenMenu);#}
-        console.log(fartherNode);
-        console.log($(this)[0]);
-        console.log(childrenMenu);
-        console.log($(this)[0].nextNode())
+        childrenMenu.className = "two";
+        childrenMenu.innerHTML = "<a><h5>Python</h5></a>";
+        fartherNode.insertBefore(childrenMenu, $(this).next()[0]);
+        let clickedName = $(this)[0].innerText;
+         $.ajax({
+            type: "POST",
+            url: "/load_label/",
+            data: JSON.stringify({'top_category': clickedName}),
+            dataType: "json",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                if(response.msg === 'ok'){
+                    console.log('yes');
+                }
+            }
+        })
     });
 
     // 筛选
@@ -266,16 +283,17 @@
     let colorArrayBlue = ["#0066CC"];
     let c = 0;
     for(let i=0; i<lb.length; i ++){
-        if(c <= 6){
+        if(c <= 5){
             lb[i].style.borderColor = colorArrayRed[0];
         }
-        else if(7 <= c <= 12){
+        if(6 <= c <= 11){
             lb[i].style.borderColor = colorArrayYellow[0];
         }
-        else{
+        if(c > 11){
             lb[i].style.borderColor = colorArrayBlue[0];
         }
         c += 1;
+        console.log(c);
     }
 
     // 左侧下拉加载数据
