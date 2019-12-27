@@ -18,14 +18,13 @@ def add_n():
         str_labels = request.json.get('str_labels')
         note_instructions = request.json.get('note_instructions')
         str_content = request.json.get('str_content')
-
         creation_time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         db.session.add(Notes(
             uuid=str(uuid.uuid1()),
             note_title=note_title,
             note_labels=str_labels,
             note_instructions=note_instructions.strip(),
-            note_content=filter_note_con(str_content),
+            note_content=str_content,
             creation_time=creation_time,
             click_number=0
         ))

@@ -2,7 +2,86 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/css/myself/home/home.css?v={{ getVersion }}">
+    <style>
+    .filterMenu {
+        height: 700px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        padding-right: 10px;
+    }
 
+    .filterMenu:hover {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-right: 0;
+    }
+
+    .filterMenu::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+    }
+
+    .filterMenu::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        background: lightgray;
+    }
+
+    .filterMenu::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+
+    .levelOne {
+        margin: 0;
+        padding: 0;
+    }
+
+    .levelOne li {
+        width: 70%;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        margin: 3px auto;
+    }
+    .levelOne li a {
+        text-decoration: none;
+        float: left;
+        margin-left: 10px;
+    }
+    .levelOne li i {
+        float: right;
+        width: 30px;
+        height: 100%;
+    }
+    .levelOne li i img {
+        width: 10px;
+        height: auto;
+        margin-top: 15px;
+    }
+    .levelOne li img {
+        float: left;
+        height: 30px;
+        width: 30px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+
+    .notes::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+    }
+
+    .notes::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        background: lightgray;
+    }
+
+    .notes::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+
+
+</style>
 {% endblock %}
 
 {% block content %}
@@ -12,8 +91,6 @@
             <ul>
                 <li class="active filterCol">推荐</li>
                 <li class="filterCol">最新添加</li>
-{#                <li>最多点赞</li>#}
-{#                <li>最多查看</li>#}
             </ul>
         </div>
         <ul class="notes" onscroll="roll()">
@@ -43,25 +120,10 @@
                             {% endfor %}
                         </div>
                         <div class="right_fo">
-{#                            <span>#}
-{#                                <img src="{{ url_for('static', filename='images/icon/good.png') }}" alt="">#}
-{#                            </span>#}
-{#                            <span class="num">18646</span>#}
-{#                            <span class="v_line">#}
-{#                                |#}
-{#                            </span>#}
                             <span>
                                 阅读数：
-{#                                <img src="{{ url_for('static', filename='images/icon/read.png') }}" alt="">#}
                             </span>
                             <span class="num">{{ r[5] }}</span>
-{#                            <span class="v_line">#}
-{#                                |#}
-{#                            </span>#}
-{#                            <span>#}
-{#                                <img src="{{ url_for('static', filename='images/icon/comment.png') }}" alt="">#}
-{#                            </span>#}
-{#                            <span class="num">48646</span>#}
                         </div>
                     </div>
                 </div>
@@ -87,21 +149,54 @@
             <div class="redLine"></div>
         </div>
         <div id="choiceLabel" class="choiceLabel">
-            <div class="container" style="width: 100%">
-                <form method="post">
-                     <div class="row">
-                    {% for z in res.get('note_labels')%}
-                    <div class="col-xs-6">
-                        <input type="submit" id="labelInput" class="labelInput" name="label_name" value="{{ z }}">
-                    </div>
-                    {% endfor %}
-                </div>
-                </form>
+            <div class="filterMenu">
+                <ul class="levelOne">
+                    <li class="one">
+                        <img src="/images/icon/python.png" alt="图片加载失败">
+                        <a><h4>Python</h4></a>
+                        <i><img src="/images/icon/level_one_triangle.png" alt="图片加载失败"></i>
+                    </li>
+                    <li class="one">
+                        <img src="/images/icon/sql.png" alt="图片加载失败">
+                        <a><h4>SQL</h4></a>
+                        <i><img src="/images/icon/level_one_triangle.png" alt="图片加载失败"></i>
+                    </li>
+                    <li class="one">
+                        <img src="/images/icon/linux.png" alt="图片加载失败">
+                        <a><h4>Linux</h4></a>
+                        <i><img src="/images/icon/level_one_triangle.png" alt="图片加载失败"></i>
+                    </li>
+
+                </ul>
             </div>
+{#            <div class="container" style="width: 100%">#}
+{#                <form method="post">#}
+{#                     <div class="row">#}
+{#                    {% for z in res.get('note_labels')%}#}
+{#                    <div class="col-xs-6">#}
+{#                        <input type="submit" id="labelInput" class="labelInput" name="label_name" value="{{ z }}">#}
+{#                    </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#                </form>#}
+{#            </div>#}
         </div>
     </div>
 </div>
 <script>
+    //下拉菜单
+    $('.one').on('click', function () {
+        let fartherNode = $(this)[0].parentNode;
+        let childrenMenu = document.createElement("li");
+        childrenMenu.className = "one";
+        childrenMenu.innerHTML = "<a><h4>Python</h4></a>";
+        {#$(this)[0].insertBefore(childrenMenu);#}
+        {#fartherNode.insert(childrenMenu);#}
+        console.log(fartherNode);
+        console.log($(this)[0]);
+        console.log(childrenMenu);
+        console.log($(this)[0].nextNode())
+    });
 
     // 筛选
     $('.filterCol').on('click', function () {

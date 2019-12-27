@@ -190,7 +190,7 @@
             <div id="editor">
                 <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
 
-                <textarea style="display:none;" id="note_content">{{ x[3] }}</textarea>
+                <textarea id="note_content">{{ x[3] }}</textarea>
 
             </div>
             <div class="foot_button">
@@ -230,12 +230,8 @@
         }
         // 删除标签
         function remove_label(e) {
-            // console.log(e.parentNode);
-
             e.parentNode.remove();
             let labels = document.getElementById("note_label").childNodes;
-            console.log(labels);
-
         }
     </script>
     <script src="/js/jquery.min.js"></script>
@@ -244,19 +240,19 @@
         $(function() {
             var editor = editormd("editor", {
                 width: "100%",
-                height: "500px",
+                autoHeight: true,
                 // markdown: "xxxx",     // dynamic set Markdown text
                 path : "{{ url }}/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
         });
     </script>
+
+
     <script>
         function save_note() {
             let note_uuid = document.getElementById("note_uuid").className;
             let note_title = document.getElementById("note_title").value;
-            // console.log(note_title);
             let labels = document.getElementById("note_label").childNodes;
-            // console.log(labels.length);
             let str_labels = "";
             for(let j = 1; j < labels.length; j++){
                 if(j % 2 === 1){
@@ -268,21 +264,14 @@
                     }
                 }
             }
-
-            // console.log(str_labels);
             let note_instructions = document.getElementById("add_instructions").value;
-            // console.log(note_instructions);
-            let note_content = document.getElementsByClassName("CodeMirror-code")[0].childNodes;
-            let str_content = "" ;
-            for(let k = 0; k < note_content.length; k++){
-                str_content += note_content[k].innerText + "\n";
-            }
-            // console.log(str_content);
-            $.ajax({
+            let note_content = document.getElementById("note_content").innerText;
+            console.log(document.getElementById("note_content").innerText);
+             $.ajax({
                 type: "POST",
                 url: "/modification/" + note_uuid,
                 data: JSON.stringify({'note_title': note_title, 'str_labels': str_labels, 'note_instructions': note_instructions,
-                    'str_content': str_content
+                    'str_content': note_content
                 }),
                 dataType: "json",
                 headers: {
