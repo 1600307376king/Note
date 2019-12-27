@@ -17,7 +17,7 @@ SQLALCHEMY_ENCODING = 'utf-8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # session必须要设置key
-SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+# SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 # 限制文件上传大小
 MAX_CONTENT_LENGTH = 100 * 1024 * 1024
@@ -37,7 +37,7 @@ server_list = {
         'debug': False,
         'mysql_password': 'root'
     },
-    'test_setting': {
+    'test': {
         'port': '8099',
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:8099',
