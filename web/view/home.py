@@ -78,6 +78,9 @@ def home():
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
+
+    all_category = TopCategory.query.all()
+    res['top_categorys'] = [[i.top_category_name, i.sec_category.split('|')[:-1]] for i in all_category]
     # 清除缓存
     # redis_obj.flushdb(asynchronous=False)
     # 添加缓存
@@ -133,7 +136,7 @@ def filter_sort():
         note_list = Notes.query.order_by(Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
     return jsonify(res)
 
@@ -159,7 +162,7 @@ def loading_data():
         if load_result_obj:
             load_data_list = load_result_obj.items
 
-            msg['res'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+            msg['res'] = [[obj.uuid, obj.note_title, obj.note_labels,
                            obj.creation_time, obj.click_number] for obj in load_data_list]
 
             if len(msg['res']) == PER_PAGE_MAX_NUM:
@@ -177,9 +180,14 @@ def loading_data():
 
 @home_index.route('/load_label/', methods=['POST'])
 def load_labels():
+    res = dict()
     top_category = request.json.get('top_category')
     print(top_category)
-    return jsonify({'msg': 'ok'})
+    label_obj = TopCategory.query.filter(TopCategory.top_category_name == top_category).first()
+    label_list = [i for i in label_obj.sec_category.split('|')[:-1]]
+    print(label_list)
+    res['label_list'] = label_list
+    return jsonify(res)
 
 
 # 添加新的一级类
@@ -190,7 +198,7 @@ def add_top_category():
     sec_category = request.json.get('sec_category')
     str_uuid = str(uuid.uuid4())
 
-    has_common_name = TopCategory.query.filter(TopCategory.top_category_name == top_category_name).first()
+    has_common_name = TopCategory.query.filter(TopCategory.top_category_name == top_category_name.lower()).first()
     if not has_common_name:
         db.session.add(TopCategory(
             uuid=str_uuid,

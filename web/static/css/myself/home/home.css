@@ -113,6 +113,7 @@
 }
 
 .left_fo {
+    font-size: 12px;
     text-align: center;
     float: left;
     min-width: 200px;
@@ -122,7 +123,8 @@
 .left_fo span {
     float: left;
     min-width: 50px;
-    border: 1px solid #F0F1F2;
+    /*border: 1px solid #F0F1F2;*/
+    color: #3BB189;
     border-radius: 5px;
     margin: 2px;
     padding: 3px;

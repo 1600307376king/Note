@@ -2,6 +2,8 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='/editor.md/css/editormd.min.css') }}" />
+    <script src="{{ url_for('static', filename='/js/dropdown/select.jquery.js') }}"></script>
+
     <style>
         .mid_content {
             width: 80%;
@@ -44,6 +46,17 @@
             padding-left: 10px;
             margin-left: 28px;
         }
+
+        .note_category {
+            padding: 20px;
+        }
+        .note_category span {
+            width: auto;
+            height: 30px;
+            padding: 10px;
+            margin-right: 20px;
+        }
+
         .add_label {
             padding: 20px;
             outline: none;
@@ -143,15 +156,20 @@
 {% endblock %}
 {% block content %}
     <div class="mid_content">
-{#        <div class="msg_list">#}
-{##}
-{#        </div>#}
         <div class="one_note">
             <div class="note_title">
                 <span style="background: #54acd2; color: white">标题</span>
                 <label>
                     <input id="note_title" type="text" name="note_title">
                 </label>
+            </div>
+            <div class="note_category">
+                <span style="background: #54acd2; color: white; margin-right: 45px">分类</span>
+                <select class="multiSelect" id="single">
+                    {% for i in res.get('cate_name_list') %}
+                    <option value="">{{ i }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="add_label">
                 <span style="background: #54acd2; color: white">标签名称</span>
@@ -195,8 +213,11 @@
             </div>
         </div>
     </div>
-
     <script>
+        $('#single').multiSelect({multiple:false,selectedHtmlValue:'请选择类别'});
+    </script>
+    <script>
+
         // 添加标签
         function add_label(){
             let label_name = document.getElementById('label_name');
@@ -242,27 +263,23 @@
         // 保存
         function save_note() {
             let note_title = document.getElementById("note_title").value;
-            // console.log(note_title);
+            let category_name = document.getElementsByClassName("newSelectTitle")[0].innerText;
             let labels = document.getElementById("note_label").childNodes;
-            // console.log(labels.length);
             let str_labels = "";
             for(let j = 1; j < labels.length; j++){
                 let s = labels[j].innerText.toString();
                 str_labels += s + "|";
             }
-            // console.log(str_labels);
             let note_instructions = document.getElementById("add_instructions").value;
-            console.log(note_instructions);
             let note_content = document.getElementsByClassName("CodeMirror-code")[0].childNodes;
             let str_content = "" ;
             for(let k = 0; k < note_content.length; k++){
                 str_content += note_content[k].innerText + "\n";
             }
-            // console.log(str_content);
             $.ajax({
                 type: "POST",
                 url: "/add/",
-                data: JSON.stringify({'note_title': note_title, 'str_labels': str_labels, 'note_instructions': note_instructions,
+                data: JSON.stringify({'note_title': note_title, 'category_name': category_name, 'str_labels': str_labels, 'note_instructions': note_instructions,
                     'str_content': str_content
                 }),
                 dataType: "json",

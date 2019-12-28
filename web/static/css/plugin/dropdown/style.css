@@ -1,0 +1,133 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-------------multiselect-------------*/
+
+li{
+	list-style-type: none;
+}
+.newSelect{
+	display: inline-block;
+	line-height: 30px;
+	
+	vertical-align: middle;
+}
+
+
+.newSelect *{
+	font-size:14px;
+	padding:0;
+	margin: 0;
+}
+
+.newSelect:hover{
+	cursor:pointer;
+}
+
+.newSelect .newSelectTitle{
+	display: block;
+	padding: 0 0 0 0;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	height: 30px;
+	background: #FFF;
+	text-align: left;
+}
+
+.newSelectTitle span {
+	margin-left: 10px;
+}
+
+.newSelect .newSelectTitle:hover{
+	border-color: #AAA;
+}
+
+.newSelect .arrow{
+	float: right;
+	margin: 10px 10px 0 0;
+	
+	transition: transform 0.3s;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+}
+
+.newSelect .arrow_turn{
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+}
+	
+.newOptions{
+	text-indent: 20px;
+	margin: 5px 0 5px 0;
+	border: 1px solid #CCC;
+	border-radius: 2px;
+	background: #FFF;
+	position: absolute;
+	z-index: 1000;
+	display: none;
+	
+}
+
+.newOptions::-webkit-scrollbar-track{
+	background-color: #E0E0E0;
+}
+
+.newOptions::-webkit-scrollbar{
+	width: 5px;
+	background-color: #F5F5F5;
+}
+
+.newOptions::-webkit-scrollbar-thumb{
+	background-color: #AAA;
+	border-radius: 10px;
+}
+
+.newOptions::-webkit-scrollbar-thumb:hover{
+	background-color: #888;
+}
+
+
+.newOptions li{
+	font-size: 14px;
+	text-align: left;
+}
+
+.newOptions li:hover{
+	background:#eee;
+	
+}
+
+.newOptions li.sArea{
+	border-top: 1px solid #EEE;
+	padding: 5px 0 !important;
+	text-align: center;
+}
+
+.newOptions li.sArea:hover{
+	background: #FFF;
+	cursor:auto;
+}
+
+.newOptions li.sArea button{
+	padding: 4px 20px;
+	color: #4F4F4F;
+	border: 1px solid #CCC;
+	border-radius: 2px;
+	background: linear-gradient(to bottom,#fff 0%,#fff 50%,#f3f3f3 70%,#f8f8f8 90%);
+}
+
+.newOptions li.sArea button:hover{
+	background: linear-gradient(to bottom,#f8f8f8 0%,#f8f8f8 50%,#f3f3f3 70%,#fafafa 90%);
+}
+
+.newOptions li.sArea button:hover{
+	border-color: #AAA;
+	cursor: pointer;
+}
+
+.newOptions li[data-select="true"]{
+	background: #c05047;
+	color: #FAFAFA;
+}
+
