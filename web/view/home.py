@@ -3,10 +3,12 @@ from config.base_setting import *
 from flask_wtf import FlaskForm
 from flask_wtf.file import *
 from wtforms import *
+import uuid
 
 home_index = Blueprint('home_page', __name__)
 from main import db
 from model.notes import Notes
+from model.top_category import TopCategory
 
 
 class SearchForm(FlaskForm):
@@ -41,7 +43,7 @@ def home():
                        Notes.note_title.like('%' + label_name + '%') |
                        Notes.note_content.like('%' + label_name + '%')). \
                 paginate(1, per_page=PER_PAGE_MAX_NUM).items
-            res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+            res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                                 obj.creation_time, obj.click_number] for obj in labels_res]
         else:
             if search_form.validate_on_submit():
@@ -51,7 +53,7 @@ def home():
                            Notes.note_title.like('%' + search_keyword + '%') |
                            Notes.note_content.like('%' + search_keyword + '%')). \
                     paginate(1, per_page=PER_PAGE_MAX_NUM).items
-                res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+                res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                                     obj.creation_time, obj.click_number] for obj in search_result]
             else:
                 error_msg = search_form.errors
@@ -74,7 +76,7 @@ def home():
     note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
         paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
     # 清除缓存
     # redis_obj.flushdb(asynchronous=False)
@@ -171,6 +173,33 @@ def loading_data():
         print(e)
 
     return jsonify(msg)
+
+
+@home_index.route('/load_label/', methods=['POST'])
+def load_labels():
+    top_category = request.json.get('top_category')
+    print(top_category)
+    return jsonify({'msg': 'ok'})
+
+
+# 添加新的一级类
+@home_index.route('/add_top_cate/', methods=['POST'])
+def add_top_category():
+    print(request.json)
+    top_category_name = request.json.get('top_name')
+    sec_category = request.json.get('sec_category')
+    str_uuid = str(uuid.uuid4())
+
+    has_common_name = TopCategory.query.filter(TopCategory.top_category_name == top_category_name).first()
+    if not has_common_name:
+        db.session.add(TopCategory(
+            uuid=str_uuid,
+            top_category_name=top_category_name,
+            sec_category=sec_category,
+        ))
+
+        db.session.commit()
+    return 'ok'
 
 
 @home_index.route('/delete_cache/')
