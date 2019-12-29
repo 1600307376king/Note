@@ -143,8 +143,8 @@
         <div id="ri" class="ri">
             <div id="sort_note" class="sort_note">
                 <ul>
-                    <li class="active filterCol">推荐</li>
-                    <li class="filterCol">最新添加</li>
+                    <li class="active filterCol" value="rec">推荐</li>
+                    <li class="filterCol" value="new">最新添加</li>
                 </ul>
             </div>
             <ul class="notes" onscroll="roll()">
@@ -215,7 +215,7 @@
                             </a>
                             <ul class="sub-menu">
                                 {% for j in i[1] %}
-                                <li><a href="#"><span>{{ j }}</span></a></li>
+                                <li class="one"><a href="#"><span>{{ j }}</span></a></li>
                                 {% endfor %}
                             </ul>
                         </li>
@@ -251,36 +251,55 @@
             });
         });
 
-        // 显示label
-        $('.one').on('click', function () {
-            let topCategoryName = $(this)[0].childNodes[1].childNodes[3].innerText;
-            console.log(topCategoryName);
+        let labelName = "all";
 
+        let cloneScroll = 0;
+        // 当前页
+        let currentPage = 2;
+        // 筛选类型
+        let filterType = "rec";
+        // 是否允许加载数据
+        let is_append = 1;
+        //请求开关，请求成功后才能再次请求
+        let requestSwitch = 1;
+
+        // 右侧顶部菜单筛选
+        $('.filterCol').on('click', function () {
+
+            let filter = $(this);
+            let filterName = filter.attr("value");
+            // 删除所有active 对当前添加active
+            let filter_list = filter.parent("ul").children();
+            for (let i = 0; i < filter_list.length; i++) {
+                filter_list[i].classList.remove('active');
+            }
+            filter[0].classList.add("active");
+
+            filterData(labelName, filterName);
         });
 
-        // 筛选
-        $('.filterCol').on('click', function () {
-            let filter = $(this);
-            let filterName = filter[0].innerText;
-            cloneScroll = 0;
-            currentPage = 2;
-            filterType = 1;
+        // 点击左侧导航菜单筛选
+        $('.one').on('click', function () {
             is_append = 1;
+            let topCategoryName = $(this)[0].childNodes[0].childNodes[0].innerText;
+            labelName = topCategoryName;
+            filterData(topCategoryName, filterType);
+        });
+
+        // 筛选请求
+        function filterData(labelName, filterType) {
+
             $.ajax({
                 type: "POST",
                 url: "/filter_col/",
-                data: JSON.stringify({'filterName': filterName}),
+                data: JSON.stringify({'filter_type': filterType, "label_name": labelName}),
                 dataType: "json",
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 success: function (response) {
-                    // 删除所有active 对当前添加active
-                    let filter_list = filter.parent("ul").children();
-                    for (let i = 0; i < filter_list.length; i++) {
-                        filter_list[i].classList.remove('active');
-                    }
-                    filter[0].classList.add("active");
+                    is_append = 1;
+                    currentPage = 2;
 
                     // 删除所有li 并重新添加li
                     let liOneNotes = document.getElementsByClassName("one_notes");
@@ -297,8 +316,10 @@
                         if (responseData[j][1].length > 50) {
                             responseData[j][1] = responseData[j][1].substring(0, 50) + '...'
                         }
+                        // 修改标题名称
                         cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
 
+                        //修改标签名称
                         let labelList = responseData[j][2].split('|');
                         for (let m = 0; m < labelList.length - 1; m++) {
                             let index = (m + 1) * 2 - 1;
@@ -313,40 +334,10 @@
                     }
                 }
             })
-        });
-        // 标签添加颜色
-        let lb = document.getElementsByClassName("labelInput");
-
-        let colorArrayRed = ["#FF6666"];
-        let colorArrayYellow = ["#FF9966"];
-        let colorArrayBlue = ["#0066CC"];
-        let c = 0;
-        for (let i = 0; i < lb.length; i++) {
-            if (c <= 5) {
-                lb[i].style.borderColor = colorArrayRed[0];
-            }
-            if (6 <= c <= 11) {
-                lb[i].style.borderColor = colorArrayYellow[0];
-            }
-            if (c > 11) {
-                lb[i].style.borderColor = colorArrayBlue[0];
-            }
-            c += 1;
-            console.log(c);
         }
 
-        // 左侧下拉加载数据
 
-
-        let cloneScroll = 0;
-        // 当前页
-        let currentPage = 2;
-        // 筛选类型
-        let filterType = 1;
-        // 是否允许加载数据
-        let is_append = 1;
-        let requestSwitch = 1;
-
+        // 向下滚动加载数据
         function roll() {
             let listObj = $(".notes");
             let domHeight = document.getElementsByClassName("notes")[0];
@@ -354,7 +345,7 @@
             if (domHeight.scrollHeight - 100 < listObj.scrollTop() + domHeight.clientHeight) {
 
                 if ($(".sort_note ul .active")[0].innerText === '最新添加') {
-                    filterType = 3;
+                    filterType = "new";
                 }
                 setTimeout(get_data, 500);
             }
@@ -367,12 +358,7 @@
                 document.getElementById("loadTipBlock").style.opacity = "100";
                 $.ajax({
                     type: "GET",
-                    url: "/load_data/" + "?page=" + currentPage + "&type=" + filterType,
-                    {#data: JSON.stringify({'page': currentPage}),#}
-                    dataType: "json",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    url: "/load_data/" + "?page=" + currentPage + "&type=" + filterType + "&label=" + labelName,
                     success: function (response) {
                         if (response.msg === 'continue') {
                             if (response.warning === 'break' || currentPage === parseInt(response.cur_num)) {
@@ -384,7 +370,6 @@
                             let notes = document.getElementsByClassName("notes")[0];
                             let copyData = liOneNotes[0].cloneNode(true);
                             let responseData = response.res;
-                            {#console.log(copyData);#}
                             for (let j = 0; j < responseData.length; j++) {
                                 let cloneData = copyData.cloneNode(true);
                                 // 标题
@@ -408,7 +393,9 @@
                             requestSwitch = 1;
                             document.getElementById("loadTipBlock").style.opacity = "0";
                         }
-
+                    },
+                    complete: function () {
+                        document.getElementById("loadTipBlock").style.opacity = "0";
                     }
                 })
             }

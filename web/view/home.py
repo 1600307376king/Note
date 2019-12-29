@@ -111,53 +111,76 @@ def go_update(uuid):
 
 
 # 删除当前note
-@home_index.route('/delete/<uuid>/')
-def delete_note(uuid):
-    res = dict()
-    note_obj = Notes.query
-    delete_obj = note_obj.filter(Notes.uuid == uuid).first()
-    db.session.delete(delete_obj)
-    db.session.commit()
-    note_list = note_obj.all()
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
-                        obj.creation_time] for obj in note_list]
-
-    return render_template('home.html', res=res, url=URL)
+# @home_index.route('/delete/<uuid>/')
+# def delete_note(uuid):
+#     res = dict()
+#     note_obj = Notes.query
+#     delete_obj = note_obj.filter(Notes.uuid == uuid).first()
+#     db.session.delete(delete_obj)
+#     db.session.commit()
+#     note_list = note_obj.all()
+#     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
+#                         obj.creation_time] for obj in note_list]
+#
+#     return render_template('home.html', res=res, url=URL)
 
 
 # 条件排序
 @home_index.route('/filter_col/', methods=['POST'])
 def filter_sort():
-    filter_name = request.json.get('filterName')
     res = dict()
-    note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
-        paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if filter_name == '最新添加':
+    note_list = []
+    filter_type = request.json.get('filter_type', 'rec')
+    label_name = request.json.get('label_name', 'all')
+    label_name = label_name.capitalize()
+
+    if label_name == 'all' and filter_type == 'rec':
+        note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    if label_name != 'all' and filter_type != 'rec':
+        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    if label_name == 'all' and filter_type != 'rec':
         note_list = Notes.query.order_by(Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    if label_name != 'all' and filter_type == 'rec':
+        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
+            Notes.click_number.desc(), Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
+    print(res['note_msg'])
     return jsonify(res)
 
 
 # 页面向下滚动加载
-@home_index.route('/load_data/')
+@home_index.route('/load_data/', methods=['GET'])
 def loading_data():
-    cur_page = request.args.get('page')
-    filter_type = request.args.get('type')
+    cur_page = request.args.get('page', 2)
+    filter_type = request.args.get('type', 'rec')
+    label_name = request.args.get('label', 'all')
+    label_name = label_name.capitalize()
     cur_page = int(cur_page)
-    filter_type = int(filter_type)
     msg = dict()
     msg['msg'] = 'None'
     msg['res'] = ''
     msg['cur_num'] = cur_page
     try:
-        if filter_type == 3:
-            load_result_obj = Notes.query.order_by(Notes.creation_time.desc()). \
-                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        else:
+        load_result_obj = None
+        if filter_type == 'rec' and label_name == 'all':
             load_result_obj = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
+        elif filter_type == 'rec' and label_name != 'all':
+            load_result_obj = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
+                Notes.click_number.desc(), Notes.creation_time.desc()). \
+                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
+        elif filter_type == 'new' and label_name != 'all':
+            load_result_obj = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
+                Notes.creation_time.desc()). \
+                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
+        elif filter_type == 'new' and label_name == 'all':
+            load_result_obj = Notes.query.order_by(Notes.creation_time.desc()). \
                 paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
         if load_result_obj:
             load_data_list = load_result_obj.items
@@ -178,16 +201,16 @@ def loading_data():
     return jsonify(msg)
 
 
-@home_index.route('/load_label/', methods=['POST'])
-def load_labels():
-    res = dict()
-    top_category = request.json.get('top_category')
-    print(top_category)
-    label_obj = TopCategory.query.filter(TopCategory.top_category_name == top_category).first()
-    label_list = [i for i in label_obj.sec_category.split('|')[:-1]]
-    print(label_list)
-    res['label_list'] = label_list
-    return jsonify(res)
+# @home_index.route('/load_label/', methods=['POST'])
+# def load_labels():
+#     res = dict()
+#     top_category = request.json.get('top_category')
+#     print(top_category)
+#     label_obj = TopCategory.query.filter(TopCategory.top_category_name == top_category).first()
+#     label_list = [i for i in label_obj.sec_category.split('|')[:-1]]
+#     print(label_list)
+#     res['label_list'] = label_list
+#     return jsonify(res)
 
 
 # 添加新的一级类
