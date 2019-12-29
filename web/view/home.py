@@ -133,24 +133,22 @@ def filter_sort():
     filter_type = request.json.get('filter_type', 'rec')
     label_name = request.json.get('label_name', 'all')
     label_name = label_name.capitalize()
-
-    if label_name == 'all' and filter_type == 'rec':
+    if label_name == 'All' and filter_type == 'rec':
         note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name != 'all' and filter_type != 'rec':
+    if label_name != 'All' and filter_type != 'rec':
         note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name == 'all' and filter_type != 'rec':
+    if label_name == 'All' and filter_type != 'rec':
         note_list = Notes.query.order_by(Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name != 'all' and filter_type == 'rec':
+    if label_name != 'All' and filter_type == 'rec':
         note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
             Notes.click_number.desc(), Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
-    print(res['note_msg'])
     return jsonify(res)
 
 
@@ -168,18 +166,18 @@ def loading_data():
     msg['cur_num'] = cur_page
     try:
         load_result_obj = None
-        if filter_type == 'rec' and label_name == 'all':
+        if filter_type == 'rec' and label_name == 'All':
             load_result_obj = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
                 paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        elif filter_type == 'rec' and label_name != 'all':
+        elif filter_type == 'rec' and label_name != 'All':
             load_result_obj = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
                 Notes.click_number.desc(), Notes.creation_time.desc()). \
                 paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        elif filter_type == 'new' and label_name != 'all':
+        elif filter_type == 'new' and label_name != 'All':
             load_result_obj = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
                 Notes.creation_time.desc()). \
                 paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        elif filter_type == 'new' and label_name == 'all':
+        elif filter_type == 'new' and label_name == 'All':
             load_result_obj = Notes.query.order_by(Notes.creation_time.desc()). \
                 paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
         if load_result_obj:
