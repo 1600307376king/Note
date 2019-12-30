@@ -46,4 +46,6 @@ def add_n():
     category_obj_list = TopCategory.query.all()
     category_name_list = [i.top_category_name for i in category_obj_list]
     res['cate_name_list'] = category_name_list
-    return render_template('add_note.html', url=URL, res=res)
+    s = 'a'
+
+    return render_template('add_note.html', url=URL, res=res, data=s)

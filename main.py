@@ -1,6 +1,7 @@
-from flask import Flask
-from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
+# from flask_wtf.csrf import CSRFProtect
+from datetime import timedelta
+from flask import Flask
 import logging
 
 import os
@@ -17,8 +18,10 @@ class Main(Flask):
         self.config.setdefault('SQLALCHEMY_MAX_OVERFLOW', 20)
 
         db.init_app(self)
+        # csrf.init_app(self)
 
 
+# csrf = CSRFProtect()
 db = SQLAlchemy()
 
 app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
@@ -37,6 +40,7 @@ from web.view.add_note import add_index
 from web.view.note_detail import detail_index
 from web.view.modification import mod_index
 from web.view.test import test_index
+from web.view.login import login_index
 from web.view.tool.static_file_version import CreateNewVersion
 
 app.add_template_global(CreateNewVersion.get_version(), 'getVersion')
@@ -46,6 +50,7 @@ app.register_blueprint(add_index, url_prefix='/')
 app.register_blueprint(detail_index, url_prefix='/detail/')
 app.register_blueprint(mod_index, url_prefix='/')
 app.register_blueprint(test_index, url_prefix='/')
+app.register_blueprint(login_index, url_prefix='/')
 
 if __name__ == '__main__':
     handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')

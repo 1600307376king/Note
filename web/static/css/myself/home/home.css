@@ -5,11 +5,14 @@
     margin: 0 auto;
     background: #f5f6f7;
 }
+
 .note_list ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
+/*左侧分类导航*/
 .le {
     position: fixed;
     top: 50px;
@@ -17,137 +20,19 @@
     height: 800px;
     background: white;
 }
-.ri {
-    float: left;
-    width: 70%;
-    min-width: 500px;
-    height: 830px;
-    margin-left: 350px;
-}
-.sort_note {
-    width: 100%;
-    height: 40px;
-    background: white;
-    margin-bottom: 10px;
-}
-.sort_note ul {
-    list-style: none;
-    line-height: 40px;
-    float: left;
-}
-.sort_note li {
-    text-align: center;
-    width: 100px;
-    display: inline-block;
-}
-
-.sort_note ul .active{
-    background-color: indianred;
-
-}
-.sort_note li:hover {
-    background: indianred;
-}
-/*.sort_input {*/
-/*    float: right;*/
-/*}*/
-.one_notes {
-    border-bottom: 2px solid #F0F1F2;
-    height: 100px;
-}
-.list_detail {
-    padding: 15px 15px 0 15px;
-    height: 100px;
-}
-.note_title {
-    min-width: 300px;
-}
-.edit_note {
-    float: right;
-    margin-right: 0;
-    width: auto;
-    height: 34px;
-    line-height: 34px;
-
-}
-.note_content {
-    color: #8a8a8a;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.note_footer img {
-    width: 16px;
-    height: 16px;
-}
-.right_fo {
-    float: right;
-    min-width: 100px;
-    height: 42px;
-    line-height: 42px;
-    color: #B5B5B5;
-}
-.right_fo span {
-    float: left;
-    min-width: 20px;
-    text-align: center;
-}
-.notes {
-    background: white;
-    height: 750px;
-    overflow: scroll;
-    overflow-x: hidden;
-
-}
-.v_line {
-    width: 20px;
-    color: lightgray;
-}
-.num {
-    color: lightskyblue;
-}
-.note_title a:hover{
-    color: indianred;
-}
-
-.left_fo {
-    font-size: 12px;
-    text-align: center;
-    float: left;
-    min-width: 200px;
-    height: auto;
-    line-height: 32px;
-}
-.left_fo span {
-    float: left;
-    min-width: 50px;
-    /*border: 1px solid #F0F1F2;*/
-    color: #3BB189;
-    border-radius: 5px;
-    margin: 2px;
-    padding: 3px;
-}
-.left_fo span:hover {
-    border: 1px solid lightskyblue;
-}
-
-.note_title a {
-    color: black;
-    text-decoration: none;
-}
-
 
 .searchBox {
     margin: 10px;
 }
+
 .searchBox input {
     margin-left: 10px;
 }
+
 .searchBox label {
     margin-left: 10px;
 }
+
 #submit {
     background: #FF8C69;
     border-radius: 5px;
@@ -157,51 +42,275 @@
     text-align: center;
     color: white;
 }
+
 #submit:hover {
     background: #EE3B3B
 }
+
 .line {
     width: 100%;
     height: 34px;
 }
+
 .redLine {
     margin-top: 15px;
     border: 3px solid #CD5C5C;
 }
-.labelInput {
-    margin-bottom: 10px;
-    background: white;
-    color: white;
-    min-width: 50px;
-    width: 100%;
-    border-radius: 5px;
-    height: 34px;
-    font-size: 16px;
-    border: 1px solid #E8EAED;
-}
-.labelInput {
-  transition: all 0.35s;
-  transition-timing-function: cubic-bezier(0.31, -0.105, 0.43, 1.59);
-}
-.labelInput {
-    -webkit-transform: scale(0.8);
-    transform: scale(0.8);
-    overflow: hidden;
 
-    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.1);
-    opacity: 0.99;
-}
-.labelInput:hover {
-    color: white;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-}
-.sort_note a {
+.sort-note a {
     padding: 10px 20px;
     color: black;
     text-decoration: none;
 }
-.loadTipBlock{
+
+.choiceLabel {
+    height: 700px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-right: 10px;
+}
+
+.choiceLabel:hover {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 0;
+}
+
+.choiceLabel::-webkit-scrollbar { /*滚动条整体样式*/
+    width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
+}
+
+.choiceLabel::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+    border-radius: 10px;
+    background: lightgray;
+}
+
+.choiceLabel::-webkit-scrollbar-track { /*滚动条里面轨道*/
+    border-radius: 10px;
+    background: #EDEDED;
+}
+
+/* navMenu */
+.navMenu > li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.navMenu > li > a {
+    display: block;
+    padding-left: 0;
+    line-height: 40px;
+    color: #ABB1B7;
+    transition: all .3s;
+    position: relative;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navMenu > li > a > img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.navMenu > li:nth-of-type(1) > a {
+    border-top: 1px solid transparent;
+}
+
+.navMenu > li:last-child > a {
+    border-bottom: 1px solid transparent;
+}
+
+.navMenu > li > a > i {
+    font-size: 20px;
+    float: left;
+    font-style: normal;
+    margin: 0 5px;
+}
+
+.navMenu li a .arrow:before {
+    float: right;
+    margin-right: 15px;
+    display: inline;
+    font-size: 16px;
+    font-family: FontAwesome, serif;
+    height: auto;
+    content: "\f105";
+    font-weight: 300;
+    text-shadow: none;
+}
+
+.navMenu li a .arrow.open:before {
+    float: right;
+    margin-right: 15px;
+    display: inline;
+    height: auto;
+    font-size: 16px;
+    content: "\f107";
+    font-weight: 300;
+    text-shadow: none;
+}
+
+.navMenu > li > ul.sub-menu, .navMenu > li > ul.sub-menu > li > ul.sub-menu {
+    display: none;
+    list-style: none;
+    clear: both;
+    margin: 8px 0 0 10px;
+    padding-bottom: 5px;
+}
+
+.navMenu > li > ul.sub-menu li > a {
+    display: block;
+    font-size: 16px;
+    line-height: 36px;
+    padding-left: 20px;
+    color: #ABB1B7;
+    clear: both;
+}
+/*-----------------*/
+
+/*右侧笔记列表*/
+.ri {
+    float: left;
+    width: 70%;
+    min-width: 500px;
+    height: 830px;
+    margin-left: 350px;
+}
+
+.sort-note {
+    width: 100%;
+    height: 40px;
+    background: white;
+    margin-bottom: 10px;
+}
+
+.sort-note ul {
+    list-style: none;
+    line-height: 40px;
+    float: left;
+}
+
+.sort-note li {
+    text-align: center;
+    width: 100px;
+    display: inline-block;
+}
+
+.sort-note ul .active{
+    background-color: indianred;
+}
+
+.sort-note li:hover {
+    background: indianred;
+}
+
+.notes {
+    background: white;
+    height: 750px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.notes::-webkit-scrollbar { /*滚动条整体样式*/
+    width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
+}
+
+.notes::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+    border-radius: 10px;
+    background: lightgray;
+}
+
+.notes::-webkit-scrollbar-track { /*滚动条里面轨道*/
+    border-radius: 10px;
+    background: #EDEDED;
+}
+
+.one-notes {
+    border-bottom: 2px solid #F0F1F2;
+    height: 100px;
+}
+
+.list-detail {
+    padding: 15px 15px 0 15px;
+    height: 100px;
+}
+
+.note-title {
+    min-width: 300px;
+}
+
+.note-title a:hover{
+    color: indianred;
+}
+
+.note-title a {
+    color: black;
+    text-decoration: none;
+}
+
+.edit-note {
+    float: right;
+    margin-right: 0;
+    width: auto;
+    height: 34px;
+    line-height: 34px;
+}
+
+.v-line {
+    width: 20px;
+    color: lightgray;
+}
+
+.note-footer img {
+    width: 16px;
+    height: 16px;
+}
+
+.right-fo {
+    float: right;
+    min-width: 100px;
+    height: 42px;
+    line-height: 42px;
+    color: #B5B5B5;
+}
+
+.right-fo span {
+    float: left;
+    min-width: 20px;
+    text-align: center;
+}
+
+.num {
+    color: lightskyblue;
+}
+
+.left-fo {
+    font-size: 12px;
+    text-align: center;
+    float: left;
+    min-width: 200px;
+    height: auto;
+    line-height: 32px;
+}
+.left-fo span {
+    float: left;
+    min-width: 50px;
+    /*border: 1px solid #F0F1F2;*/
+    color: #3BB189;
+    border-radius: 5px;
+    margin: 2px;
+    padding: 3px;
+}
+
+.left-fo span:hover {
+    border: 1px solid lightskyblue;
+}
+
+.load-tip-block{
     text-align: center;
     background: #FFFDEC;
     color: orange;
@@ -211,9 +320,7 @@
     opacity: 0;
 }
 
-.labelInput {
-    color: black;
-}
+
 
 
 

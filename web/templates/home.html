@@ -2,156 +2,22 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/css/myself/home/home.css?v={{ getVersion }}">
-    <style>
-        .choiceLabel {
-            height: 700px;
-            overflow-y: hidden;
-            overflow-x: hidden;
-            padding-right: 10px;
-        }
-
-        .choiceLabel:hover {
-            overflow-y: scroll;
-            overflow-x: hidden;
-            padding-right: 0;
-        }
-
-        .choiceLabel::-webkit-scrollbar { /*滚动条整体样式*/
-            width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
-        }
-
-        .choiceLabel::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
-            border-radius: 10px;
-            background: lightgray;
-        }
-
-        .choiceLabel::-webkit-scrollbar-track { /*滚动条里面轨道*/
-            border-radius: 10px;
-            background: #EDEDED;
-        }
-
-
-
-        .notes::-webkit-scrollbar { /*滚动条整体样式*/
-            width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
-        }
-
-        .notes::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
-            border-radius: 10px;
-            background: lightgray;
-        }
-
-        .notes::-webkit-scrollbar-track { /*滚动条里面轨道*/
-            border-radius: 10px;
-            background: #EDEDED;
-        }
-
-        .two a {
-            text-align: center;
-        }
-
-        /* navMenu */
-        .navMenu > li {
-            display: block;
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
-
-        .navMenu > li > a {
-            display: block;
-            padding-left: 0;
-            line-height: 40px;
-            color: #ABB1B7;
-            transition: all .3s;
-            position: relative;
-            text-decoration: none;
-            font-size: 17px;
-        }
-
-        .navMenu > li > a > img {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-            margin-left: 10px;
-        }
-
-        .navMenu > li:nth-of-type(1) > a {
-            border-top: 1px solid transparent;
-        }
-
-        .navMenu > li:last-child > a {
-            border-bottom: 1px solid transparent;
-        }
-
-        .navMenu > li > a > i {
-            font-size: 20px;
-            float: left;
-            font-style: normal;
-            margin: 0 5px;
-        }
-
-
-        .navMenu li a .arrow:before {
-            float: right;
-            margin-right: 15px;
-            display: inline;
-            font-size: 16px;
-            font-family: FontAwesome, serif;
-            height: auto;
-            content: "\f105";
-            font-weight: 300;
-            text-shadow: none;
-        }
-
-
-        .navMenu li a .arrow.open:before {
-            float: right;
-            margin-right: 15px;
-            display: inline;
-            height: auto;
-            font-size: 16px;
-            content: "\f107";
-            font-weight: 300;
-            text-shadow: none;
-        }
-
-        .navMenu > li > ul.sub-menu, .navMenu > li > ul.sub-menu > li > ul.sub-menu {
-            display: none;
-            list-style: none;
-            clear: both;
-            margin: 8px 0 0 10px;
-            padding-bottom: 5px;
-        }
-
-        .navMenu > li > ul.sub-menu li > a {
-            display: block;
-            font-size: 16px;
-            line-height: 36px;
-            padding-left: 20px;
-            color: #ABB1B7;
-            clear: both;
-        }
-
-
-
-    </style>
 {% endblock %}
 
 {% block content %}
-    <div class="note_list">
+    <div class="note-list">
         <div id="ri" class="ri">
-            <div id="sort_note" class="sort_note">
+            <div id="sort-note" class="sort-note">
                 <ul>
-                    <li class="active filterCol" value="rec">推荐</li>
-                    <li class="filterCol" value="new">最新添加</li>
+                    <li class="active filter-col" value="rec">推荐</li>
+                    <li class="filter-col" value="new">最新添加</li>
                 </ul>
             </div>
             <ul class="notes" onscroll="roll()">
-                {% for r in res.get('note_msg') %}
-                    <li class="one_notes">
-                        <div class="list_detail">
-                            <div class="note_title">
+                {% for r in res.get('note-msg') %}
+                    <li class="one-notes">
+                        <div class="list-detail">
+                            <div class="note-title">
                                 {% if r[1] | length <= 30 %}
                                     <a style="font-size: 24px;font-weight: bold;"
                                        href="/detail/{{ r[0] }}/">{{ r[1] }}</a>
@@ -159,26 +25,22 @@
                                     <a style="font-size: 24px;font-weight: bold;"
                                        href="/detail/{{ r[0] }}/">{{ r[1][:25] }} ...</a>
                                 {% endif %}
-                                <div class="edit_note">
+                                <div class="edit-note">
                                     <span><a href="{{ url }}/update/{{ r[0] }}/">修改</a></span>
-                                    <span class="v_line">|</span>
+                                    <span class="v-line">|</span>
                                     <span><a href="{{ url }}/delete/{{ r[0] }}/">删除</a></span>
                                 </div>
                             </div>
-                            <div class="note_footer">
+                            <div class="note-footer">
                                 <span style="float: left;height: 44px; line-height: 44px;"><img
-                                        src="images/icon/label_icon.png" alt="图片加载失败"></span>
-                                <div class="left_fo">
-
+                                        src="images/icon/label-icon.png" alt="图片加载失败"></span>
+                                <div class="left-fo">
                                     {% for i in r[2].split('|')[:-1] %}
                                         <span>{{ i }}</span>
                                     {% endfor %}
                                 </div>
-
-                                <div class="right_fo">
-                            <span>
-                                阅读数：
-                            </span>
+                                <div class="right-fo">
+                                    <span>阅读数：</span>
                                     <span class="num">{{ r[4] }}</span>
                                 </div>
                             </div>
@@ -186,13 +48,13 @@
                     </li>
                 {% endfor %}
             </ul>
-            <div id="loadTipBlock" class="loadTipBlock">
+            <div id="loadTipBlock" class="load-tip-block">
                 正在加载请稍后...
             </div>
         </div>
         <div id="le" class="le">
-            <div id="searchBox" class="searchBox">
-                <form method="post" enctype="multipart/form-data">
+            <div id="searchBox" class="search-box">
+                <form method="post">
                     {{ form.csrf_token() }}
                     {{ form.keyword.label }}{{ form.keyword(size=10) }}
                     {{ form.submit }}
@@ -202,7 +64,7 @@
                 </form>
             </div>
             <div class="line">
-                <div class="redLine"></div>
+                <div class="red-line"></div>
             </div>
             <div id="choiceLabel" class="choiceLabel">
                 <ul class="navMenu">
@@ -224,183 +86,6 @@
             </div>
         </div>
     </div>
-    <script src="js/nav/jquery.slimscroll.min.js"></script>
-    <script>
-        //左侧下拉菜单
-        $(function () {
-            // nav收缩展开
-            $('.navMenu li a').on('click', function () {
-                var parent = $(this).parent().parent();//获取当前页签的父级的父级
-                var labeul = $(this).parent("li").find(">ul");
-                if ($(this).parent().hasClass('open') === false) {
-                    //展开未展开
-                    parent.find('ul').slideUp(300);
-                    parent.find("li").removeClass("open");
-                    parent.find('li a').removeClass("active").find(".arrow").removeClass("open");
-                    $(this).parent("li").addClass("open").find(labeul).slideDown(300);
-                    $(this).addClass("active").find(".arrow").addClass("open")
-                } else {
-                    $(this).parent("li").removeClass("open").find(labeul).slideUp(300);
-                    if ($(this).parent().find("ul").length > 0) {
-                        $(this).removeClass("active").find(".arrow").removeClass("open")
-                    } else {
-                        $(this).addClass("active")
-                    }
-                }
-
-            });
-        });
-
-        let labelName = "All";
-
-        let cloneScroll = 0;
-        // 当前页
-        let currentPage = 2;
-        // 筛选类型
-        let filterType = "rec";
-        // 是否允许加载数据
-        let is_append = 1;
-        //请求开关，请求成功后才能再次请求
-        let requestSwitch = 1;
-
-        // 右侧顶部菜单筛选
-        $('.filterCol').on('click', function () {
-
-            let filter = $(this);
-            let filterName = filter.attr("value");
-            // 删除所有active 对当前添加active
-            let filter_list = filter.parent("ul").children();
-            for (let i = 0; i < filter_list.length; i++) {
-                filter_list[i].classList.remove('active');
-            }
-            filter[0].classList.add("active");
-
-            filterData(labelName, filterName);
-        });
-
-        // 点击左侧导航菜单筛选
-        $('.one').on('click', function () {
-            is_append = 1;
-            let topCategoryName = $(this)[0].childNodes[0].childNodes[0].innerText;
-            labelName = topCategoryName;
-            filterData(topCategoryName, filterType);
-        });
-
-        // 筛选请求
-        function filterData(labelName, filterType) {
-
-            $.ajax({
-                type: "POST",
-                url: "/filter_col/",
-                data: JSON.stringify({'filter_type': filterType, "label_name": labelName}),
-                dataType: "json",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                success: function (response) {
-                    is_append = 1;
-                    currentPage = 2;
-
-                    // 删除所有li 并重新添加li
-                    let liOneNotes = document.getElementsByClassName("one_notes");
-                    let notes = document.getElementsByClassName("notes")[0];
-                    let count = liOneNotes.length;
-                    let copyData = liOneNotes[0].cloneNode(true);
-
-                    for (let k = 0; k < count; k++) {
-                        notes.removeChild(liOneNotes[0]);
-                    }
-                    let responseData = response.note_msg;
-                    for (let j = 0; j < responseData.length; j++) {
-                        let cloneData = copyData.cloneNode(true);
-                        if (responseData[j][1].length > 50) {
-                            responseData[j][1] = responseData[j][1].substring(0, 50) + '...'
-                        }
-                        // 修改标题名称
-                        cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
-
-                        //修改标签名称
-                        let labelList = responseData[j][2].split('|');
-                        for (let m = 0; m < labelList.length - 1; m++) {
-                            let index = (m + 1) * 2 - 1;
-                            if (cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index] === undefined) {
-                                cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
-                            }
-                            cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index].innerText = labelList[m];
-                        }
-                        // 阅读数
-                        cloneData.childNodes[1].childNodes[3].childNodes[5].childNodes[3].innerText = responseData[j][4];
-                        notes.append(cloneData);
-                    }
-                }
-            })
-        }
-
-
-        // 向下滚动加载数据
-        function roll() {
-            let listObj = $(".notes");
-            let domHeight = document.getElementsByClassName("notes")[0];
-            // note列表数据动态加载
-            if (domHeight.scrollHeight - 100 < listObj.scrollTop() + domHeight.clientHeight) {
-
-                if ($(".sort_note ul .active")[0].innerText === '最新添加') {
-                    filterType = "new";
-                }
-                setTimeout(get_data, 500);
-            }
-        }
-
-
-        function get_data() {
-            if (is_append !== -1 && requestSwitch === 1) {
-                requestSwitch = -1;
-                document.getElementById("loadTipBlock").style.opacity = "100";
-                $.ajax({
-                    type: "GET",
-                    url: "/load_data/" + "?page=" + currentPage + "&type=" + filterType + "&label=" + labelName,
-                    success: function (response) {
-                        if (response.msg === 'continue') {
-                            if (response.warning === 'break' || currentPage === parseInt(response.cur_num)) {
-                                is_append = -1
-                            }
-                            currentPage = response.cur_num;
-
-                            let liOneNotes = document.getElementsByClassName("one_notes");
-                            let notes = document.getElementsByClassName("notes")[0];
-                            let copyData = liOneNotes[0].cloneNode(true);
-                            let responseData = response.res;
-                            for (let j = 0; j < responseData.length; j++) {
-                                let cloneData = copyData.cloneNode(true);
-                                // 标题
-                                if (responseData[j][1].length > 50) {
-                                    responseData[j][1] = responseData[j][1].substring(0, 50) + '...'
-                                }
-                                cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
-                                //标签
-                                let labelList = responseData[j][2].split('|');
-                                for (let m = 0; m < labelList.length - 1; m++) {
-                                    let index = (m + 1) * 2 - 1;
-                                    if (cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index] === undefined) {
-                                        cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
-                                    }
-                                    cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index].innerText = labelList[m];
-                                }
-                                // 阅读数
-                                cloneData.childNodes[1].childNodes[3].childNodes[5].childNodes[3].innerText = responseData[j][4];
-                                notes.appendChild(cloneData);
-                            }
-                            requestSwitch = 1;
-                            document.getElementById("loadTipBlock").style.opacity = "0";
-                        }
-                    },
-                    complete: function () {
-                        document.getElementById("loadTipBlock").style.opacity = "0";
-                    }
-                })
-            }
-        }
-
-
-    </script>
+    <script type="text/javascript" src="js/nav/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="js/myself/home/home.js"></script>
 {% endblock %}

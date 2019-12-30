@@ -1,156 +1,14 @@
 {% extends 'base/base.html' %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='/editor.md/css/editormd.min.css') }}" />
-    <script src="{{ url_for('static', filename='/js/dropdown/select.jquery.js') }}"></script>
+    <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
+    <link rel="stylesheet" href="/css/myself/add/adding-note.css?v={{ getVersion }}"/>
+    <link rel="stylesheet" href="/css/plugin/choice_label/tree.css?v={{ getVersion }}">
 
+
+    <script src="/js/choice_label/comboTreePlugin.js"></script>
     <style>
-        .mid_content {
-            width: 80%;
-            height: auto;
-            min-height: 1000px;
-            margin: 0 auto;
-        }
 
-        .one_note {
-            float: left;
-            width: 100%;
-            height: auto;
-            min-height: 800px;
-            background: white;
-            margin-left: 10px;
-        }
-
-        .msg_list {
-            float: left;
-            width: 18%;
-            height: auto;
-            min-height: 800px;
-            background: white;
-        }
-
-        .note_title {
-            padding: 20px;
-        }
-
-        .note_title span {
-            width: auto;
-            height: 30px;
-            padding: 10px;
-            margin-right: 20px;
-        }
-        .note_title input {
-            width: 400px;
-            border: 1px solid #8a8a8a;
-            height: 40px;
-            padding-left: 10px;
-            margin-left: 28px;
-        }
-
-        .note_category {
-            padding: 20px;
-        }
-        .note_category span {
-            width: auto;
-            height: 30px;
-            padding: 10px;
-            margin-right: 20px;
-        }
-
-        .add_label {
-            padding: 20px;
-            outline: none;
-        }
-        .add_label span {
-            width: auto;
-            height: 30px;
-            padding: 10px;
-            margin-right: 20px;
-        }
-        .add_label input {
-            width: 150px;
-            height: 40px;
-            border: 1px solid #8a8a8a;
-            padding-left: 10px;
-
-        }
-        .btn-circle {
-            width: 40px;
-            height: 40px;
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            line-height: 1.33;
-            border-radius: 25px;
-            margin-left: 20px;
-        }
-        .note_label div {
-
-        }
-        .note_con label {
-            width:100%;
-            height: 300px;
-        }
-        .note_con textarea{
-            padding: 10px;
-            width:100%;
-            height:100%;
-        }
-        .straight_line {
-            width: 100%;
-            height: 1px;
-            border: 1px solid #F0F1F2;
-        }
-        .note_label {
-            padding-left: 20px;
-            padding-right: 20px;
-            margin-left: 80px;
-        }
-
-        .my_label {
-            border: 1px solid;
-            border-radius: 5px;
-            padding-left: 10px;
-            margin: 5px;
-            height: 34px;
-            display: inline-block;
-            line-height: 34px;
-        }
-        .rm {
-            position: relative;
-            top: -15px;
-            right: -7px;
-            color: #cccccc;
-        }
-        h2 {
-            margin: 20px;
-        }
-        .foot_button {
-            text-align: center;
-        }
-        .foot_button input{
-            height: 34px;
-            width: 60px;
-            color: white;
-            background: #54acd2;
-            border: 0;
-            border-radius: 5px;
-        }
-        .add_instructions {
-            margin: 20px;
-        }
-        .add_instructions span {
-            width: auto;
-            height: auto;
-            padding: 10px;
-            margin-right: 20px;
-            float: left;
-        }
-        .add_instructions textarea {
-            vertical-align:top;
-            width: 500px;
-            height: 100px;
-        }
 
     </style>
 {% endblock %}
@@ -163,16 +21,21 @@
                     <input id="note_title" type="text" name="note_title">
                 </label>
             </div>
-{#            <div class="note_category">#}
-{#                <span style="background: #54acd2; color: white; margin-right: 45px">分类</span>#}
-{#                <select class="multiSelect" id="single">#}
-{#                    {% for i in res.get('cate_name_list') %}#}
-{#                    <option value="">{{ i }}</option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
-{#            </div>#}
+            <div class="curLabel" style="padding: 20px">
+                <div class="container" style="margin-left: 0">
+                    <div class="row" style="width: 100%">
+                        <div class="col-xs-2 choiceLabel">
+                            <span>选择标签</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <div id="justAnInputBox2" class="select-tree-wrap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="add_label">
-                <span style="background: #54acd2; color: white">标签名称</span>
+                <span style="background: #54acd2; color: white">自定义标签</span>
 
                 <label>
                     <input type="text" id="label_name">
@@ -185,7 +48,6 @@
 
 
             </div>
-
 
             <div class="straight_line">
 
@@ -214,10 +76,90 @@
         </div>
     </div>
     <script>
-        $('#single').multiSelect({multiple:false,selectedHtmlValue:'请选择类别'});
-    </script>
-    <script>
+        let SampleJSONData = [
+            {
+                "id": '73A64FDAFFC',
+                "title": "总裁办",
+                        "subs": [
+                    {
+                        "id": '73At4FDoFFC',
+                        "title": "张三"
+                    },
+                                {
+                        "id": '73At4FpAFFC',
+                        "title": "李四"
+                    },
+                    {
+                        "id": '73AtwFDAFFC',
+                        "title": "数据中心",
+                        "subs": [
+                            {
+                                "id": '13At4FDAFFC',
+                                "title": "王五"
+                            },
+                            {
+                                "id": '83At4FDAFFC',
+                                "title": "赵武"
+                            },
+                                                {
+                                "id": '83Al4FDAFFC',
+                                "title": "通讯中心",
+                                                        "subs": [
+                                                            {
+                                                    "id": '73At4FmAFFC',
+                                                    "title": "谢一"
+                                                },
+                                                            {
+                                                    "id": '73At4FpAFFC',
+                                                    "title": "谢四"
+                                                }
+                                                        ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": '72A64FDAFFC',
+                "title": "技术部",
+                "subs": [
+                    {
+                        "id": '73At4FDAFFC',
+                        "title": "赵小刚"
+                    },
+                    {
+                        "id": '73AtuFDAFFC',
+                        "title": "李小刚"
+                    },
+                    {
+                        "id": '73yt4FDAFFC',
+                        "title": "王小刚"
+                    }
+                ]
+            }
+        ];
 
+        let aaa = $('#justAnInputBox1').comboTree({
+                source : SampleJSONData,
+                isMultiple: false,
+                isFirstClassSelectable:false, //第一级是否可选
+                cascadeSelect: true,
+                selectedlength:3 //最多可选
+        });
+
+        let bbb = $('#justAnInputBox2').comboTree({
+                source : SampleJSONData,
+                isMultiple: true,
+                isFirstClassSelectable:false, //第一级是否可选
+                cascadeSelect: true,
+                selectedlength: 100 //最多可选
+        });
+
+        // bbb.datas(); //获取数据
+
+    </script>
+    <script type="text/javascript">
+        console.log({{ data | tojson }});
         // 添加标签
         function add_label(){
             let label_name = document.getElementById('label_name');

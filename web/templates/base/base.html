@@ -1,126 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
+    <title>IAssistant</title>
     <meta charset="UTF-8">
     <link rel="Shortcut Icon" href="{{ url_for('static', filename='images/icon/favicon.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/plugin/dropdown/style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/myself/base/base.css') }}">
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>IAssistant</title>
+    {% block head %}
     {% endblock %}
-    <style>
-        body {
-            min-width: 1000px;
-            background: #f5f6f7;
-            margin: 0;
-            padding: 0;
-        }
-        .top_nav {
-            height: 40px;
-            width: 100%;
-            background: white;
-            display: inline-block;
-            position: fixed;
-            top: 0;
-            border-top: 1px solid #FF7F24;
-            border-bottom: 2px solid #F5F6F7;
-            z-index: 100;
-        }
-        .top_middle {
-            width: 70%;
-            min-width: 1000px;
-            height: 40px;
-            margin: 0 auto;
-        }
-        .top_m2 {
-            width: 70%;
-            height: 40px;
-        }
-        .top_logo {
-            width: 30%;
-            height: 40px;
-            float: left;
-        }
-        .search_input {
-            width: 40%;
-            line-height: 40px;
-            float: right;
-            min-width: 330px;
-            right: 100px;
-            padding-left: 50px;
-        }
-        .search_input input {
-            height: 34px;
-            width: 200px;
-            border-radius: 5px;
-            border: 1px solid #8a8a8a;
-            font-size: 14px;
-            padding-left: 20px;
-
-        }
-        .search_input button {
-            height: 38px;
-            width: 60px;
-            text-align: center;
-            line-height: 34px;
-            background: #54acd2;
-            border-radius: 5px;
-            border: 1px solid white;
-            color: white;
-        }
-        .all_content {
-            margin-top: 50px;
-            width: 100%;
-            height: 100%;
-            min-height: 800px;
-            overflow: auto;
-        }
-        .top_m2 ul {
-            list-style: none;
-            margin-bottom: 0;
-            height: 40px;
-            line-height: 40px;
-            padding-left: 0;
-        }
-        .top_m2 li {
-            display: inline-block;
-            text-align: center;
-            width: 100px;
-        }
-        .top_m2 li:hover {
-            background: #F0F1F2;
-        }
-        .top_m2 a {
-            text-decoration: none;
-            color: black;
-        }
-        .myFooter {
-            background: white;
-            width: 100%;
-            height: 100px;
-            margin-bottom: 0;
-            text-align: center;
-            line-height: 100px;
-        }
-        .filingNumber a{
-            text-decoration: none;
-        }
-
-    </style>
 </head>
 <body>
-    <div class="top_nav">
-        <div class="top_middle">
-            <div class="top_m2">
+    <div class="top-nav">
+        <div class="top-middle">
+            <div class="top-m2">
                 <ul>
                     <li onclick="window.location.href='{{ url }}'"><a>首页</a></li>
                     <li onclick="window.location.href='{{ url }}/add/'"><a>添加笔记</a></li>
@@ -129,22 +26,14 @@
             </div>
         </div>
     </div>
-    <div class="all_content">
-
+    <div class="all-content">
         {% block content %}
         {% endblock %}
-
     </div>
-
-    <div class="myFooter">
-        <div class="filingNumber">
+    <div class="my-footer">
+        <div class="filing-number">
             <a href="http://www.beian.miit.gov.cn">浙ICP备19037818号-1</a>
         </div>
     </div>
 </body>
-
-<script>
-
-
-</script>
 </html>

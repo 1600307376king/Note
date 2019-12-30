@@ -1,0 +1,190 @@
+<html lang="zh-CN" xmlns:form="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>用户登录</title>
+        <!-- Bootstrap 核心 CSS 文件 -->
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+        <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+        <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+        <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <style>
+            /*web background*/
+
+            .container{
+                display:table;
+                height:100%;
+            }
+
+            .row{
+                display: table-cell;
+                vertical-align: middle;
+            }
+            /* centered columns styles */
+            .row-centered {
+                text-align:center;
+            }
+            .col-centered {
+                display:inline-block;
+                float:none;
+                text-align:left;
+                margin-right:-4px;
+            }
+            .tip {
+                height: 24px;
+                line-height: 24px;
+            }
+            .tip1 {
+                color: red;
+                text-align: center;
+                display: none;
+                height: 24px;
+                line-height: 24px;
+            }
+            .tip2 {
+                color: red;
+                text-align: center;
+                display: none;
+                height:24px;
+                line-height: 24px;
+            }
+            .tip3 {
+                color: red;
+                text-align: center;
+                display: none;
+                height: 24px;
+                line-height: 24px;
+            }
+
+            .nameIcon:first-child {
+                border: 1px solid #8a8a8a;
+                border-radius: 5px;
+                height: 32px;
+                width: 30px;
+                padding: 5px;
+            }
+
+            .adminLogin{
+                margin: 0 auto;
+                height: 34px;
+            }
+
+            .adminLogin input {
+                height: 34px;
+                width: 100%;
+                border-top-right-radius: 1px;
+                border-bottom-right-radius: 1px;
+                border: 1px solid #cccccc;
+                padding-left: 10px;
+            }
+
+            .adminSubmit {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .adminSubmit input {
+                height: 34px;
+                width: 100%;
+                background: #FF9900;
+                border: none;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body  class="bg-info">
+        <div class="container">
+            <div class="row row-centered">
+                <div class="well col-md-4 col-centered">
+                    <h2 style="color: black; text-align: center">登录</h2>
+                    <form method="post">
+                        {{ form.csrf_token() }}
+                        <div class="input-group input-group-md adminLogin">
+                            <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                            {{ form.name(size = 20) }}
+                        </div>
+                        <br>
+                        <div class="input-group input-group-md adminLogin">
+                            <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
+                            {{ form.password(size = 20) }}
+                        </div>
+                        <div class="adminSubmit">
+                            {{ form.submit }}
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+    <script>
+        document.cookie = "main_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie = "main_id=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        localStorage.clear();
+
+
+        function go_login() {
+            let admin_name = $('#admin_name').val();
+            let admin_password = $('#admin_password').val();
+            //console.log(admin_name);
+            //console.log(admin_password);
+            if(admin_name == null || admin_name === '' || admin_name === "undefined")
+            {
+                document.getElementById('tip1').style.display = "block";
+                document.getElementById('tip2').style.display = "none";
+                document.getElementById('tip3').style.display = "none";
+                document.getElementById('tip').style.display = "none";
+            }
+            else if(admin_password == null || admin_password === "" || admin_password === "undefined")
+            {
+                document.getElementById('tip2').style.display = "block";
+                document.getElementById('tip1').style.display = "none";
+                document.getElementById('tip3').style.display = "none";
+                document.getElementById('tip').style.display = "none";
+            }
+            else{
+                //console.log('666');
+                let exp = new Date();
+                exp.setTime(exp.getTime() + 48 * 60 * 60000); //过期时间48小时分钟
+                $.ajax({
+                    type: "POST",
+                    url: "/login/",
+                    data: JSON.stringify({'admin_name': admin_name, 'admin_password': admin_password}),
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    success:function (response) {
+                        if(response.msg === 'error'){
+                            document.getElementById('tip3').style.display = "block";
+                            document.getElementById('tip1').style.display = "none";
+                            document.getElementById('tip2').style.display = "none";
+                            document.getElementById('tip').style.display = "none";
+                        }
+                        else {
+                            localStorage.setItem("main_token", response.main_token);
+                            localStorage.setItem("main_id", response.main_id);
+                            document.cookie = "main_token=" + response.main_token + "; path=/; expires=" + exp.toGMTString();
+                            document.cookie = "main_id=" + response.main_id + "; path=/; expires=" + exp.toGMTString();
+                            //console.log(response.token);
+                            window.location.href="/";
+                        }
+                    }
+                })
+            }
+        }
+        function display_error() {
+            document.getElementById('tip3').style.display = 'none';
+            document.getElementById('tip2').style.display = 'none';
+            document.getElementById('tip1').style.display = 'none';
+            document.getElementById('tip').style.display = 'block';
+        }
+    </script>
+    </body>
+</html>
+
