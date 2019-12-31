@@ -255,7 +255,7 @@
         $(this.element).append(
             '<div class="input-keyword-wrap">' +
             '<div _id="role_select" class="select-menu-input imitationSelect role_select">'+
-            '<span _id="myplaceholder" class="input-tips">请选择人员</span>'+
+            '<span _id="myplaceholder" class="input-tips"></span>'+
             '</div>' +
             '<i class="fa fa-caret-down handle-arrow"></i>' +
             '</div>' +

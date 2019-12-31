@@ -6,4 +6,4 @@ class CreateNewVersion(object):
     @staticmethod
     def get_version():
         # return CSS_VERSION
-        return time.time()
+        return str(time.time())

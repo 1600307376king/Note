@@ -2,23 +2,19 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
-    <link rel="stylesheet" href="/css/myself/add/adding-note.css?v={{ getVersion }}"/>
+    <link rel="stylesheet" href="/css/myself/adding-note.css?v={{ getVersion }}"/>
     <link rel="stylesheet" href="/css/plugin/choice_label/tree.css?v={{ getVersion }}">
 
 
     <script src="/js/choice_label/comboTreePlugin.js"></script>
-    <style>
-
-
-    </style>
 {% endblock %}
 {% block content %}
-    <div class="mid_content">
-        <div class="one_note">
-            <div class="note_title">
+    <div class="mid-content">
+        <div class="one-note">
+            <div class="note-title">
                 <span style="background: #54acd2; color: white">标题</span>
                 <label>
-                    <input id="note_title" type="text" name="note_title">
+                    <input id="noteTitle" type="text" name="note-title">
                 </label>
             </div>
             <div class="curLabel" style="padding: 20px">
@@ -27,164 +23,90 @@
                         <div class="col-xs-2 choiceLabel">
                             <span>选择标签</span>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-6" style="margin-left: 8px">
                             <div id="justAnInputBox2" class="select-tree-wrap"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="add_label">
+            <div class="add-label">
                 <span style="background: #54acd2; color: white">自定义标签</span>
 
                 <label>
-                    <input type="text" id="label_name">
+                    <input type="text" id="labelName">
                 </label>
-                <button id="add_label" style="outline: none" type="button" class="btn btn-default btn-circle" onclick="add_label()">
+                <button id="addLabel" style="outline: none" type="button" class="btn btn-default btn-circle" onclick="addLabel()">
                     <i class="glyphicon glyphicon-plus"></i>
                 </button>
             </div>
-            <div id="note_label" class="note_label">
+            <div id="noteLabel" class="note-label">
 
 
             </div>
 
-            <div class="straight_line">
+            <div class="straight-line">
 
             </div>
 
-            <div class="add_instructions">
+            <div class="instructions">
                 <span style="background: #54acd2; color: white">笔记说明</span>
                 <label>
-                    <textarea id="add_instructions">
+                    <textarea id="instructions">
 
                     </textarea>
                 </label>
             </div>
 
             <div id="editor">
-                <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
                 <label>
-                    <textarea style="display:none;" id="note_content"></textarea>
+                    <textarea style="display:none;" id="noteContent"></textarea>
                 </label>
             </div>
-            <div class="foot_button">
+            <div class="foot-button">
                 <label>
-                    <input type="button" value="保存" onclick="save_note()">
+                    <input type="button" value="保存" onclick="saveNote()">
                 </label>
             </div>
         </div>
     </div>
     <script>
-        let SampleJSONData = [
-            {
-                "id": '73A64FDAFFC',
-                "title": "总裁办",
-                        "subs": [
-                    {
-                        "id": '73At4FDoFFC',
-                        "title": "张三"
-                    },
-                                {
-                        "id": '73At4FpAFFC',
-                        "title": "李四"
-                    },
-                    {
-                        "id": '73AtwFDAFFC',
-                        "title": "数据中心",
-                        "subs": [
-                            {
-                                "id": '13At4FDAFFC',
-                                "title": "王五"
-                            },
-                            {
-                                "id": '83At4FDAFFC',
-                                "title": "赵武"
-                            },
-                                                {
-                                "id": '83Al4FDAFFC',
-                                "title": "通讯中心",
-                                                        "subs": [
-                                                            {
-                                                    "id": '73At4FmAFFC',
-                                                    "title": "谢一"
-                                                },
-                                                            {
-                                                    "id": '73At4FpAFFC',
-                                                    "title": "谢四"
-                                                }
-                                                        ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "id": '72A64FDAFFC',
-                "title": "技术部",
-                "subs": [
-                    {
-                        "id": '73At4FDAFFC',
-                        "title": "赵小刚"
-                    },
-                    {
-                        "id": '73AtuFDAFFC',
-                        "title": "李小刚"
-                    },
-                    {
-                        "id": '73yt4FDAFFC',
-                        "title": "王小刚"
-                    }
-                ]
-            }
-        ];
-
-        let aaa = $('#justAnInputBox1').comboTree({
-                source : SampleJSONData,
-                isMultiple: false,
-                isFirstClassSelectable:false, //第一级是否可选
-                cascadeSelect: true,
-                selectedlength:3 //最多可选
-        });
-
+        // 添加现有标签
+        let SampleJSONData = {{ data | tojson }};
         let bbb = $('#justAnInputBox2').comboTree({
                 source : SampleJSONData,
                 isMultiple: true,
                 isFirstClassSelectable:false, //第一级是否可选
                 cascadeSelect: true,
-                selectedlength: 100 //最多可选
+                selectedlength: 3 //最多可选
         });
-
-        // bbb.datas(); //获取数据
-
     </script>
     <script type="text/javascript">
-        console.log({{ data | tojson }});
-        // 添加标签
-        function add_label(){
-            let label_name = document.getElementById('label_name');
+        // 添加自定义标签
+        function addLabel(){
+            let labelName = document.getElementById('labelName');
 
-            if(label_name.value === "" || label_name.value === null)
+            if(labelName.value === "" || labelName.value === null)
             {
                 alert("请输入标签名");
             }
             else {
-                if(/^[a-zA-Z]+$/.test(label_name.value)){
-                    label_name.value = label_name.value.replace(label_name.value[0], label_name.value[0].toUpperCase());
+                if(/^[a-zA-Z]+$/.test(labelName.value)){
+                    labelName.value = labelName.value.replace(labelName.value[0], labelName.value[0].toUpperCase());
                 }
 
                 let di = document.createElement('div');
-                di.classList.add("my_label");
+                di.classList.add("my-label");
                 di.style.borderColor = "#cca4e3";
 
-                di.innerHTML = label_name.value + "<i class=\"glyphicon glyphicon-remove rm\" onclick=\"remove_label(this)\"></i>";
-                let note_label = document.getElementById('note_label');
-                note_label.appendChild(di);
-                label_name.value = "";
+                di.innerHTML = labelName.value + "<i class=\"glyphicon glyphicon-remove rm\" onclick=\"removeLabel(this)\"></i>";
+                let noteLabel = document.getElementById('noteLabel');
+                noteLabel.appendChild(di);
+                labelName.value = "";
             }
         }
         // 删除标签
-        function remove_label(e) {
+        function removeLabel(e) {
             // console.log(e.parentNode);
             e.parentNode.remove();
         }
@@ -203,26 +125,35 @@
     </script>
     <script>
         // 保存
-        function save_note() {
-            let note_title = document.getElementById("note_title").value;
-            let category_name = document.getElementsByClassName("newSelectTitle")[0].innerText;
-            let labels = document.getElementById("note_label").childNodes;
-            let str_labels = "";
+        function saveNote() {
+            let noteTitle = document.getElementById("noteTitle").value;
+            let labels = document.getElementById("noteLabel").childNodes;
+            let existingLabel = document.getElementsByClassName("input-keyword-item");
+            let existingLabels = "";
+            for(let k = 0; k < existingLabel.length; k++){
+                let m = existingLabel[k].childNodes[0].innerText.toString();
+                existingLabels += m + "|";
+
+            }
+
+            console.log(existingLabels);
+            let customLabels = "";
             for(let j = 1; j < labels.length; j++){
                 let s = labels[j].innerText.toString();
-                str_labels += s + "|";
+                customLabels += s + "|";
             }
-            let note_instructions = document.getElementById("add_instructions").value;
-            let note_content = document.getElementsByClassName("CodeMirror-code")[0].childNodes;
-            let str_content = "" ;
-            for(let k = 0; k < note_content.length; k++){
-                str_content += note_content[k].innerText + "\n";
+            let noteInstructions = document.getElementById("instructions").value;
+            let noteContent = document.getElementsByClassName("CodeMirror-code")[0].childNodes;
+            let strContent = "" ;
+            for(let k = 0; k < noteContent.length; k++){
+                strContent += noteContent[k].innerText + "\n";
             }
+
             $.ajax({
                 type: "POST",
                 url: "/add/",
-                data: JSON.stringify({'note_title': note_title, 'category_name': category_name, 'str_labels': str_labels, 'note_instructions': note_instructions,
-                    'str_content': str_content
+                data: JSON.stringify({'note_title': noteTitle, 'existing_label': existingLabels, 'custom_labels': customLabels,
+                    'note_instructions': noteInstructions, 'str_content': strContent
                 }),
                 dataType: "json",
                 headers: {
@@ -237,6 +168,7 @@
                     }
                 }
             })
+
         }
     </script>
 {% endblock %}

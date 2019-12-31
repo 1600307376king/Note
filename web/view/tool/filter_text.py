@@ -20,3 +20,7 @@ def filter_note_con(str_content):
 
 def decode_text(de):
     return str(de, encoding='utf-8')
+
+
+def clean_data(x):
+    return x.strip()

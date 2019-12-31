@@ -7,10 +7,13 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/myself/base/base.css') }}">
+    <link rel="stylesheet" href="/css/myself/base.css">
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+
+    </style>
     {% block head %}
     {% endblock %}
 </head>
@@ -23,6 +26,9 @@
                     <li onclick="window.location.href='{{ url }}/add/'"><a>添加笔记</a></li>
                     <li><a>我的计划</a></li>
                 </ul>
+            </div>
+            <div class="login-link">
+                <a href="/login/">登录</a>
             </div>
         </div>
     </div>

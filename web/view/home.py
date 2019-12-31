@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, jsonify, request, flash
 from config.base_setting import *
-from flask_wtf import FlaskForm
-from flask_wtf.file import *
-from wtforms import *
+from .form.common_form import *
+from .tool.filter_text import clean_data
+
 import uuid
 
 home_index = Blueprint('home_page', __name__)
@@ -11,22 +11,15 @@ from model.notes import Notes
 from model.top_category import TopCategory
 
 
-class SearchForm(FlaskForm):
-    keyword = StringField('关键词：',
-                          validators=[DataRequired(), validators.Length(min=1, max=10, message='搜索条件为空或输入字符太长')])
-    submit = SubmitField('搜索')
-
-
-def clean_data(x):
-    return x.strip()
-
-
 @home_index.route('/', methods=['GET', 'POST'])
 def home():
     res = dict()
     search_form = SearchForm()
-    note_obj = Notes.query
 
+    all_category = TopCategory.query.all()
+    res['top_categorys'] = [[i.top_category_name, i.sec_category.split('|')[:-1]] for i in all_category]
+
+    note_obj = Notes.query
     note_labels = note_obj.all()
     tmp = [obj.note_labels for obj in note_labels]
 
@@ -35,31 +28,18 @@ def home():
 
     # 首页输入关键字搜索
     if request.method == 'POST':
-        label_name = request.form.get('label_name', '')
-        if label_name:
-            label_name = label_name.strip()
-            labels_res = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
-                filter(Notes.note_labels.like('%' + label_name + '%') |
-                       Notes.note_title.like('%' + label_name + '%') |
-                       Notes.note_content.like('%' + label_name + '%')). \
+        if search_form.validate_on_submit():
+            search_keyword = search_form.keyword.data
+            search_result = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+                filter(Notes.note_labels.like('%' + search_keyword + '%') |
+                       Notes.note_title.like('%' + search_keyword + '%')). \
                 paginate(1, per_page=PER_PAGE_MAX_NUM).items
             res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
-                                obj.creation_time, obj.click_number] for obj in labels_res]
+                                obj.creation_time, obj.click_number] for obj in search_result]
+            return render_template('home.html', res=res, form=search_form, url=URL)
         else:
-            if search_form.validate_on_submit():
-                search_keyword = search_form.keyword.data
-                search_result = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
-                    filter(Notes.note_labels.like('%' + search_keyword + '%') |
-                           Notes.note_title.like('%' + search_keyword + '%') |
-                           Notes.note_content.like('%' + search_keyword + '%')). \
-                    paginate(1, per_page=PER_PAGE_MAX_NUM).items
-                res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
-                                    obj.creation_time, obj.click_number] for obj in search_result]
-            else:
-                error_msg = search_form.errors
-                flash(error_msg.get('keyword')[0])
-
-        return render_template('home.html', res=res, form=search_form, url=URL)
+            error_msg = search_form.errors
+            flash(error_msg.get('keyword')[0])
 
     # ip = request.headers.get('Remote Address')
     # is_has_cache = redis_obj.get('home' + str(ip))
@@ -78,9 +58,6 @@ def home():
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
-
-    all_category = TopCategory.query.all()
-    res['top_categorys'] = [[i.top_category_name, i.sec_category.split('|')[:-1]] for i in all_category]
     # 清除缓存
     # redis_obj.flushdb(asynchronous=False)
     # 添加缓存
@@ -137,7 +114,8 @@ def filter_sort():
         note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
     if label_name != 'All' and filter_type != 'rec':
-        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(Notes.creation_time.desc()). \
+        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
+            Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
     if label_name == 'All' and filter_type != 'rec':
         note_list = Notes.query.order_by(Notes.creation_time.desc()). \

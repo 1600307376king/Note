@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .top-nav {
     height: 40px;
     width: 100%;
@@ -15,16 +16,48 @@ body {
     border-bottom: 2px solid #F5F6F7;
     z-index: 100;
 }
+
 .top-middle {
     width: 70%;
-    min-width: 1000px;
+    min-width: 1160px;
     height: 40px;
     margin: 0 auto;
 }
+
 .top-m2 {
     width: 70%;
     height: 40px;
+    display: block;
+    float: left;
 }
+
+
+.login-link {
+    float: right;
+    display: block;
+    margin-top: 10px;
+}
+
+.login-link a {
+    color: #CD5C5C;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    color: dodgerblue;
+}
+
+@media screen and (min-width: 1300px) {
+    .login-link {
+        margin-right: 70px;
+    }
+}
+@media screen and (max-width: 1300px) {
+    .login-link {
+        margin-right: 20px;
+    }
+}
+
 .all-content {
     margin-top: 50px;
     width: 100%;
@@ -32,6 +65,7 @@ body {
     min-height: 800px;
     overflow: auto;
 }
+
 .top-m2 ul {
     list-style: none;
     margin-bottom: 0;
@@ -39,26 +73,31 @@ body {
     line-height: 40px;
     padding-left: 0;
 }
+
 .top-m2 li {
     display: inline-block;
     text-align: center;
     width: 100px;
 }
+
 .top-m2 li:hover {
     background: #F0F1F2;
 }
+
 .top-m2 a {
     text-decoration: none;
     color: black;
 }
-.myFooter {
+
+.my-footer {
     background: white;
     width: 100%;
     height: 100px;
-    margin-bottom: 0;
+    margin-top: 0;
     text-align: center;
     line-height: 100px;
 }
-.filingNumber a{
+
+.filing-number a{
     text-decoration: none;
 }

@@ -50,7 +50,7 @@ app.register_blueprint(add_index, url_prefix='/')
 app.register_blueprint(detail_index, url_prefix='/detail/')
 app.register_blueprint(mod_index, url_prefix='/')
 app.register_blueprint(test_index, url_prefix='/')
-app.register_blueprint(login_index, url_prefix='/')
+app.register_blueprint(login_index, url_prefix='/login/')
 
 if __name__ == '__main__':
     handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
