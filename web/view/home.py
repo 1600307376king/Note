@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, flash
+from flask import Blueprint, render_template, jsonify, request, flash, url_for, redirect
 from config.base_setting import *
 from .form.common_form import *
 from .tool.filter_text import clean_data
@@ -15,7 +15,6 @@ from model.top_category import TopCategory
 def home():
     res = dict()
     search_form = SearchForm()
-
     all_category = TopCategory.query.all()
     res['top_categorys'] = [[i.top_category_name, i.sec_category.split('|')[:-1]] for i in all_category]
 
@@ -72,34 +71,62 @@ def home():
     #     redis_obj.hmset('home' + str(ip) + str(i), dic)
 
     # redis_obj.set('home' + str(ip), len(res['note_msg']), ex=1)
+    ck_token = request.cookies.get('token', '')
+    arg_token = request.args.get('token', '')
+    if ck_token or arg_token:
+        return render_template('admin/admin_home.html', res=res, form=search_form, url=URL)
 
     return render_template('home.html', res=res, form=search_form, url=URL)
 
 
 # 进入修改页
-@home_index.route('/update/<uuid>/')
-def go_update(uuid):
+@home_index.route('/update/<note_id>/')
+def go_update(note_id):
     res = dict()
-    query_obj = Notes.query.filter(Notes.uuid == uuid).first()
+    query_obj = Notes.query.filter(Notes.uuid == note_id).first()
     note_list = [query_obj.note_title, query_obj.note_labels, query_obj.note_instructions,
                  query_obj.note_content, query_obj.uuid]
     res['note_cur_msg'] = note_list
+    ck_token = request.cookies.get('token', '')
+    arg_token = request.args.get('token', '')
+    if ck_token or arg_token:
+        return render_template('admin/admin_update_note.html', res=res, url=URL)
     return render_template('update_note.html', res=res, url=URL)
 
 
 # 删除当前note
-# @home_index.route('/delete/<uuid>/')
-# def delete_note(uuid):
-#     res = dict()
-#     note_obj = Notes.query
-#     delete_obj = note_obj.filter(Notes.uuid == uuid).first()
-#     db.session.delete(delete_obj)
-#     db.session.commit()
-#     note_list = note_obj.all()
-#     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_instructions, obj.note_labels,
-#                         obj.creation_time] for obj in note_list]
-#
-#     return render_template('home.html', res=res, url=URL)
+@home_index.route('/delete/<note_id>/', methods=['POST'])
+def delete_note(note_id):
+    res = dict()
+    note_list = []
+    filter_type = request.json.get('filter_type', 'rec')
+    label_name = request.json.get('label_name', 'all')
+    cur_page = int(request.json.get('cur_page', 1))
+    label_name = label_name.capitalize()
+
+    note_obj = Notes.query
+    delete_obj = note_obj.filter(Notes.uuid == note_id).first()
+    db.session.delete(delete_obj)
+    db.session.commit()
+
+    if label_name == 'All' and filter_type == 'rec':
+        note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    if label_name != 'All' and filter_type != 'rec':
+        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
+            Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    if label_name == 'All' and filter_type != 'rec':
+        note_list = Notes.query.order_by(Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    if label_name != 'All' and filter_type == 'rec':
+        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
+            Notes.click_number.desc(), Notes.creation_time.desc()). \
+            paginate(1, per_page=PER_PAGE_MAX_NUM).items
+    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
+                        obj.creation_time, obj.click_number] for obj in note_list]
+
+    return jsonify(res)
 
 
 # 条件排序
@@ -110,6 +137,7 @@ def filter_sort():
     filter_type = request.json.get('filter_type', 'rec')
     label_name = request.json.get('label_name', 'all')
     label_name = label_name.capitalize()
+
     if label_name == 'All' and filter_type == 'rec':
         note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
             paginate(1, per_page=PER_PAGE_MAX_NUM).items
@@ -127,6 +155,7 @@ def filter_sort():
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
+
     return jsonify(res)
 
 
@@ -206,6 +235,7 @@ def add_top_category():
         ))
 
         db.session.commit()
+        db.session
     return 'ok'
 
 

@@ -2,6 +2,7 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/css/myself/home.css?v={{ getVersion }}">
+    <script src="/js/pop_frame/simpleAlert.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,18 +24,18 @@
                                 {% else %}
                                     <a style="font-size: 24px;font-weight: bold;" href="/detail/{{ r[0] }}/">{{ r[1][:25] }} ...</a>
                                 {% endif %}
-                                <div class="edit-note">
-                                    <span><a href="{{ url }}/update/{{ r[0] }}/">修改</a></span>
-                                    <span class="v-line">|</span>
-                                    <span><a href="{{ url }}/delete/{{ r[0] }}/">删除</a></span>
-                                </div>
+                                {# scoped 用于传递父模板参数 #}
+                                {% block updateDelete  scoped %}
+                                {% endblock %}
                             </div>
                             <div class="note-footer">
                                 <span style="float: left;height: 44px; line-height: 44px;"><img
                                         src="images/icon/label-icon.png" alt="图片加载失败"></span>
                                 <div class="left-fo">
                                     {% for i in r[2].split('|') %}
+                                        {% if i %}
                                         <span>{{ i }}</span>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                                 <div class="right-fo">
@@ -87,6 +88,101 @@
         </div>
     </div>
     <script>
+        //单次双选弹框
+        // delegate 元素动态加载绑定事件
+        $("body").delegate(".delete-note", "click", function (e) {
+            let url = $(this)[0].parentNode.parentNode.childNodes[1].childNodes[0].href;
+            let newUrlList = url.split("/");
+            let dblChoseAlert = simpleAlert({
+                "title":"确定要删除吗？",
+                {#"content":"请按确定回调函数!",#}
+                "buttons":{
+                    "确定":function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/delete/" + newUrlList[4] + "/",
+                            data: JSON.stringify({'filter_type': filterType, "label_name": labelName, "cur_page": currentPage}),
+                            dataType: "json",
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            success: function (response) {
+
+                                // 删除所有li 并重新添加li
+                                let liOneNotes = document.getElementsByClassName("one-notes");
+                                let notes = document.getElementsByClassName("notes")[0];
+                                let count = liOneNotes.length;
+                                let copyData = liOneNotes[0].cloneNode(true);
+
+                                for (let k = 0; k < count; k++) {
+                                    notes.removeChild(liOneNotes[0]);
+                                }
+                                let responseData = response.note_msg;
+                                for (let j = 0; j < responseData.length; j++) {
+                                    let cloneData = copyData.cloneNode(true);
+                                    if (responseData[j][1].length > 50) {
+                                        responseData[j][1] = responseData[j][1].substring(0, 50) + '...'
+                                    }
+                                    // 修改标题名称
+                                    cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
+
+                                    //修改标题href
+                                    cloneData.childNodes[1].childNodes[1].childNodes[1].href = "/detail/" + responseData[j][0] +"/";
+
+                                    // “修改”href
+                                    cloneData.childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[0].href
+                                        = "/update/" + responseData[j][0] +"/";
+
+                                    //修改标签名称
+                                    let labelList = responseData[j][2].split('|');
+                                    cloneData.childNodes[1].childNodes[3].childNodes[3].innerHTML = "";
+                                    for (let m = 0; m < labelList.length - 1; m++) {
+
+                                        cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
+                                        cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[m].innerText = labelList[m];
+                                    }
+                                    // 阅读数
+                                    cloneData.childNodes[1].childNodes[3].childNodes[5].childNodes[3].innerText = responseData[j][4];
+                                    notes.append(cloneData);
+
+                                }
+                            },
+                            complete: function () {
+                                dblChoseAlert.close();
+                            }
+
+                        });
+
+
+                    },
+                    "取消":function () {
+                        dblChoseAlert.close();
+                    }
+                }
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        //设置token
+        function getQueryVariable(variable)
+        {
+            let query = window.location.search.substring(1);
+            let vars = query.split("&");
+            for (let i=0; i<vars.length; i++) {
+                let pair = vars[i].split("=");
+                if(pair[0] === variable){return pair[1];}
+            }
+            return false;
+        }
+        token = getQueryVariable("token");
+        if(token){
+            let exp = new Date();
+            exp.setTime(exp.getTime() + 48 * 60 * 60000); //过期时间48小时分钟
+            localStorage.setItem("token", token);
+            document.cookie = "token=" + token + "; path=/; expires=" + exp.toGMTString();
+        }
+    </script>
+    <script>
         //左侧下拉菜单
         $(function () {
             // nav收缩展开
@@ -115,7 +211,7 @@
         // 默认分类名称
         let labelName = "All";
         // 当前页
-        let currentPage = 2;
+        let currentPage = 1;
         // 筛选类型
         let filterType = "rec";
         // 是否允许加载数据
@@ -133,13 +229,14 @@
                 filterList[i].classList.remove('active');
             }
             filter[0].classList.add("active");
+            filterType = filterName;
             filterData(labelName, filterName);
         });
 
         // 点击左侧导航菜单筛选
         $('.one').on('click', function () {
             isAppend = 1;
-            let topCategoryName = $(this)[0].childNodes[0].childNodes[0].innerText;
+            let topCategoryName = $(this)[0].childNodes[1].childNodes[0].innerText;
             labelName = topCategoryName;
             filterData(topCategoryName, filterType);
         });
@@ -157,8 +254,7 @@
                 },
                 success: function (response) {
                     isAppend = 1;
-                    currentPage = 2;
-
+                    currentPage = 1;
                     // 删除所有li 并重新添加li
                     let liOneNotes = document.getElementsByClassName("one-notes");
                     let notes = document.getElementsByClassName("notes")[0];
@@ -177,17 +273,22 @@
                         // 修改标题名称
                         cloneData.childNodes[1].childNodes[1].childNodes[1].innerText = responseData[j][1];
 
-                        //修改href
+                        //修改标题href
                         cloneData.childNodes[1].childNodes[1].childNodes[1].href = "/detail/" + responseData[j][0] +"/";
+
+                        // “修改”href
+                        if(cloneData.childNodes[1].childNodes[1].childNodes[3] !== undefined){
+                            cloneData.childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[0].href
+                            = "/update/" + responseData[j][0] +"/";
+                        }
 
                         //修改标签名称
                         let labelList = responseData[j][2].split('|');
+                        cloneData.childNodes[1].childNodes[3].childNodes[3].innerHTML = "";
                         for (let m = 0; m < labelList.length - 1; m++) {
-                            let index = (m + 1) * 2 - 1;
-                            if (cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index] === undefined) {
-                                cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
-                            }
-                            cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index].innerText = labelList[m];
+
+                            cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
+                            cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[m].innerText = labelList[m];
                         }
                         // 阅读数
                         cloneData.childNodes[1].childNodes[3].childNodes[5].childNodes[3].innerText = responseData[j][4];
@@ -212,6 +313,9 @@
         }
 
         function getData() {
+            if(currentPage === 1){
+                currentPage += 1;
+            }
             if (isAppend !== -1 && requestSwitch === 1) {
                 requestSwitch = -1;
                 document.getElementById("loadTipBlock").style.opacity = "100";
@@ -239,14 +343,18 @@
                                 //修改href
                                 cloneData.childNodes[1].childNodes[1].childNodes[1].href = "/detail/" + responseData[j][0] +"/";
 
+                                if(cloneData.childNodes[1].childNodes[1].childNodes[3] !== undefined){
+                                    cloneData.childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[0].href
+                                    = "/update/" + responseData[j][0] +"/";
+                                }
+
                                 //标签
                                 let labelList = responseData[j][2].split('|');
+                                cloneData.childNodes[1].childNodes[3].childNodes[3].innerHTML = "";
                                 for (let m = 0; m < labelList.length - 1; m++) {
-                                    let index = (m + 1) * 2 - 1;
-                                    if (cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index] === undefined) {
-                                        cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
-                                    }
-                                    cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[index].innerText = labelList[m];
+
+                                    cloneData.childNodes[1].childNodes[3].childNodes[3].appendChild(document.createElement("span"));
+                                    cloneData.childNodes[1].childNodes[3].childNodes[3].childNodes[m].innerText = labelList[m];
                                 }
                                 // 阅读数
                                 cloneData.childNodes[1].childNodes[3].childNodes[5].childNodes[3].innerText = responseData[j][4];
@@ -264,5 +372,4 @@
         }
     </script>
     <script type="text/javascript" src="js/nav/jquery.slimscroll.min.js"></script>
-
 {% endblock %}

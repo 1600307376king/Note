@@ -44,68 +44,11 @@
                 </div>
             </div>
         </div>
-    <script>
-        document.cookie = "main_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        document.cookie = "main_id=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    <script type="text/javascript">
+        // 不加 path=/; 可能删除cookie失败
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        console.log(document.cookie);
         localStorage.clear();
-
-
-        function go_login() {
-            let admin_name = $('#admin_name').val();
-            let admin_password = $('#admin_password').val();
-            //console.log(admin_name);
-            //console.log(admin_password);
-            if(admin_name == null || admin_name === '' || admin_name === "undefined")
-            {
-                document.getElementById('tip1').style.display = "block";
-                document.getElementById('tip2').style.display = "none";
-                document.getElementById('tip3').style.display = "none";
-                document.getElementById('tip').style.display = "none";
-            }
-            else if(admin_password == null || admin_password === "" || admin_password === "undefined")
-            {
-                document.getElementById('tip2').style.display = "block";
-                document.getElementById('tip1').style.display = "none";
-                document.getElementById('tip3').style.display = "none";
-                document.getElementById('tip').style.display = "none";
-            }
-            else{
-                //console.log('666');
-                let exp = new Date();
-                exp.setTime(exp.getTime() + 48 * 60 * 60000); //过期时间48小时分钟
-                $.ajax({
-                    type: "POST",
-                    url: "/login/",
-                    data: JSON.stringify({'admin_name': admin_name, 'admin_password': admin_password}),
-                    dataType: "json",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    success:function (response) {
-                        if(response.msg === 'error'){
-                            document.getElementById('tip3').style.display = "block";
-                            document.getElementById('tip1').style.display = "none";
-                            document.getElementById('tip2').style.display = "none";
-                            document.getElementById('tip').style.display = "none";
-                        }
-                        else {
-                            localStorage.setItem("main_token", response.main_token);
-                            localStorage.setItem("main_id", response.main_id);
-                            document.cookie = "main_token=" + response.main_token + "; path=/; expires=" + exp.toGMTString();
-                            document.cookie = "main_id=" + response.main_id + "; path=/; expires=" + exp.toGMTString();
-                            //console.log(response.token);
-                            window.location.href="/";
-                        }
-                    }
-                })
-            }
-        }
-        function display_error() {
-            document.getElementById('tip3').style.display = 'none';
-            document.getElementById('tip2').style.display = 'none';
-            document.getElementById('tip1').style.display = 'none';
-            document.getElementById('tip').style.display = 'block';
-        }
     </script>
     </body>
 </html>

@@ -65,5 +65,3 @@ DATABASE = 'note'
 SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
                                                                        DATABASE)
 
-POOL_SIZE = 100
-POOL_RECYCLE = 3600

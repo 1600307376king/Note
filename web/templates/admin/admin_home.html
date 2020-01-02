@@ -1,0 +1,16 @@
+{% extends "home.html" %}
+{% block hideMenu %}
+    <li id="hideAddNote" onclick="window.location.href='{{ url }}/add/'"><a>添加笔记</a></li>
+    <li id="hideMyPlane"><a>我的计划</a></li>
+    <li id="hideLabelManage"><a>标签管理</a></li>
+{% endblock %}
+{% block updateDelete%}
+    {{ super() }}
+    <div id="hideEditNote" class="edit-note">
+        <span><a href="{{ url }}/update/{{ r[0] }}/">修改</a></span>
+        <span class="v-line">|</span>
+        <span><a class="delete-note">删除</a></span>
+    </div>
+
+
+{% endblock %}

@@ -47,5 +47,8 @@ def add_n():
                            'subs': [{'id': get_random_string(9), 'title': j} for j in i.sec_category.split('|')[:-1]]}
                           for i in category_obj_list]
     res['cate_name_list'] = category_name_list
-
+    ck_token = request.cookies.get('token', '')
+    arg_token = request.args.get('token', '')
+    if ck_token or arg_token:
+        return render_template('admin/admin_add_note.html', res=res, url=URL, data=category_name_list)
     return render_template('add_note.html', url=URL, res=res, data=category_name_list)

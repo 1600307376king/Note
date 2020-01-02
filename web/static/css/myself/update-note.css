@@ -1,0 +1,128 @@
+.mid-content {
+    width: 80%;
+    height: auto;
+    min-height: 1000px;
+    margin: 0 auto;
+}
+
+.one-note {
+    float: left;
+    width: 100%;
+    height: auto;
+    min-height: 800px;
+    background: white;
+    margin-left: 10px;
+}
+
+.note-title {
+    padding: 20px;
+}
+
+.note-title span {
+    width: auto;
+    height: 30px;
+    padding: 10px;
+    margin-right: 20px;
+}
+.note-title input {
+    width: 400px;
+    border: 1px solid #8a8a8a;
+    height: 40px;
+    padding-left: 10px;
+    margin-left: 28px;
+}
+.add-label {
+    padding: 20px;
+    outline: none;
+}
+.add-label span {
+    width: auto;
+    height: 30px;
+    padding: 10px;
+    margin-right: 20px;
+}
+.add-label input {
+    width: 150px;
+    height: 40px;
+    border: 1px solid #8a8a8a;
+    padding-left: 10px;
+
+}
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.33;
+    border-radius: 25px;
+    margin-left: 20px;
+}
+.note-label div {
+
+}
+.note-con label {
+    width:100%;
+    height: 300px;
+}
+.note-con textarea{
+    padding: 10px;
+    width:100%;
+    height:100%;
+}
+.straight-line {
+    width: 100%;
+    height: 1px;
+    border: 1px solid #F0F1F2;
+}
+.note-label {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 80px;
+}
+
+.my-label {
+    border: 1px solid;
+    border-radius: 5px;
+    padding-left: 10px;
+    margin: 5px;
+    height: 34px;
+    display: inline-block;
+    line-height: 34px;
+}
+.rm {
+    position: relative;
+    top: -15px;
+    right: -7px;
+    color: #cccccc;
+}
+h2 {
+    margin: 20px;
+}
+.foot-button {
+    text-align: center;
+}
+.foot-button input{
+    height: 34px;
+    width: 60px;
+    color: white;
+    background: #54acd2;
+    border: 0;
+    border-radius: 5px;
+}
+.add-instructions {
+    margin: 20px;
+}
+.add-instructions span {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    margin-right: 20px;
+    float: left;
+}
+.add-instructions textarea {
+    vertical-align:top;
+    width: 800px;
+    min-width: 500px;
+    height: 100px;
+}
