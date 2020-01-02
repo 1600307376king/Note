@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 from flask import Flask, jsonify
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy

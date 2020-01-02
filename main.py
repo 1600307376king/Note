@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 from flask_sqlalchemy import SQLAlchemy
 # from flask_wtf.csrf import CSRFProtect
 from datetime import timedelta
@@ -53,12 +55,12 @@ app.register_blueprint(mod_index, url_prefix='/')
 app.register_blueprint(test_index, url_prefix='/')
 app.register_blueprint(login_index, url_prefix='/login/')
 
-if __name__ == '__main__':
-    handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
-    handler.setFormatter(logging.DEBUG)
-    logging_format = logging.Formatter(
-        '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s'
-    )
-    handler.setFormatter(logging_format)
-    app.logger.addHandler(handler)
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
+#     handler.setFormatter(logging.DEBUG)
+#     logging_format = logging.Formatter(
+#         '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s'
+#     )
+#     handler.setFormatter(logging_format)
+#     app.logger.addHandler(handler)
+#     app.run(debug=True)

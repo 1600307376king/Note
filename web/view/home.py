@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request, flash, url_for, redirect
 from config.base_setting import *
 from .form.common_form import *

@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request
 from config.base_setting import *
 import datetime
