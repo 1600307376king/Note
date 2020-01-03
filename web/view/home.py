@@ -4,7 +4,6 @@ from flask import Blueprint, render_template, jsonify, request, flash, url_for, 
 from config.base_setting import *
 from .form.common_form import *
 from .tool.filter_text import clean_data
-
 import uuid
 
 home_index = Blueprint('home_page', __name__)

@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from flask_script import Manager, Server, Command
-from main import app
+from blueprint_reg import app
 import logging
 
 
 manager = Manager(app)
+
 
 manager.add_command('runserver', Server(host='0.0.0.0', port=5000))
 @manager.option('-s', '--setting', dest='setting', default='development')

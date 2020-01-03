@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+from web.view.tool.static_file_version import CreateNewVersion
 from flask_sqlalchemy import SQLAlchemy
 # from flask_wtf.csrf import CSRFProtect
+from flask_script import Manager
 from datetime import timedelta
 from flask import Flask
 import logging
@@ -38,22 +40,8 @@ def page_not_found(error):
     return 'This page does not exist', 404
 
 
-from web.view.home import home_index
-from web.view.add_note import add_index
-from web.view.note_detail import detail_index
-from web.view.modification import mod_index
-from web.view.test import test_index
-from web.view.login import login_index
-from web.view.tool.static_file_version import CreateNewVersion
-
 app.add_template_global(CreateNewVersion.get_version(), 'getVersion')
 
-app.register_blueprint(home_index, url_prefix='/')
-app.register_blueprint(add_index, url_prefix='/')
-app.register_blueprint(detail_index, url_prefix='/detail/')
-app.register_blueprint(mod_index, url_prefix='/')
-app.register_blueprint(test_index, url_prefix='/')
-app.register_blueprint(login_index, url_prefix='/login/')
 
 # if __name__ == '__main__':
 #     handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')

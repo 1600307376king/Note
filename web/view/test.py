@@ -24,33 +24,35 @@ class TestForm(FlaskForm):
     submit = SubmitField('submit')
 
 
-@test_index.route('/ts/', methods=['GET', 'POST'])
-def flask_test():
-    test_form = TestForm()
-    if request.method == 'POST':
-        # username = request.form.get('username')
-        # password = request.form.get('password')
-        # verify_password = request.form.get('verify_password')
-        f = test_form.photo.data
+# @test_index.route('/ts/', methods=['GET', 'POST'])
+# def flask_test():
+#     test_form = TestForm()
+#     if request.method == 'POST':
+#         # username = request.form.get('username')
+#         # password = request.form.get('password')
+#         # verify_password = request.form.get('verify_password')
+#         f = test_form.photo.data
+#
+#         if test_form.validate_on_submit():
+#             username = test_form.username.data
+#             password = test_form.password.data
+#             verify_password = test_form.verify_password.data
+#
+#             # filename = secure_filename(f.filename)
+#
+#             f.save(os.path.join(
+#                 './web/static/images/', f.filename
+#             ))
+#
+#             return 'success'
+#         else:
+#             a = test_form.errors
+#             print(a.get('username')[0])
+#             flash(a.get('username')[0])
+#
+#             return render_template('test.html', form=test_form)
+#
+#     return render_template('test.html', form=test_form)
+# # ------------------------>>>
 
-        if test_form.validate_on_submit():
-            username = test_form.username.data
-            password = test_form.password.data
-            verify_password = test_form.verify_password.data
 
-            # filename = secure_filename(f.filename)
-
-            f.save(os.path.join(
-                './web/static/images/', f.filename
-            ))
-
-            return 'success'
-        else:
-            a = test_form.errors
-            print(a.get('username')[0])
-            flash(a.get('username')[0])
-
-            return render_template('test.html', form=test_form)
-
-    return render_template('test.html', form=test_form)
-# ------------------------>>>

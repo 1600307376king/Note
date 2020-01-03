@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/plugin/bind_label/select.css">
+    <style type="text/css">
+		body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #666;
+            margin: 0;
+
+            background-color: #F0F0F0;
+        }
+        .m{
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+        }
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .submit-button {
+            margin-top: 100px;
+        }
+ 	</style>
+</head>
+<body>
+<div class="m">
+        <div class="selectPickerWrapper show-category" data-model="">
+            <label>
+                <select class="hidden">
+                    {% for i in res.get('category') %}
+                    <option value="1">{{ i }}</option>
+                    {% endfor %}
+{#                    <option value="2">漕宝路666号</option>#}
+{#                    <option value="3">古美街道</option>#}
+{#                    <option value="4">平南路888号</option>#}
+{#                    <option value="5">合川路</option>#}
+{#                    <option value="6">莲花路4545号</option>#}
+                </select>
+            </label>
+        </div>
+		<div class=" selectPickerWrapper show-labels" data-checks="1,2,3" data-model="" >
+            <label>
+                <select class="hidden"></select>
+            </label>
+        </div>
+
+        <div class="submit-button"><button onclick="postBindMsg()">确定</button></div>
+	</div>
+	<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script src="/js/bind_label/select2.js"></script>
+	<script>
+        {#console.log({{ data | tojson }});#}
+        let map = {{ data | tojson }};
+		$(function() {
+			//var map = [{"text":"2020","val":"1"},{"text":"2019","val":"2"},{"text":"2018","val":"3"},{"text":"2017","val":"4"}];
+			$(".show-labels").data("init",JSON.stringify(map));
+			$(".show-category").mySelect({
+				showCancel:true,
+				showSearch:true,
+				multiple:false
+			});
+			$(".show-labels").mySelect({
+				showCancel:true,
+				showSearch:true,
+				multiple:true
+			});
+
+
+
+			{#console.log(JSON.stringify(map));#}
+		});
+		function postBindMsg() {
+		    let category =  document.getElementsByClassName("select-picker-search-checked")[0].innerText;
+            let unboundLabels = document.getElementsByClassName("select-picker-search-checked")[1].innerText;
+
+            console.log(category);
+            console.log(unboundLabels);
+            if(category !== "Please Select" && unboundLabels !== "Please Select"){
+                $.ajax({
+                    type: "POST",
+                    url: "/bl/",
+                    data: JSON.stringify({'category': category, "unbound_labels": unboundLabels}),
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    success: function (response) {
+                        if(response.msg === 'ok'){
+                            alert('suc')
+                        }
+                    }
+                })
+            }
+
+        }
+ 	</script>
+</body>
+</html>
