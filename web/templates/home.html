@@ -239,6 +239,9 @@
             let topCategoryName = $(this)[0].childNodes[1].childNodes[0].innerText;
             labelName = topCategoryName;
             filterData(topCategoryName, filterType);
+            console.log(currentPage);
+            console.log(filterType);
+            console.log(labelName);
         });
 
         // 筛选请求

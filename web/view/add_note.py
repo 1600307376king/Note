@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request
+from .tool.filter_text import *
 from config.base_setting import *
 import datetime
 import random
@@ -32,13 +33,12 @@ def add_n():
         needed_labels = []
         needed_labels.extend(existing_label.split('|')[:-1])
         needed_labels.extend(custom_labels.split('|')[:-1])
-
         db.session.add(Notes(
             uuid=str(uuid.uuid1()),
             note_title=note_title,
             note_labels='|'.join(needed_labels) + '|',
             note_instructions=note_instructions.strip(),
-            note_content=str_content,
+            note_content=filter_note_con(str_content),
             creation_time=creation_time,
             click_number=0
         ))

@@ -148,8 +148,8 @@
             for(let k = 0; k < noteContent.length; k++){
                 strContent += noteContent[k].innerText + "\n";
             }
-
-            $.ajax({
+            console.log(strContent);
+                        $.ajax({
                 type: "POST",
                 url: "/add/",
                 data: JSON.stringify({'note_title': noteTitle, 'existing_label': existingLabels, 'custom_labels': customLabels,
@@ -168,6 +168,7 @@
                     }
                 }
             })
+
 
         }
     </script>

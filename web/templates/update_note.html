@@ -57,7 +57,7 @@
             </div>
             <div class="foot-button">
                 <label>
-                    <input type="button" value="保存" onclick="save-note()">
+                    <input type="button" value="保存" onclick="saveNote()">
                 </label>
             </div>
             <div id="noteUuid" class="{{ x[4] }}">
@@ -99,7 +99,7 @@
         $(function() {
             var editor = editormd("editor", {
                 width: "100%",
-                autoHeight: true,
+                Height: "500px",
                 // markdown: "xxxx",     // dynamic set Markdown text
                 path : "{{ url }}/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
