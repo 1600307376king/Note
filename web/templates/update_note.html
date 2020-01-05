@@ -99,7 +99,7 @@
         $(function() {
             var editor = editormd("editor", {
                 width: "100%",
-                Height: "500px",
+                autoHeight: true,
                 // markdown: "xxxx",     // dynamic set Markdown text
                 path : "{{ url }}/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
