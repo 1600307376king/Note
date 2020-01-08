@@ -3,6 +3,14 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='/editor.md/css/editormd.min.css') }}" />
     <link rel="stylesheet" href="/css/myself/update-note.css">
+    <style>
+    .CodeMirror {
+        min-height: 500px;
+    }
+    .CodeMirror-gutters {
+        min-height: 500px;
+    }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="mid-content">

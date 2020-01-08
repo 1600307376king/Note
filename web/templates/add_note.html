@@ -7,6 +7,14 @@
 
 
     <script src="/js/choice_label/comboTreePlugin.js"></script>
+    <style>
+        .CodeMirror {
+            min-height: 500px;
+        }
+        .CodeMirror-gutters {
+            min-height: 500px;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="mid-content">
@@ -117,7 +125,7 @@
         $(function() {
             var editor = editormd("editor", {
                 width: "100%",
-                height: "500px",
+                minHeight: "500px",
                 // markdown: "xxxx",     // dynamic set Markdown text
                 path : "{{ url }}/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
