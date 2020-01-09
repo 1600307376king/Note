@@ -3,7 +3,7 @@ from main import db
 
 class TopCategory(db.Model):
     __table_name__ = 'top_category'
-    uuid = db.Column(db.String(36), primary_key=True)
+    uuid = db.Column(db.String(36), primary_key=True, nullable=True)
     top_category_name = db.Column(db.String(255), nullable=False, unique=True)
     sec_category = db.Column(db.Text)
 

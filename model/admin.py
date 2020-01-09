@@ -11,7 +11,7 @@ class Admin(db.Model):
     __table_name__ = 'admin'
     id = db.Column(db.INT, primary_key=True, autoincrement=True)
     admin_name = db.Column(db.String(20), nullable=True)
-    password = db.Column(db.String(20), nullable=True)
+    password = db.Column(db.String(255), nullable=True)
 
     def __init__(self, **kwargs):
         self.admin_name = kwargs['admin_name']

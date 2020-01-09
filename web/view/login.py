@@ -4,24 +4,21 @@
 # @Author  : HelloWorld
 # @File    : admin.py
 from flask import Flask, jsonify, Blueprint, request, render_template, flash, redirect, url_for
-from .tool.filter_text import clean_data
-from config.base_setting import *
-from .tool.token_fuc import generate_token
-from .form.common_form import *
 from passlib.apps import custom_app_context as pwd_context
-from wtforms import StringField, validators, SubmitField, PasswordField
+from .tool.token_fuc import generate_token
+from .tool.ip_log import ip_log
+from .form.common_form import *
 
 
 login_index = Blueprint('login_page', __name__)
 
-from model.top_category import TopCategory
 from model.admin import Admin
-from model.notes import Notes
 from main import db
 
 
 @login_index.route('/', methods=['POST', 'GET'])
 def go_login():
+    ip_log(request.url, go_login.__name__)
     login_form = LoginForm()
     if request.method == 'POST':
         if login_form.validate_on_submit():
@@ -44,6 +41,7 @@ def go_login():
 
 @login_index.route('/registered/', methods=['POST'])
 def go_register():
+    ip_log(request.url, go_register.__name__)
     admin_name = request.form.get('admin_name', '')
     password = request.form.get('password', '')
     if admin_name and password:

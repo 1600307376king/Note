@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request
-from .tool.filter_text import *
 from config.base_setting import *
+from .tool.ip_log import ip_log
+from .tool.filter_text import *
 import datetime
 import random
 import uuid
 
-
 add_index = Blueprint('add_page', __name__)
 
-from main import db
-from model.notes import Notes
 from model.top_category import TopCategory
+from model.notes import Notes
+from main import db
 
 
 def get_random_string(length):
@@ -22,13 +22,14 @@ def get_random_string(length):
 
 @add_index.route('/add/', methods=['POST', 'GET'])
 def add_n():
+    ip_log(request.url, add_n.__name__)
     res = dict()
     if request.method == 'POST':
-        note_title = request.json.get('note_title', "")
-        existing_label = request.json.get('existing_label', "")
-        custom_labels = request.json.get('custom_labels', "")
-        note_instructions = request.json.get('note_instructions', "")
-        str_content = request.json.get('str_content', "")
+        note_title = request.json.get('note_title', '')
+        existing_label = request.json.get('existing_label', '')
+        custom_labels = request.json.get('custom_labels', '')
+        note_instructions = request.json.get('note_instructions', '')
+        str_content = request.json.get('str_content', '')
         creation_time = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         needed_labels = []
         needed_labels.extend(existing_label.split('|')[:-1])

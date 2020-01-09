@@ -3,8 +3,9 @@
 # @Time    : 2020/1/3 18:21
 # @Author  : HelloWorld
 # @File    : manage_label.py
-from flask import Flask, render_template, jsonify, Blueprint, request
+from flask import render_template, jsonify, Blueprint, request
 from .tool.filter_text import clean_data
+from .tool.ip_log import ip_log
 
 
 bind_index = Blueprint('bind_page', __name__)
@@ -16,6 +17,7 @@ from main import db
 
 @bind_index.route('/bl/', methods=['POST', 'GET'])
 def manage_label():
+    ip_log(request.url, manage_label.__name__)
     res = dict()
     if request.method == 'POST':
         category = request.json.get('category', '')
@@ -42,6 +44,5 @@ def manage_label():
 
     dt = [{'text': str(v), "val": str(i + 1)} for i, v in enumerate(new_labels)]
     res['category'] = category
-
 
     return render_template('admin/bind_label.html', res=res, data=dt)

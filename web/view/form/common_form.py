@@ -4,7 +4,6 @@
 # @Author  : HelloWorld
 # @File    : common_form.py
 from flask_wtf import FlaskForm
-from flask_wtf.file import *
 from wtforms import *
 
 

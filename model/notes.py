@@ -3,13 +3,13 @@ from main import db
 
 class Notes(db.Model):
     __table_name__ = 'notes'
-    n_id = db.Column(db.INT, primary_key=True)
-    uuid = db.Column(db.String)
-    note_title = db.Column(db.String)
-    note_labels = db.Column(db.String)
+    n_id = db.Column(db.INT, primary_key=True, nullable=False, autoincrement=True)
+    uuid = db.Column(db.String(36))
+    note_title = db.Column(db.String(255))
+    note_labels = db.Column(db.String(255))
     note_instructions = db.Column(db.TEXT)
     note_content = db.Column(db.TEXT)
-    creation_time = db.Column(db.String)
+    creation_time = db.Column(db.String(255))
     click_number = db.Column(db.INT)
 
     def __init__(self, **kwargs):

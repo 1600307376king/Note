@@ -7,5 +7,5 @@ import time
 class CreateNewVersion(object):
     @staticmethod
     def get_version():
-        # return CSS_VERSION
-        return str(time.time())
+        return CSS_VERSION
+        # return str(time.time())

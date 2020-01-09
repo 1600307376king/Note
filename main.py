@@ -2,12 +2,8 @@
 # -*- coding: utf-8 -*-
 from web.view.tool.static_file_version import CreateNewVersion
 from flask_sqlalchemy import SQLAlchemy
-# from flask_wtf.csrf import CSRFProtect
-from flask_script import Manager
 from datetime import timedelta
 from flask import Flask
-import logging
-
 import os
 
 
@@ -16,17 +12,14 @@ class Main(Flask):
         super(Main, self).__init__(name, template_folder=template_folder, static_folder=static_folder)
         self.config['JSON_AS_ASCII'] = False
         self.config.from_pyfile('config/base_setting.py')
-        self.config['SECRET_KEY'] = os.urandom(24)  # 设置为24位的字符,每次运行服务器都是不同的，所以服务器启动一次上次的session就清除
+        self.config['SECRET_KEY'] = os.urandom(24)  # 设置为24位的字符,每次运行服务器都是不同的
         self.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)  # 设置session的保存时间
         self.config.setdefault('SQLALCHEMY_POOL_SIZE', 100)
         # self.config.setdefault('SQLALCHEMY_MAX_OVERFLOW', 20)
         self.config.setdefault('SQLALCHEMY_POOL_RECYCLE', 3600)
-
         db.init_app(self)
-        # csrf.init_app(self)
 
 
-# csrf = CSRFProtect()
 db = SQLAlchemy()
 
 app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',

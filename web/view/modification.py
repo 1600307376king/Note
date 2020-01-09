@@ -4,7 +4,8 @@
 # @Author  : HelloWorld
 # @File    : modification.py
 from flask import Blueprint, jsonify, request
-from web.view.tool.filter_text import *
+from .tool.ip_log import ip_log
+
 
 mod_index = Blueprint('mod_page', __name__)
 from main import db
@@ -13,9 +14,10 @@ from model.notes import Notes
 
 @mod_index.route('/modification/<uuid>', methods=['POST'])
 def com_modification(uuid):
+    ip_log(request.url, com_modification.__name__)
     query_obj = Notes.query.filter(Notes.uuid == uuid).first()
-    query_obj.note_title = request.json.get('note_title')
-    query_obj.note_labels = request.json.get('str_labels')
+    query_obj.note_title = request.json.get('note_title', '')
+    query_obj.note_labels = request.json.get('str_labels', '')
     query_obj.note_instructions = request.json.get('note_instructions')
     str_content = request.json.get('str_content')
     query_obj.note_content = str_content

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import time
 import base64
+import time
 import hmac
 
 

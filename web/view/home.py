@@ -1,19 +1,22 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, jsonify, request, flash, url_for, redirect
-from config.base_setting import *
-from .form.common_form import *
+from flask import Blueprint, render_template, jsonify, request, flash
 from .tool.filter_text import clean_data
+from config.base_setting import *
+from .tool.ip_log import ip_log
+from .form.common_form import *
 import uuid
 
 home_index = Blueprint('home_page', __name__)
-from main import db
-from model.notes import Notes
+
 from model.top_category import TopCategory
+from model.notes import Notes
+from main import db
 
 
 @home_index.route('/', methods=['GET', 'POST'])
 def home():
+    ip_log(request.url, home.__name__)
     res = dict()
     search_form = SearchForm()
     all_category = TopCategory.query.all()
@@ -83,6 +86,7 @@ def home():
 # 进入修改页
 @home_index.route('/update/<note_id>/')
 def go_update(note_id):
+    ip_log(request.url, go_update.__name__)
     res = dict()
     query_obj = Notes.query.filter(Notes.uuid == note_id).first()
     note_list = [query_obj.note_title, query_obj.note_labels, query_obj.note_instructions,
@@ -98,6 +102,7 @@ def go_update(note_id):
 # 删除当前note
 @home_index.route('/delete/<note_id>/', methods=['POST'])
 def delete_note(note_id):
+    ip_log(request.url, delete_note.__name__)
     res = dict()
     note_list = []
     filter_type = request.json.get('filter_type', 'rec')
@@ -133,6 +138,7 @@ def delete_note(note_id):
 # 条件排序
 @home_index.route('/filter_col/', methods=['POST'])
 def filter_sort():
+    ip_log(request.url, filter_sort.__name__)
     res = dict()
     note_list = []
     filter_type = request.json.get('filter_type', 'rec')
@@ -163,6 +169,7 @@ def filter_sort():
 # 页面向下滚动加载
 @home_index.route('/load_data/', methods=['GET'])
 def loading_data():
+    ip_log(request.url, loading_data.__name__)
     cur_page = request.args.get('page', 2)
     filter_type = request.args.get('type', 'rec')
     label_name = request.args.get('label', 'all')
@@ -222,9 +229,9 @@ def loading_data():
 # 添加新的一级类
 @home_index.route('/add_top_cate/', methods=['POST'])
 def add_top_category():
-    print(request.json)
-    top_category_name = request.json.get('top_name')
-    sec_category = request.json.get('sec_category')
+    ip_log(request.url, add_top_category.__name__)
+    top_category_name = request.json.get('top_name', '')
+    sec_category = request.json.get('sec_category', '')
     str_uuid = str(uuid.uuid4())
 
     has_common_name = TopCategory.query.filter(TopCategory.top_category_name == top_category_name.lower()).first()
@@ -236,11 +243,12 @@ def add_top_category():
         ))
 
         db.session.commit()
-        db.session
+
     return 'ok'
 
 
 @home_index.route('/delete_cache/')
 def delete_all_cache():
+    ip_log(request.url, delete_all_cache.__name__)
     redis_obj.flushdb(asynchronous=False)
     return 'ok'
