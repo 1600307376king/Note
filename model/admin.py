@@ -10,15 +10,12 @@ from main import db
 class Admin(db.Model):
     __table_name__ = 'admin'
     id = db.Column(db.INT, primary_key=True, autoincrement=True)
-    admin_name = db.Column(db.String(20), nullable=True)
-    password = db.Column(db.String(255), nullable=True)
+    admin_name = db.Column(db.String(21), nullable=True)
+    password_hash = db.Column(db.String(255), nullable=True)
 
     def __init__(self, **kwargs):
         self.admin_name = kwargs['admin_name']
-        self.password = kwargs['password']
-
-    def hash_password(self, password):
-        self.password = pwd_context.encrypt(password)
+        self.password_hash = pwd_context.hash(kwargs['password'])
 
     def verify_password(self, admin_password):
-        return pwd_context.verify(admin_password, self.password)
+        return pwd_context.verify(admin_password, self.password_hash)

@@ -15,7 +15,7 @@ from model.notes import Notes
 @mod_index.route('/modification/<uuid>', methods=['POST'])
 def com_modification(uuid):
     ip_log(request.url, com_modification.__name__)
-    query_obj = Notes.query.filter(Notes.uuid == uuid).first()
+    query_obj = Notes.query.get_or_404(uuid)
     query_obj.note_title = request.json.get('note_title', '')
     query_obj.note_labels = request.json.get('str_labels', '')
     query_obj.note_instructions = request.json.get('note_instructions')

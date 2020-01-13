@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2019/11/9 0009 11:23
 # @Author  : HelloWorld
-# @File    : test.py
+# @File    : tests.py
 from flask import render_template, Blueprint, request, flash
 from flask_wtf import FlaskForm
 from wtforms import *
@@ -50,9 +50,9 @@ class TestForm(FlaskForm):
 #             print(a.get('username')[0])
 #             flash(a.get('username')[0])
 #
-#             return render_template('test.html', form=test_form)
+#             return render_template('tests.html', form=test_form)
 #
-#     return render_template('test.html', form=test_form)
+#     return render_template('tests.html', form=test_form)
 # # ------------------------>>>
 
 

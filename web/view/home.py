@@ -84,11 +84,11 @@ def home():
 
 
 # 进入修改页
-@home_index.route('/update/<note_id>/')
-def go_update(note_id):
+@home_index.route('/update/<note_uuid>/')
+def go_update(note_uuid):
     ip_log(request.url, go_update.__name__)
     res = dict()
-    query_obj = Notes.query.filter(Notes.uuid == note_id).first()
+    query_obj = Notes.query.get_or_404(note_uuid)
     note_list = [query_obj.note_title, query_obj.note_labels, query_obj.note_instructions,
                  query_obj.note_content, query_obj.uuid]
     res['note_cur_msg'] = note_list
@@ -100,18 +100,18 @@ def go_update(note_id):
 
 
 # 删除当前note
-@home_index.route('/delete/<note_id>/', methods=['POST'])
-def delete_note(note_id):
+@home_index.route('/delete/<note_uuid>/', methods=['POST'])
+def delete_note(note_uuid):
     ip_log(request.url, delete_note.__name__)
     res = dict()
     note_list = []
     filter_type = request.json.get('filter_type', 'rec')
     label_name = request.json.get('label_name', 'all')
-    cur_page = int(request.json.get('cur_page', 1))
+    # cur_page = int(request.json.get('cur_page', 1))
     label_name = label_name.capitalize()
 
     note_obj = Notes.query
-    delete_obj = note_obj.filter(Notes.uuid == note_id).first()
+    delete_obj = note_obj.get_or_404(note_uuid)
     db.session.delete(delete_obj)
     db.session.commit()
 

@@ -22,7 +22,6 @@ def manage_label():
     if request.method == 'POST':
         category = request.json.get('category', '')
         unbound_labels = request.json.get('unbound_labels', '')
-        print(category, unbound_labels)
         label_obj = TopCategory.query.filter(TopCategory.top_category_name == category).first()
         label_obj.sec_category = label_obj.sec_category + '|'.join(unbound_labels.split(',')) + '|'
         db.session.commit()

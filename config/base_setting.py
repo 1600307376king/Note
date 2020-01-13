@@ -37,7 +37,7 @@ server_list = {
         'debug': False,
         'mysql_password': 'root'
     },
-    'test': {
+    'tests': {
         'port': '8099',
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:8099',

@@ -14,25 +14,23 @@ from model.notes import Notes
 @detail_index.route('/<uuid>/')
 def note_det(uuid):
     ip_log(request.url, note_det.__name__)
-    if uuid:
-        res = dict()
-        note_obj = Notes.query
-        res['note_title'] = [[obj.uuid, obj.note_title] for obj in
-                             note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()).limit(12)]
-        query_obj = note_obj.filter(Notes.uuid == uuid).first()
 
-        query_obj.click_number += 1
-        note_list = [query_obj.uuid, query_obj.note_title, query_obj.creation_time, query_obj.note_labels,
-                     query_obj.note_instructions, query_obj.note_content, query_obj.click_number]
-        res['note_det'] = note_list
-        db.session.commit()
+    res = dict()
+    note_obj = Notes.query
+    res['note_title'] = [[obj.uuid, obj.note_title] for obj in
+                         note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()).limit(12)]
+    query_obj = note_obj.get_or_404(uuid)
 
-        ck_token = request.cookies.get('token', '')
-        arg_token = request.args.get('token', '')
-        if ck_token or arg_token:
-            return render_template('admin/admin_note_detail.html', res=res, url=URL)
+    query_obj.click_number += 1
+    note_list = [query_obj.uuid, query_obj.note_title, query_obj.creation_time, query_obj.note_labels,
+                 query_obj.note_instructions, query_obj.note_content, query_obj.click_number]
+    res['note_det'] = note_list
+    db.session.commit()
+    ck_token = request.cookies.get('token', '')
+    arg_token = request.args.get('token', '')
+    if ck_token or arg_token:
+        return render_template('admin/admin_note_detail.html', res=res, url=URL)
 
-        return render_template('note_detail.html', res=res, url=URL)
-    else:
-        return redirect(url_for('home_page.home'))
+    return render_template('note_detail.html', res=res, url=URL)
+
 

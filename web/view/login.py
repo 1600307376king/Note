@@ -4,7 +4,6 @@
 # @Author  : HelloWorld
 # @File    : admin.py
 from flask import Flask, jsonify, Blueprint, request, render_template, flash, redirect, url_for
-from passlib.apps import custom_app_context as pwd_context
 from .tool.token_fuc import generate_token
 from .tool.ip_log import ip_log
 from .form.common_form import *
@@ -47,9 +46,8 @@ def go_register():
     if admin_name and password:
         db.session.add(Admin(
             admin_name=admin_name,
-            password=pwd_context.encrypt(password)
+            password=password,
         ))
-
         db.session.commit()
 
         return 'register ok'

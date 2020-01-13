@@ -31,7 +31,7 @@ var QUnit,
 		document: window.document !== undefined,
 		setTimeout: window.setTimeout !== undefined,
 		sessionStorage: (function() {
-			var x = "qunit-test-string";
+			var x = "qunit-tests-string";
 			try {
 				sessionStorage.setItem( x, x );
 				sessionStorage.removeItem( x );
@@ -131,7 +131,7 @@ config = {
 		{
 			id: "noglobals",
 			label: "Check for Globals",
-			tooltip: "Enabling this will test if any test introduces new properties on the " +
+			tooltip: "Enabling this will tests if any tests introduces new properties on the " +
 				"`window` object. Stored as query-strings."
 		},
 		{
@@ -170,7 +170,7 @@ config.modules.push( config.currentModule );
 			current = params[ i ].split( "=" );
 			current[ 0 ] = decodeURIComponent( current[ 0 ] );
 
-			// allow just a key to turn on a flag, e.g., test.html?noglobals
+			// allow just a key to turn on a flag, e.g., tests.html?noglobals
 			current[ 1 ] = current[ 1 ] ? decodeURIComponent( current[ 1 ] ) : true;
 			if ( urlParams[ current[ 0 ] ] ) {
 				urlParams[ current[ 0 ] ] = [].concat( urlParams[ current[ 0 ] ], current[ 1 ] );
@@ -203,7 +203,7 @@ config.modules.push( config.currentModule );
 // `QUnit` initialized at top of scope
 extend( QUnit, {
 
-	// call on start of module test to prepend name to all tests
+	// call on start of module tests to prepend name to all tests
 	module: function( name, testEnvironment ) {
 		var currentModule = {
 			name: name,
@@ -272,11 +272,11 @@ extend( QUnit, {
 			globalStartCalled = true;
 
 			if ( runStarted ) {
-				throw new Error( "Called start() outside of a test context while already started" );
+				throw new Error( "Called start() outside of a tests context while already started" );
 			} else if ( globalStartAlreadyCalled || count > 1 ) {
-				throw new Error( "Called start() outside of a test context too many times" );
+				throw new Error( "Called start() outside of a tests context too many times" );
 			} else if ( config.autostart ) {
-				throw new Error( "Called start() outside of a test context when " +
+				throw new Error( "Called start() outside of a tests context when " +
 					"QUnit.config.autostart was true" );
 			} else if ( !config.pageLoaded ) {
 
@@ -286,7 +286,7 @@ extend( QUnit, {
 			}
 		} else {
 
-			// If a test is running, adjust its semaphore
+			// If a tests is running, adjust its semaphore
 			config.current.semaphore -= count || 1;
 
 			// Don't start until equal number of stop-calls
@@ -299,7 +299,7 @@ extend( QUnit, {
 				config.current.semaphore = 0;
 
 				QUnit.pushFailure(
-					"Called start() while already started (test's semaphore was 0 already)",
+					"Called start() while already started (tests's semaphore was 0 already)",
 					sourceFromStacktrace( 2 )
 				);
 				return;
@@ -312,12 +312,12 @@ extend( QUnit, {
 	// DEPRECATED: QUnit.stop() will be removed in QUnit 2.0.
 	stop: function( count ) {
 
-		// If there isn't a test running, don't allow QUnit.stop() to be called
+		// If there isn't a tests running, don't allow QUnit.stop() to be called
 		if ( !config.current ) {
-			throw new Error( "Called stop() outside of a test context" );
+			throw new Error( "Called stop() outside of a tests context" );
 		}
 
-		// If a test is running, adjust its semaphore
+		// If a tests is running, adjust its semaphore
 		config.current.semaphore += count || 1;
 
 		pauseProcessing();
@@ -604,10 +604,10 @@ function begin() {
 	var i, l,
 		modulesLog = [];
 
-	// If the test run hasn't officially begun yet
+	// If the tests run hasn't officially begun yet
 	if ( !config.started ) {
 
-		// Record the time of the test run's beginning
+		// Record the time of the tests run's beginning
 		config.started = now();
 
 		verifyLoggingCallbacks();
@@ -617,7 +617,7 @@ function begin() {
 			config.modules.shift();
 		}
 
-		// Avoid unnecessary information by not logging modules' test environments
+		// Avoid unnecessary information by not logging modules' tests environments
 		for ( i = 0, l = config.modules.length; i < l; i++ ) {
 			modulesLog.push({
 				name: config.modules[ i ].name,
@@ -625,7 +625,7 @@ function begin() {
 			});
 		}
 
-		// The test run is officially beginning now
+		// The tests run is officially beginning now
 		runLoggingCallbacks( "begin", {
 			totalTests: Test.count,
 			modules: modulesLog
@@ -841,7 +841,7 @@ Test.prototype = {
 			this.module !== config.previousModule ||
 
 				// They could be equal (both undefined) but if the previousModule property doesn't
-				// yet exist it means this is the first test in a suite that isn't wrapped in a
+				// yet exist it means this is the first tests in a suite that isn't wrapped in a
 				// module, in which case we'll just emit a moduleStart event for 'undefined'.
 				// Without this, reporters can get testStart before moduleStart  which is a problem.
 				!hasOwn.call( config, "previousModule" )
@@ -903,10 +903,10 @@ Test.prototype = {
 			promise = this.callback.call( this.testEnvironment, this.assert );
 			this.resolvePromise( promise );
 		} catch ( e ) {
-			this.pushFailure( "Died on test #" + ( this.assertions.length + 1 ) + " " +
+			this.pushFailure( "Died on tests #" + ( this.assertions.length + 1 ) + " " +
 				this.stack + ": " + ( e.message || e ), extractStacktrace( e, 0 ) );
 
-			// else next test will carry the responsibility
+			// else next tests will carry the responsibility
 			saveGlobal();
 
 			// Restart the tests if they're blocking
@@ -1044,9 +1044,9 @@ Test.prototype = {
 		}
 
 		// `bad` initialized at top of scope
-		// defer when previous test run passed, if storage is available
+		// defer when previous tests run passed, if storage is available
 		bad = QUnit.config.reorder && defined.sessionStorage &&
-				+sessionStorage.getItem( "qunit-test-" + this.module.name + "-" + this.testName );
+				+sessionStorage.getItem( "qunit-tests-" + this.module.name + "-" + this.testName );
 
 		if ( bad ) {
 			run();
@@ -1086,7 +1086,7 @@ Test.prototype = {
 
 	pushFailure: function( message, source, actual ) {
 		if ( !this instanceof Test ) {
-			throw new Error( "pushFailure() assertion outside test context, was " +
+			throw new Error( "pushFailure() assertion outside tests context, was " +
 				sourceFromStacktrace( 2 ) );
 		}
 
@@ -1128,7 +1128,7 @@ Test.prototype = {
 							" " + test.testName + ": " + ( error.message || error );
 						test.pushFailure( message, extractStacktrace( error, 0 ) );
 
-						// else next test will carry the responsibility
+						// else next tests will carry the responsibility
 						saveGlobal();
 
 						// Unblock
@@ -1178,9 +1178,9 @@ Test.prototype = {
 
 };
 
-// Resets the test setup. Useful for tests that modify the DOM.
+// Resets the tests setup. Useful for tests that modify the DOM.
 /*
-DEPRECATED: Use multiple tests instead of resetting inside a test.
+DEPRECATED: Use multiple tests instead of resetting inside a tests.
 Use testStart or testDone for custom cleanup.
 This method will throw an error in 2.0, and will be removed in 2.1
 */
@@ -1202,11 +1202,11 @@ QUnit.reset = function() {
 
 QUnit.pushFailure = function() {
 	if ( !QUnit.config.current ) {
-		throw new Error( "pushFailure() assertion outside test context, in " +
+		throw new Error( "pushFailure() assertion outside tests context, in " +
 			sourceFromStacktrace( 2 ) );
 	}
 
-	// Gets current test obj
+	// Gets current tests obj
 	var currentTest = QUnit.config.current;
 
 	return currentTest.pushFailure.apply( currentTest, arguments );
@@ -1243,7 +1243,7 @@ function Assert( testContext ) {
 // Assert helpers
 QUnit.assert = Assert.prototype = {
 
-	// Specify the number of expected assertions to guarantee that failed test
+	// Specify the number of expected assertions to guarantee that failed tests
 	// (no assertions are run at all) don't slip through.
 	expect: function( asserts ) {
 		if ( arguments.length === 1 ) {
@@ -1275,7 +1275,7 @@ QUnit.assert = Assert.prototype = {
 		};
 	},
 
-	// Exports test.push() to the user API
+	// Exports tests.push() to the user API
 	push: function( /* result, actual, expected, message */ ) {
 		var assert = this,
 			currentTest = ( assert instanceof Assert && assert.test ) || QUnit.config.current;
@@ -1283,10 +1283,10 @@ QUnit.assert = Assert.prototype = {
 		// Backwards compatibility fix.
 		// Allows the direct use of global exported assertions and QUnit.assert.*
 		// Although, it's use is not recommended as it can leak assertions
-		// to other tests from async tests, because we only get a reference to the current test,
-		// not exactly the test where assertion were intended to be called.
+		// to other tests from async tests, because we only get a reference to the current tests,
+		// not exactly the tests where assertion were intended to be called.
 		if ( !currentTest ) {
-			throw new Error( "assertion outside test context, in " + sourceFromStacktrace( 2 ) );
+			throw new Error( "assertion outside tests context, in " + sourceFromStacktrace( 2 ) );
 		}
 
 		if ( currentTest.usedAsync === true && currentTest.semaphore === 0 ) {
@@ -2220,7 +2220,7 @@ var config = QUnit.config,
 	defined = {
 		document: window.document !== undefined,
 		sessionStorage: (function() {
-			var x = "qunit-test-string";
+			var x = "qunit-tests-string";
 			try {
 				sessionStorage.setItem( x, x );
 				sessionStorage.removeItem( x );
@@ -2573,7 +2573,7 @@ function appendTest( name, testId, moduleName ) {
 	testBlock = document.createElement( "li" );
 	testBlock.appendChild( title );
 	testBlock.appendChild( rerunTrigger );
-	testBlock.id = "qunit-test-output-" + testId;
+	testBlock.id = "qunit-tests-output-" + testId;
 
 	assertList = document.createElement( "ol" );
 	assertList.className = "qunit-assert-list";
@@ -2652,7 +2652,7 @@ QUnit.done(function( details ) {
 	if ( config.reorder && defined.sessionStorage && details.failed === 0 ) {
 		for ( i = 0; i < sessionStorage.length; i++ ) {
 			key = sessionStorage.key( i++ );
-			if ( key.indexOf( "qunit-test-" ) === 0 ) {
+			if ( key.indexOf( "qunit-tests-" ) === 0 ) {
 				sessionStorage.removeItem( key );
 			}
 		}
@@ -2671,7 +2671,7 @@ function getNameHtml( name, module ) {
 		nameHtml = "<span class='module-name'>" + escapeText( module ) + "</span>: ";
 	}
 
-	nameHtml += "<span class='test-name'>" + escapeText( name ) + "</span>";
+	nameHtml += "<span class='tests-name'>" + escapeText( name ) + "</span>";
 
 	return nameHtml;
 }
@@ -2679,7 +2679,7 @@ function getNameHtml( name, module ) {
 QUnit.testStart(function( details ) {
 	var running, testBlock;
 
-	testBlock = id( "qunit-test-output-" + details.testId );
+	testBlock = id( "qunit-tests-output-" + details.testId );
 	if ( testBlock ) {
 		testBlock.className = "running";
 	} else {
@@ -2698,14 +2698,14 @@ QUnit.testStart(function( details ) {
 QUnit.log(function( details ) {
 	var assertList, assertLi,
 		message, expected, actual,
-		testItem = id( "qunit-test-output-" + details.testId );
+		testItem = id( "qunit-tests-output-" + details.testId );
 
 	if ( !testItem ) {
 		return;
 	}
 
 	message = escapeText( details.message ) || ( details.result ? "okay" : "failed" );
-	message = "<span class='test-message'>" + message + "</span>";
+	message = "<span class='tests-message'>" + message + "</span>";
 	message += "<span class='runtime'>@ " + details.runtime + " ms</span>";
 
 	// pushFailure doesn't provide details.expected
@@ -2714,19 +2714,19 @@ QUnit.log(function( details ) {
 	if ( !details.result && hasOwn.call( details, "expected" ) ) {
 		expected = escapeText( QUnit.dump.parse( details.expected ) );
 		actual = escapeText( QUnit.dump.parse( details.actual ) );
-		message += "<table><tr class='test-expected'><th>Expected: </th><td><pre>" +
+		message += "<table><tr class='tests-expected'><th>Expected: </th><td><pre>" +
 			expected +
 			"</pre></td></tr>";
 
 		if ( actual !== expected ) {
-			message += "<tr class='test-actual'><th>Result: </th><td><pre>" +
+			message += "<tr class='tests-actual'><th>Result: </th><td><pre>" +
 				actual + "</pre></td></tr>" +
-				"<tr class='test-diff'><th>Diff: </th><td><pre>" +
+				"<tr class='tests-diff'><th>Diff: </th><td><pre>" +
 				QUnit.diff( expected, actual ) + "</pre></td></tr>";
 		}
 
 		if ( details.source ) {
-			message += "<tr class='test-source'><th>Source: </th><td><pre>" +
+			message += "<tr class='tests-source'><th>Source: </th><td><pre>" +
 				escapeText( details.source ) + "</pre></td></tr>";
 		}
 
@@ -2735,7 +2735,7 @@ QUnit.log(function( details ) {
 	// this occours when pushFailure is set and we have an extracted stack trace
 	} else if ( !details.result && details.source ) {
 		message += "<table>" +
-			"<tr class='test-source'><th>Source: </th><td><pre>" +
+			"<tr class='tests-source'><th>Source: </th><td><pre>" +
 			escapeText( details.source ) + "</pre></td></tr>" +
 			"</table>";
 	}
@@ -2757,7 +2757,7 @@ QUnit.testDone(function( details ) {
 		return;
 	}
 
-	testItem = id( "qunit-test-output-" + details.testId );
+	testItem = id( "qunit-tests-output-" + details.testId );
 
 	assertList = testItem.getElementsByTagName( "ol" )[ 0 ];
 
@@ -2767,9 +2767,9 @@ QUnit.testDone(function( details ) {
 	// store result when possible
 	if ( config.reorder && defined.sessionStorage ) {
 		if ( bad ) {
-			sessionStorage.setItem( "qunit-test-" + details.module + "-" + details.name, bad );
+			sessionStorage.setItem( "qunit-tests-" + details.module + "-" + details.name, bad );
 		} else {
-			sessionStorage.removeItem( "qunit-test-" + details.module + "-" + details.name );
+			sessionStorage.removeItem( "qunit-tests-" + details.module + "-" + details.name );
 		}
 	}
 
@@ -2777,7 +2777,7 @@ QUnit.testDone(function( details ) {
 		addClass( assertList, "qunit-collapsed" );
 	}
 
-	// testItem.firstChild is the test name
+	// testItem.firstChild is the tests name
 	testTitle = testItem.firstChild;
 
 	testCounts = bad ?

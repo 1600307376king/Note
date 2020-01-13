@@ -96,7 +96,6 @@
         gotoLine             : true,
         codeFold             : false,
         autoHeight           : false,
-        minHeight            : "500px",
 		autoFocus            : true,
         autoCloseTags        : true,
         searchReplace        : true,

@@ -13,7 +13,7 @@
      "[tag %h1] Hey There %h2");
 
   MT("idSelector",
-     "[tag %h1][attribute #test] Hey There");
+     "[tag %h1][attribute #tests] Hey There");
 
   MT("classSelector",
      "[tag %h1][attribute .hello] Hey There");
@@ -28,7 +28,7 @@
      "[tag %h1] This is not a / comment ");
 
   MT("attributes",
-     "[tag %a]([variable title][operator =][string \"test\"]){[atom :title] [operator =>] [string \"test\"]}");
+     "[tag %a]([variable title][operator =][string \"tests\"]){[atom :title] [operator =>] [string \"tests\"]}");
 
   MT("htmlCode",
      "[tag&bracket <][tag h1][tag&bracket >]Title[tag&bracket </][tag h1][tag&bracket >]");
@@ -41,7 +41,7 @@
 
   MT("nestedRubyBlock",
       "[tag %a]",
-      "   [operator =][variable puts] [string \"test\"]");
+      "   [operator =][variable puts] [string \"tests\"]");
 
   MT("multilinePlaintext",
       "[tag %p]",
@@ -80,7 +80,7 @@
   MT("hamlAfterRubyTag",
     "[attribute .block]",
     "  [tag %strong=] [variable now]",
-    "  [attribute .test]",
+    "  [attribute .tests]",
     "     [operator =][variable now]",
     "  [attribute .right]");
 
@@ -89,9 +89,9 @@
      "   [string \"World\"]");
 
   MT("interpolationInHashAttribute",
-     //"[tag %div]{[atom :id] [operator =>] [string \"#{][variable test][string }_#{][variable ting][string }\"]} test");
-     "[tag %div]{[atom :id] [operator =>] [string \"#{][variable test][string }_#{][variable ting][string }\"]} test");
+     //"[tag %div]{[atom :id] [operator =>] [string \"#{][variable tests][string }_#{][variable ting][string }\"]} tests");
+     "[tag %div]{[atom :id] [operator =>] [string \"#{][variable tests][string }_#{][variable ting][string }\"]} tests");
 
   MT("interpolationInHTMLAttribute",
-     "[tag %div]([variable title][operator =][string \"#{][variable test][string }_#{][variable ting]()[string }\"]) Test");
+     "[tag %div]([variable title][operator =][string \"#{][variable tests][string }_#{][variable ting]()[string }\"]) Test");
 })();

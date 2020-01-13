@@ -101,7 +101,7 @@ If you using modular script loader:
 <script src="editormd/lib/prettify.min.js"></script>
 <script type="text/javascript">
     $(function() {
-	    var testView = editormd.markdownToHTML("test-markdown-view", {
+	    var testView = editormd.markdownToHTML(tests, {
             // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
             // htmlDecode : true,  // Enable / disable HTML tag encode.
             // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.

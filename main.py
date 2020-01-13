@@ -26,13 +26,6 @@ app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
            static_folder=os.getcwd() + "/web/static/")
 
 
-# 设置404页面
-@app.errorhandler(404)
-def page_not_found(error):
-    app.logger.error(error)
-    return 'This page does not exist', 404
-
-
 app.add_template_global(CreateNewVersion.get_version(), 'getVersion')
 
 
