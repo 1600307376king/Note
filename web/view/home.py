@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request, flash
+from .tool.filter_note import filter_func
 from .tool.filter_text import clean_data
 from config.base_setting import *
 from .tool.ip_log import ip_log
@@ -105,33 +106,17 @@ def go_update(note_uuid):
 def delete_note(note_uuid):
     ip_log(request.url, delete_note.__name__)
     res = dict()
-    note_list = []
     filter_type = request.json.get('filter_type', 'rec')
-    label_name = request.json.get('label_name', 'all')
-    # cur_page = int(request.json.get('cur_page', 1))
+    label_name = request.json.get('label_name', 'All')
     label_name = label_name.capitalize()
 
-    note_obj = Notes.query
-    delete_obj = note_obj.get_or_404(note_uuid)
+    delete_obj = Notes.query.get_or_404(note_uuid)
     db.session.delete(delete_obj)
     db.session.commit()
-
-    if label_name == 'All' and filter_type == 'rec':
-        note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name != 'All' and filter_type != 'rec':
-        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
-            Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name == 'All' and filter_type != 'rec':
-        note_list = Notes.query.order_by(Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name != 'All' and filter_type == 'rec':
-        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
-            Notes.click_number.desc(), Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
-                        obj.creation_time, obj.click_number] for obj in note_list]
+    note_obj = filter_func(filter_type, label_name, 1, Notes)
+    if note_obj:
+        res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
+                            obj.creation_time, obj.click_number] for obj in note_obj.items]
 
     return jsonify(res)
 
@@ -141,28 +126,13 @@ def delete_note(note_uuid):
 def filter_sort():
     ip_log(request.url, filter_sort.__name__)
     res = dict()
-    note_list = []
     filter_type = request.json.get('filter_type', 'rec')
-    label_name = request.json.get('label_name', 'all')
+    label_name = request.json.get('label_name', 'All')
     label_name = label_name.capitalize()
-
-    if label_name == 'All' and filter_type == 'rec':
-        note_list = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name != 'All' and filter_type != 'rec':
-        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
-            Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name == 'All' and filter_type != 'rec':
-        note_list = Notes.query.order_by(Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-    if label_name != 'All' and filter_type == 'rec':
-        note_list = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
-            Notes.click_number.desc(), Notes.creation_time.desc()). \
-            paginate(1, per_page=PER_PAGE_MAX_NUM).items
-
-    res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
-                        obj.creation_time, obj.click_number] for obj in note_list]
+    note_obj = filter_func(filter_type, label_name, 1, Notes)
+    if note_obj:
+        res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
+                            obj.creation_time, obj.click_number] for obj in note_obj.items]
 
     return jsonify(res)
 
@@ -173,7 +143,7 @@ def loading_data():
     ip_log(request.url, loading_data.__name__)
     cur_page = request.args.get('page', 2)
     filter_type = request.args.get('type', 'rec')
-    label_name = request.args.get('label', 'all')
+    label_name = request.args.get('label', 'All')
     label_name = label_name.capitalize()
     cur_page = int(cur_page)
     msg = dict()
@@ -181,26 +151,10 @@ def loading_data():
     msg['res'] = ''
     msg['cur_num'] = cur_page
     try:
-        load_result_obj = None
-        if filter_type == 'rec' and label_name == 'All':
-            load_result_obj = Notes.query.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
-                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        elif filter_type == 'rec' and label_name != 'All':
-            load_result_obj = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
-                Notes.click_number.desc(), Notes.creation_time.desc()). \
-                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        elif filter_type == 'new' and label_name != 'All':
-            load_result_obj = Notes.query.filter(Notes.note_labels.like("%" + label_name + "%")).order_by(
-                Notes.creation_time.desc()). \
-                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        elif filter_type == 'new' and label_name == 'All':
-            load_result_obj = Notes.query.order_by(Notes.creation_time.desc()). \
-                paginate(cur_page, per_page=PER_PAGE_MAX_NUM)
-        if load_result_obj:
-            load_data_list = load_result_obj.items
-
+        load_data_obj = filter_func(filter_type, label_name, cur_page, Notes)
+        if load_data_obj:
             msg['res'] = [[obj.uuid, obj.note_title, obj.note_labels,
-                           obj.creation_time, obj.click_number] for obj in load_data_list]
+                           obj.creation_time, obj.click_number] for obj in load_data_obj.items]
 
             if len(msg['res']) == PER_PAGE_MAX_NUM:
                 msg['msg'] = 'continue'
@@ -213,18 +167,6 @@ def loading_data():
         print(e)
 
     return jsonify(msg)
-
-
-# @home_index.route('/load_label/', methods=['POST'])
-# def load_labels():
-#     res = dict()
-#     top_category = request.json.get('top_category')
-#     print(top_category)
-#     label_obj = TopCategory.query.filter(TopCategory.top_category_name == top_category).first()
-#     label_list = [i for i in label_obj.sec_category.split('|')[:-1]]
-#     print(label_list)
-#     res['label_list'] = label_list
-#     return jsonify(res)
 
 
 # 添加新的一级类
