@@ -62,7 +62,6 @@ def home():
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
-    print(res['note_msg'][0])
     # 清除缓存
     # redis_obj.flushdb(asynchronous=False)
     # 添加缓存

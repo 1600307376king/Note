@@ -81,8 +81,6 @@
 		    let category =  document.getElementsByClassName("select-picker-search-checked")[0].innerText;
             let unboundLabels = document.getElementsByClassName("select-picker-search-checked")[1].innerText;
 
-            console.log(category);
-            console.log(unboundLabels);
             if(category !== "Please Select" && unboundLabels !== "Please Select"){
                 $.ajax({
                     type: "POST",

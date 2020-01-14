@@ -71,9 +71,6 @@
                         'Content-Type': 'application/json',
                     },
                     success: function (response) {
-                        {#console.log(response.res);#}
-                        {#console.log(currentPage);#}
-                        {#console.log(response.cur_num);#}
                         if (response.msg === 'continue') {
                             if (currentPage === parseInt(response.cur_num)) {
                                 is_append = -1
