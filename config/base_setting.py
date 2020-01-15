@@ -1,4 +1,5 @@
 import redis
+import os
 
 pool = redis.ConnectionPool(host='localhost', port=6379)
 redis_obj = redis.Redis(connection_pool=pool)
@@ -9,6 +10,7 @@ PER_PAGE_MAX_NUM = 10
 # css 版本
 CSS_VERSION = '2019122231106'
 
+# 打印sql信息
 SQLALCHEMY_ECHO = False
 
 SQLALCHEMY_ENCODING = 'utf-8'
@@ -17,7 +19,7 @@ SQLALCHEMY_ENCODING = 'utf-8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # session必须要设置key
-# SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+SECRET_KEY = os.urandom(24)
 
 # 限制文件上传大小
 MAX_CONTENT_LENGTH = 100 * 1024 * 1024
@@ -50,7 +52,6 @@ ENV_NAME = 'development'
 SERVER_PORT = server_list[ENV_NAME]['port']
 IP = server_list[ENV_NAME]['ip']
 URL = server_list[ENV_NAME]['url']
-
 DEBUG = server_list[ENV_NAME]['debug']
 
 # mysql数据库连接信息
@@ -64,4 +65,6 @@ DATABASE = 'note'
 # 这个连接字符串变量名是固定的具体 参考 flask_sqlalchemy 文档 sqlalchemy会自动找到flask配置中的 这个变量
 SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
                                                                        DATABASE)
+
+
 

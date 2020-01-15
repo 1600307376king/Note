@@ -12,10 +12,11 @@ home_index = Blueprint('home_page', __name__)
 
 from model.top_category import TopCategory
 from model.notes import Notes
-from main import db
+from main import db, cache
 
 
 @home_index.route('/', methods=['GET', 'POST'])
+@cache.cached(timeout=10)
 def home():
     ip_log(request.url, home.__name__)
     res = dict()
