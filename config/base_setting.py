@@ -1,8 +1,8 @@
 import redis
 import os
 
-pool = redis.ConnectionPool(host='localhost', port=6379)
-redis_obj = redis.Redis(connection_pool=pool)
+# pool = redis.ConnectionPool(host='localhost', port=6379)
+# redis_obj = redis.Redis(connection_pool=pool)
 
 # 分页每页做大值
 PER_PAGE_MAX_NUM = 10
@@ -23,6 +23,9 @@ SECRET_KEY = os.urandom(24)
 
 # 限制文件上传大小
 MAX_CONTENT_LENGTH = 100 * 1024 * 1024
+
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 server_list = {
     'development': {

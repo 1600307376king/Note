@@ -8,6 +8,8 @@ from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import DataRequired, EqualTo
 from flask_wtf.file import FileRequired, FileAllowed
+from flask_mail import Message
+from main import mail
 import os
 
 test_index = Blueprint('test_page', __name__)
@@ -55,4 +57,39 @@ class TestForm(FlaskForm):
 #     return render_template('tests.html', form=test_form)
 # # ------------------------>>>
 
+# 发送qq邮件测试
+@test_index.route('/mail_send/', methods=['POST', 'GET'])
+def send_mail():
+    """
+    MAIL_SERVER : smtp.qq.com qq 邮箱服务器域名
+    MAIL_PORT: 587
+    MAIL_USERNAME : 1600307376@qq.com  # 发送者邮箱账号
+    MAIL_PASSWORD : *** # 需要去邮箱页面设置里获取
+    :return:
+    """
+    msg = Message('hello', sender='1600307376@qq.com', recipients=['438200051@qq.com'])
+    msg.body = 'test'
+    msg.html = '<b>testing</b>'
+    mail.send(msg)
+    return 'send_success'
+
+
+# sendgrid 服务商发送邮件
+@test_index.route('/grid_mail/', methods=['POST', 'GET'])
+def send_grid_mail():
+    """
+    MAIL_SERVER : smtp.sendgrid.net
+    MAIL_PORT: 587
+    MAIL_USERNAME : apikey # 发送类型
+    MAIL_PASSWORD : *** # 需要去服务商页面获取api key 密钥
+
+
+    sender 为api key 名称
+    :return:
+    """
+    msg = Message(subject='hello，im sendgrid', sender='jjcmailkey', recipients=['438200051@qq.com'])
+    msg.body = 'test'
+    msg.html = '<b>testing</b>'
+    mail.send(msg)
+    return 'send_success'
 
