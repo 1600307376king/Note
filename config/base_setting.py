@@ -1,5 +1,9 @@
 import redis
 import os
+from dotenv import load_dotenv
+
+
+load_dotenv(override=True)  # 需要添加override=True, 否则会加载不到
 
 # pool = redis.ConnectionPool(host='localhost', port=6379)
 # redis_obj = redis.Redis(connection_pool=pool)
@@ -40,14 +44,14 @@ server_list = {
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:80',
         'debug': False,
-        'mysql_password': 'root'
+        'mysql_password': os.getenv('PASSWORD')
     },
     'tests': {
         'port': '8099',
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:8099',
         'debug': True,
-        'mysql_password': 'root'
+        'mysql_password': os.getenv('PASSWORD')
     }
 }
 
@@ -68,6 +72,15 @@ DATABASE = 'note'
 # 这个连接字符串变量名是固定的具体 参考 flask_sqlalchemy 文档 sqlalchemy会自动找到flask配置中的 这个变量
 SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
                                                                        DATABASE)
+
+
+# 邮件发送配置
+MAIL_SERVER = 'smtp.sendgrid.net'
+MAIL_PORT = 587
+MAIL_USE_TLS = False
+MAIL_USERNAME = 'apikey'
+MAIL_PASSWORD = os.getenv('SENDGRID_API_KEY')  # 需要去邮箱页面设置里获取
+
 
 
 
