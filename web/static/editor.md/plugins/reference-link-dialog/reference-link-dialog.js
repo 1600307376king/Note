@@ -33,7 +33,7 @@
 
             if (editor.find("." + dialogName).length < 1)
             {      
-                var dialogHTML = "<div class=\"" + classPrefix + "form\">" +
+                var dialogHTML = "<div class=\"" + classPrefix + "common_form\">" +
                                         "<label>" + dialogLang.name + "</label>" +
                                         "<input type=\"text\" value=\"[" + ReLinkId + "]\" data-name />" +  
                                         "<br/>" +

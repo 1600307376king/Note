@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request
 from config.base_setting import *
-from .tool.ip_log import ip_log
-from .tool.filter_text import *
+from web.view.tool.ip_log import ip_log
+from web.view.tool.filter_text import *
 import datetime
 import random
 import uuid
-
-add_index = Blueprint('add_page', __name__)
-
 from model.top_category import TopCategory
 from model.notes import Notes
 from main import db
+
+
+add_index = Blueprint('add_page', __name__)
 
 
 def get_random_string(length):

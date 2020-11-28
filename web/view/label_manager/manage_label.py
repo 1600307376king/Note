@@ -4,15 +4,14 @@
 # @Author  : HelloWorld
 # @File    : manage_label.py
 from flask import render_template, jsonify, Blueprint, request
-from .tool.filter_text import clean_data
-from .tool.ip_log import ip_log
-
-
-bind_index = Blueprint('bind_page', __name__)
-
+from web.view.tool.filter_text import clean_data
+from web.view.tool.ip_log import ip_log
 from model.top_category import TopCategory
 from model.notes import Notes
 from main import db
+
+
+bind_index = Blueprint('bind_page', __name__)
 
 
 @bind_index.route('/bl/', methods=['POST', 'GET'])

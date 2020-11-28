@@ -4,9 +4,9 @@
 # @Author  : HelloWorld
 # @File    : admin.py
 from flask import Flask, jsonify, Blueprint, request, render_template, flash, redirect, url_for
-from .tool.token_fuc import generate_token
-from .tool.ip_log import ip_log
-from .form.common_form import *
+from web.view.tool.token_fuc import generate_token
+from web.view.tool.ip_log import ip_log
+from web.view.common_form.common_form import *
 
 
 login_index = Blueprint('login_page', __name__)

@@ -4,12 +4,13 @@
 # @Author  : HelloWorld
 # @File    : modification.py
 from flask import Blueprint, jsonify, request
-from .tool.ip_log import ip_log
+from web.view.tool.ip_log import ip_log
+from main import db
+from model.notes import Notes
 
 
 mod_index = Blueprint('mod_page', __name__)
-from main import db
-from model.notes import Notes
+
 
 
 @mod_index.route('/modification/<uuid>', methods=['POST'])

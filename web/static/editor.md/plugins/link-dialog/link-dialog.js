@@ -41,7 +41,7 @@
             }
             else
             {
-                var dialogHTML = "<div class=\"" + classPrefix + "form\">" + 
+                var dialogHTML = "<div class=\"" + classPrefix + "common_form\">" +
                                         "<label>" + linkLang.url + "</label>" + 
                                         "<input type=\"text\" value=\"http://\" data-url />" +
                                         "<br/>" + 

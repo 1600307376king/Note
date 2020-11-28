@@ -30,6 +30,9 @@ class Main(Flask):
 
 db = SQLAlchemy()
 cache = Cache(config={'CACHE_TYPE': 'redis'})
+# 禁用缓存
+# cache.config['CACHE_TYPE'] = "null"
+
 cel = Celery()
 mail = Mail()
 toolbar = DebugToolbarExtension()

@@ -30,9 +30,9 @@ class TestForm(FlaskForm):
 # def flask_test():
 #     test_form = TestForm()
 #     if request.method == 'POST':
-#         # username = request.form.get('username')
-#         # password = request.form.get('password')
-#         # verify_password = request.form.get('verify_password')
+#         # username = request.common_form.get('username')
+#         # password = request.common_form.get('password')
+#         # verify_password = request.common_form.get('verify_password')
 #         f = test_form.photo.data
 #
 #         if test_form.validate_on_submit():
@@ -52,9 +52,9 @@ class TestForm(FlaskForm):
 #             print(a.get('username')[0])
 #             flash(a.get('username')[0])
 #
-#             return render_template('tests.html', form=test_form)
+#             return render_template('tests.html', common_form=test_form)
 #
-#     return render_template('tests.html', form=test_form)
+#     return render_template('tests.html', common_form=test_form)
 # # ------------------------>>>
 
 # 发送qq邮件测试

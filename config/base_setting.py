@@ -37,7 +37,7 @@ server_list = {
         'ip': '127.0.0.1',
         'url': 'http://127.0.0.1:5000',
         'debug': True,
-        'mysql_password': ''
+        'mysql_password': '123456'
     },
     'production': {
         'port': '80',
@@ -63,14 +63,14 @@ DEBUG = server_list[ENV_NAME]['debug']
 
 # mysql数据库连接信息
 DIALECT = 'mysql'
-DRIVER = 'pymysql'
+DRIVER = 'mysqlconnector'
 USERNAME = 'root'
 PASSWORD = server_list[ENV_NAME]['mysql_password']
 HOST = 'localhost'
 PORT = '3306'
 DATABASE = 'note'
 # 这个连接字符串变量名是固定的具体 参考 flask_sqlalchemy 文档 sqlalchemy会自动找到flask配置中的 这个变量
-SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
+SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8mb4'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
                                                                        DATABASE)
 
 

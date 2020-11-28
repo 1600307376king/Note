@@ -3255,7 +3255,7 @@
 
   /* a function name */
 }
-/* Use higher contrast and text-weight for printable form. */
+/* Use higher contrast and text-weight for printable common_form. */
 @media print, projection {
   .str {
     color: #060;

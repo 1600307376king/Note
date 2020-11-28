@@ -6675,7 +6675,7 @@
     return line.styles;
   }
 
-  // Lightweight form of highlight -- proceed over this line and
+  // Lightweight common_form of highlight -- proceed over this line and
   // update state, but don't save a style array. Used for lines that
   // aren't currently visible.
   function processLine(cm, text, state, startAt) {

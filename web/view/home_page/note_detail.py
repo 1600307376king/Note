@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, url_for, request, redirect
 from config.base_setting import *
-from .tool.ip_log import ip_log
+from web.view.tool.ip_log import ip_log
+from main import db
+from model.notes import Notes
 
 
 detail_index = Blueprint('detail_page', __name__)
-from main import db
-from model.notes import Notes
 
 
 # 笔记详情

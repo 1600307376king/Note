@@ -1,18 +1,17 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, jsonify, request, flash
-from .tool.filter_note import filter_func
-from .tool.filter_text import clean_data
+from web.view.tool.filter_note import filter_func
+from web.view.tool.filter_text import clean_data
 from config.base_setting import *
-from .tool.ip_log import ip_log
-from .form.common_form import *
+from web.view.tool.ip_log import ip_log
+from web.view.common_form.common_form import *
 import uuid
-
-home_index = Blueprint('home_page', __name__)
-
 from model.top_category import TopCategory
 from model.notes import Notes
 from main import db, cache
+
+home_index = Blueprint('home_page', __name__)
 
 
 @home_index.route('/', methods=['GET', 'POST'])
@@ -46,37 +45,12 @@ def home():
             error_msg = search_form.errors
             flash(error_msg.get('keyword')[0])
 
-    # ip = request.headers.get('Remote Address')
-    # is_has_cache = redis_obj.get('home' + str(ip))
-
-    # if is_has_cache:
-    #     res['note_msg'] = [
-    #         list(map(decode_text,
-    #                  redis_obj.hmget('home' + str(ip) + str(i), 'uuid', 'note_title', 'note_instructions',
-    #                                  'note_labels', 'creation_time', 'click_number')))
-    #         for i in range(int(bytes.decode(is_has_cache)))]
-    #
-    #     return render_template('home.html', form=search_form, res=res, url=URL, filter=0)
-
     note_list = note_obj.order_by(Notes.click_number.desc(), Notes.creation_time.desc()). \
         paginate(1, per_page=PER_PAGE_MAX_NUM).items
 
     res['note_msg'] = [[obj.uuid, obj.note_title, obj.note_labels,
                         obj.creation_time, obj.click_number] for obj in note_list]
-    # 清除缓存
-    # redis_obj.flushdb(asynchronous=False)
-    # 添加缓存
-    # for i, v in enumerate(note_list):
-    #     dic = {'uuid': str(v.uuid),
-    #            'note_title': str(v.note_title),
-    #            'note_instructions': str(v.note_instructions),
-    #            'note_labels': str(v.note_labels),
-    #            'creation_time': str(v.creation_time),
-    #            'click_number': str(v.click_number)}
-    #
-    #     redis_obj.hmset('home' + str(ip) + str(i), dic)
 
-    # redis_obj.set('home' + str(ip), len(res['note_msg']), ex=1)
     ck_token = request.cookies.get('token', '')
     arg_token = request.args.get('token', '')
     if ck_token or arg_token:

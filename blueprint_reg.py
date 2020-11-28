@@ -5,14 +5,14 @@
 # @File    : blueprint_reg.py
 from main import app
 
-from web.view.home import home_index
+from web.view.home_page.home import home_index
 from web.view.test import test_index
-from web.view.login import login_index
-from web.view.add_note import add_index
-from web.view.errors import error_index
-from web.view.modification import mod_index
-from web.view.manage_label import bind_index
-from web.view.note_detail import detail_index
+from web.view.common_form.login import login_index
+from web.view.add_note.add_note import add_index
+from web.view.common_form.errors import error_index
+from web.view.home_page.modification import mod_index
+from web.view.label_manager.manage_label import bind_index
+from web.view.home_page.note_detail import detail_index
 
 
 app.register_blueprint(add_index, url_prefix='/')

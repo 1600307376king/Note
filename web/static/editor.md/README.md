@@ -167,7 +167,7 @@ Editor.md options and default values:
     dialogMaskBgColor    : "#fff",
     dialogMaskOpacity    : 0.1,
     fontSize             : "13px",
-    saveHTMLToTextarea   : false,          // If enable, Editor will create a <textarea name="{editor-id}-html-code"> tag save HTML code for form post to server-side.
+    saveHTMLToTextarea   : false,          // If enable, Editor will create a <textarea name="{editor-id}-html-code"> tag save HTML code for common_form post to server-side.
     disabledKeyMaps      : [],
     
     onload               : function() {},

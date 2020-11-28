@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify
+from flask import Flask
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 import os
-import logging
 
 
 class Main(Flask):
@@ -24,10 +23,10 @@ db = SQLAlchemy()
 app = Main(__name__, template_folder=os.getcwd() + '/web/templates/',
            static_folder=os.getcwd() + "/web/static/")
 
-from web.view.home import home_index
-from web.view.add_note import add_index
-from web.view.note_detail import detail_index
-from web.view.modification import mod_index
+from web.view.home_page.home import home_index
+from web.view.add_note.add_note import add_index
+from web.view.home_page.note_detail import detail_index
+from web.view.home_page.modification import mod_index
 from web.view.test import test_index
 
 app.register_blueprint(home_index, url_prefix='/')
