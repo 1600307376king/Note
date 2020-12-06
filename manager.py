@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 from flask_script import Manager, Server, Command
 from flask_migrate import Migrate, MigrateCommand
-from blueprint_reg import app
-from main import db
+from blueprint_reg import app, db
 import logging
 
 

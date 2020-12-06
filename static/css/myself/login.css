@@ -1,0 +1,43 @@
+#loginContainer {
+    width: 500px;
+    height: auto;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-left: -250px;
+    background: white;
+    border-radius: 3px;
+}
+
+#loginTitle {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.inputRow {
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px 10px;
+}
+
+.inputRow input {
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid lightgray;
+}
+
+.inputRow button {
+    width: 100px;
+    outline: none;
+}
+
+#errorTip {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+}
