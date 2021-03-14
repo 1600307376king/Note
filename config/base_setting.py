@@ -1,15 +1,11 @@
 import redis
 import os
-from dotenv import load_dotenv
-
-
-load_dotenv(override=True)  # 需要添加override=True, 否则会加载不到
 
 # pool = redis.ConnectionPool(host='localhost', port=6379)
 # redis_obj = redis.Redis(connection_pool=pool)
 
 # 分页每页做大值
-PER_PAGE_MAX_NUM = 10
+PER_PAGE_MAX_NUM = 30
 
 # css 版本
 CSS_VERSION = '2019122231106'
@@ -33,9 +29,9 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 
 server_list = {
     'development': {
-        'port': '5000',
-        'ip': '127.0.0.1',
-        'url': 'http://127.0.0.1:5000',
+        'port': '8008',
+        'ip': '0.0.0.0',
+        'url': 'http://127.0.0.1:8008',
         'debug': True,
         'mysql_password': '123456'
     },
@@ -44,14 +40,14 @@ server_list = {
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:80',
         'debug': False,
-        'mysql_password': os.getenv('PASSWORD')
+        'mysql_password': '123456'
     },
     'tests': {
         'port': '8099',
         'ip': 'www.exp1727.cn',
         'url': 'http://www.exp1727.cn:8099',
         'debug': True,
-        'mysql_password': os.getenv('PASSWORD')
+        'mysql_password': '123456'
     }
 }
 

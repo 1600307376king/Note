@@ -9,7 +9,13 @@ from werkzeug.security import check_password_hash
 from main import csrf, login_manager
 from flask_login import login_user, login_required, logout_user
 from flask_wtf.csrf import generate_csrf, CSRFError
-from model.admin import AdminInfo
+
+from model.admin import AdminInfo, User
+from main import db
+from datetime import datetime
+from faker import Faker
+from squirrel.mysql_con.mysql_util import MysqlUtil
+import random
 
 login_index = Blueprint('login_page', __name__)
 
@@ -69,3 +75,44 @@ def logout():
 @login_index.errorhandler(CSRFError)
 def csrf_error(reason):
     return 'csrf error {0}'.format(reason)
+
+
+@login_index.route('/add_user/')
+def add_user_info():
+    fk = Faker(locale='zh_CN')
+    print('开始插入')
+    # db.session.execute(
+    #     User.__table__.insert(),
+    #     [
+    #         {
+    #             'user_name': fk.name(),
+    #             'user_password': fk.password(),
+    #             'user_nickname': fk.name(),
+    #             'user_phone_number': fk.phone_number(),
+    #             'user_email': fk.email(),
+    #             'user_last_login_time': datetime.now(),
+    #         } for _ in range(100000)
+    #     ]
+    # )
+    # db.session.commit()
+
+    # my_mysql_conn = MysqlUtil('127.0.0.1', 3306, 'root', '123456', 'utf8mb4')
+    # my_mysql_conn.connect()
+    # insert_sql = "insert into user(user_name, user_password, user_nickname, user_phone_number," \
+    #              "user_email, user_last_login_time)" \
+    #              "values(%s, %s, %s, %s, %s, %s)"
+    # insert_data = [(fk.name(), fk.password(), fk.name(), fk.phone_number(), fk.email(), datetime.now()) for _ in range(1000000)]
+    # t1 = datetime.now()
+    # my_mysql_conn.execute_many_insert(insert_sql, insert_data)
+    # t2 = datetime.now()
+    # print(t2 - t1)
+    my_mysql_conn = MysqlUtil('127.0.0.1', 3306, 'root', '123456', 'school', 'utf8mb4')
+    my_mysql_conn.connect()
+    insert_sql = "insert into student(st_name, st_age, st_sex) values(%s, %s, %s)"
+    insert_data = [(fk.name(), random.randint(7, 30), random.randint(0, 1)) for _ in range(1000000)]
+    t1 = datetime.now()
+    my_mysql_conn.execute_many_insert(insert_sql, insert_data)
+    t2 = datetime.now()
+    print(t2 - t1)
+    print('插入完成')
+    return '666'

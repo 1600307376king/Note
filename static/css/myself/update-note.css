@@ -1,11 +1,13 @@
-.mid-content {
+
+
+.midContent {
     width: 80%;
     height: auto;
     min-height: 1000px;
     margin: 0 auto;
 }
 
-.one-note {
+.oneNote {
     float: left;
     width: 100%;
     height: auto;
@@ -14,34 +16,34 @@
     margin-left: 10px;
 }
 
-.note-title {
+.noteTitle {
     padding: 20px;
 }
 
-.note-title span {
+.noteTitle span {
     width: auto;
     height: 30px;
     padding: 10px;
     margin-right: 20px;
 }
-.note-title input {
+.noteTitle input {
     width: 400px;
     border: 1px solid #8a8a8a;
     height: 40px;
     padding-left: 10px;
     margin-left: 28px;
 }
-.add-label {
+.addLabel {
     padding: 20px;
     outline: none;
 }
-.add-label span {
+.addLabel span {
     width: auto;
     height: 30px;
     padding: 10px;
     margin-right: 20px;
 }
-.add-label input {
+.addLabel input {
     width: 150px;
     height: 40px;
     border: 1px solid #8a8a8a;
@@ -58,7 +60,7 @@
     border-radius: 25px;
     margin-left: 20px;
 }
-.note-label div {
+.noteLabel div {
 
 }
 .note-con label {
@@ -70,18 +72,18 @@
     width:100%;
     height:100%;
 }
-.straight-line {
+.straightLine {
     width: 100%;
     height: 1px;
     border: 1px solid #F0F1F2;
 }
-.note-label {
+.noteLabel {
     padding-left: 20px;
     padding-right: 20px;
     margin-left: 80px;
 }
 
-.my-label {
+.myLabel {
     border: 1px solid;
     border-radius: 5px;
     padding-left: 10px;
@@ -99,10 +101,10 @@
 h2 {
     margin: 20px;
 }
-.foot-button {
+.footButton {
     text-align: center;
 }
-.foot-button input{
+.footButton input{
     height: 34px;
     width: 60px;
     color: white;
@@ -110,17 +112,17 @@ h2 {
     border: 0;
     border-radius: 5px;
 }
-.add-instructions {
+.addInstructions {
     margin: 20px;
 }
-.add-instructions span {
+.addInstructions span {
     width: auto;
     height: auto;
     padding: 10px;
     margin-right: 20px;
     float: left;
 }
-.add-instructions textarea {
+.addInstructions textarea {
     vertical-align:top;
     width: 800px;
     min-width: 500px;

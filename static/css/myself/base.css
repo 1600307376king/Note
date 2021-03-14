@@ -1,15 +1,13 @@
 body {
-    min-width: 1000px;
     background: #f5f6f7;
     margin: 0;
     padding: 0;
 }
 
-.top-nav {
+#topNav {
     height: 40px;
     width: 100%;
     background: white;
-    display: inline-block;
     position: fixed;
     top: 0;
     border-top: 1px solid #FF7F24;
@@ -17,56 +15,38 @@ body {
     z-index: 100;
 }
 
-.top-middle {
-    width: 70%;
-    min-width: 1160px;
-    height: 40px;
-    margin: 0 auto;
-}
-
-.top-m2 {
-    width: 70%;
+#topMenu {
     height: 40px;
     display: block;
     float: left;
+    font-size: 16px;
 }
 
+#topLogin {
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
 
-.login-link {
-    float: right;
-    display: block;
-    margin-top: 10px;
 }
 
-.login-link a {
+#topLogin a{
     color: #CD5C5C;
-    text-decoration: none;
 }
 
-.login-link a:hover {
-    color: dodgerblue;
+.topLoginInfo {
+    float: right;
+    margin-left: 10px;
 }
 
-@media screen and (min-width: 1300px) {
-    .login-link {
-        margin-right: 70px;
-    }
-}
-@media screen and (max-width: 1300px) {
-    .login-link {
-        margin-right: 20px;
-    }
-}
-
-.all-content {
-    margin-top: 50px;
+#allContent {
     width: 100%;
-    height: 100%;
-    min-height: 800px;
     overflow: auto;
+    position: fixed;
+    bottom: 110px;
+    top: 50px;
 }
 
-.top-m2 ul {
+#topMenu ul {
     list-style: none;
     margin-bottom: 0;
     height: 40px;
@@ -74,30 +54,32 @@ body {
     padding-left: 0;
 }
 
-.top-m2 li {
+#topMenu li {
     display: inline-block;
     text-align: center;
     width: 100px;
 }
 
-.top-m2 li:hover {
+#topMenu li:hover {
     background: #F0F1F2;
 }
 
-.top-m2 a {
+#topMenu a {
     text-decoration: none;
     color: black;
+    /*使a标签能够充满li*/
+    display: block;
 }
 
-.my-footer {
+#myFooter {
     background: white;
     width: 100%;
-    height: 100px;
-    margin-top: 0;
     text-align: center;
     line-height: 100px;
+    position: fixed;
+    bottom: 0;
 }
 
-.filing-number a{
+#filingNumber a{
     text-decoration: none;
 }

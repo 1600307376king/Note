@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>IAssistant</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="myNote" content="{{ csrf_token() }}">
     <link rel="Shortcut Icon" href="{{ url_for('static', filename='images/icon/favicon.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -20,34 +20,43 @@
     {% endblock %}
 </head>
 <body>
-    <div class="top-nav">
-        <div class="top-middle">
-            <div class="top-m2">
-                <ul>
-                    <li onclick="window.location.href='{{ url }}'"><a>首页</a></li>
-                    {% block hideMenu %}
+    <div id="topNav">
+        <div class="container">
+            <div class="row">
+                <div id="topMenu" class="col-xs-8">
+                    <ul>
+                        <li><a href="{{ url_for('home_page.home') }}">首页</a></li>
+                        <li><a href="{{ url_for('add_page.add_new_note') }}">添加笔记</a></li>
+                        <li><a>我的计划</a></li>
+                        <li><a href="/bl/">标签管理</a></li>
+                    </ul>
+                </div>
+                <div id="topLogin" class="col-xs-4">
+                    {% if res.user_info %}
+                        <div class="topLoginInfo">
+                            <a href="{{ url_for('login_page.logout') }}">退出登录</a>
+                        </div>
+                        <div class="topLoginInfo">
+                            <span>当前用户: {{ res.user_info.username }}</span>
+                        </div>
+                    {% else %}
+                        <div class="topLoginInfo">
+                            <a href="{{ url_for('login_page.go_login') }}">未登录</a>
+                        </div>
 
-                    {% endblock %}
-                </ul>
-            </div>
-            <div class="login-link">
-                {% if res.user_info.username %}
-                    <span>当前用户: {{ res.user_info.username }}</span>
-                    <a href="/login/logout/">退出登录</a>
-                {% else %}
-                    <a href="/login/">登录</a>
-                {% endif %}
-
-
+                    {% endif %}
+                </div>
             </div>
         </div>
+
+
     </div>
-    <div class="all-content">
+    <div id="allContent">
         {% block content %}
         {% endblock %}
     </div>
-    <div class="my-footer">
-        <div class="filing-number">
+    <div id="myFooter">
+        <div id="filingNumber">
             <a href="http://www.beian.miit.gov.cn">浙ICP备19037818号-1</a>
         </div>
     </div>

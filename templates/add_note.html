@@ -1,12 +1,12 @@
 {% extends 'base/base.html' %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
-    <link rel="stylesheet" href="/css/myself/adding-note.css?v={{ getVersion }}"/>
-    <link rel="stylesheet" href="/css/plugin/choice_label/tree.css?v={{ getVersion }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='editor.md/css/editormd.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/adding-note.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/choice_label/tree.css') }}">
 
 
-    <script src="/js/choice_label/comboTreePlugin.js"></script>
+    <script src="{{ url_for('static', filename='js/choice_label/comboTreePlugin.js') }}"></script>
     <style>
         .CodeMirror {
             min-height: 500px;
@@ -21,12 +21,12 @@
     </style>
 {% endblock %}
 {% block content %}
-    <div class="mid-content">
-        <div class="one-note">
-            <div class="note-title">
+    <div class="midContent">
+        <div class="oneNote">
+            <div class="noteTitle">
                 <span style="background: #54acd2; color: white">标题</span>
                 <label>
-                    <input id="noteTitle" type="text" name="note-title">
+                    <input id="noteTitle" type="text" name="noteTitle">
                 </label>
             </div>
             <div class="curLabel" style="padding: 20px">
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="add-label">
+            <div class="addLabel">
                 <span style="background: #54acd2; color: white">自定义标签</span>
 
                 <label>
@@ -52,12 +52,12 @@
                     <i class="glyphicon glyphicon-plus"></i>
                 </button>
             </div>
-            <div id="noteLabel" class="note-label">
+            <div id="noteLabel" class="noteLabel">
 
 
             </div>
 
-            <div class="straight-line">
+            <div class="straightLine">
 
             </div>
 
@@ -75,9 +75,9 @@
                     <textarea style="display:none;" id="noteContent"></textarea>
                 </label>
             </div>
-            <div class="foot-button">
+            <div class="footButton">
                 <label>
-                    <input type="button" value="保存" onclick="saveNote()">
+                    <input type="button" value="保存" onclick="saveNotes()">
                 </label>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 }
 
                 let di = document.createElement('div');
-                di.classList.add("my-label");
+                di.classList.add("myLabel");
                 di.style.borderColor = "#cca4e3";
 
                 di.innerHTML = labelName.value + "<i class=\"glyphicon glyphicon-remove rm\" onclick=\"removeLabel(this)\"></i>";
@@ -123,21 +123,21 @@
             e.parentNode.remove();
         }
     </script>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/editor.md/editormd.min.js"></script>
+    <script src="{{ url_for('static', filename="js/jquery.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="editor.md/editormd.min.js") }}"></script>
     <script type="text/javascript">
         $(function() {
             var editor = editormd("editor", {
                 width: "100%",
                 minHeight: "500px",
                 // markdown: "xxxx",     // dynamic set Markdown text
-                path : "{{ url }}/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+                path : "/editor.md/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
         });
     </script>
     <script>
         // 保存
-        function saveNote() {
+        function saveNotes() {
             let noteTitle = document.getElementById("noteTitle").value;
             let labels = document.getElementById("noteLabel").childNodes;
             let existingLabel = document.getElementsByClassName("input-keyword-item");
@@ -161,15 +161,17 @@
                 strContent += noteContent[k].innerText + "\n";
             }
             console.log(strContent);
-                        $.ajax({
+            $.ajax({
                 type: "POST",
                 url: "/add/",
                 data: JSON.stringify({'note_title': noteTitle, 'existing_label': existingLabels, 'custom_labels': customLabels,
                     'note_instructions': noteInstructions, 'str_content': strContent
                 }),
                 dataType: "json",
+                contentType: 'application/json',
                 headers: {
                     'Content-Type': 'application/json',
+                    "X-CSRFToken": $("meta[name='myNote']").attr("content")
                 },
                 success: function (response) {
                     if(response.msg === 'ok'){

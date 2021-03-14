@@ -3,6 +3,7 @@
 from flask_script import Manager, Server, Command
 from flask_migrate import Migrate, MigrateCommand
 from blueprint_reg import app, db
+from config.base_setting import IP, SERVER_PORT
 import logging
 
 
@@ -22,7 +23,7 @@ def test():
 
 migrate = Migrate(app, db)
 
-manager.add_command('runserver', Server(host='0.0.0.0', port=5000))
+manager.add_command('runserver', Server(host=IP, port=SERVER_PORT))
 manager.add_command('db', MigrateCommand)
 manager.add_command('test', Command(test))
 

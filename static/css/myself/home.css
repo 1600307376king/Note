@@ -1,35 +1,34 @@
-.note-list {
-    width: 70%;
-    min-width: 1160px;
+.noteList {
     height: auto;
     margin: 0 auto;
     background: #f5f6f7;
+    float: left;
 }
 
-.note-list ul {
+.noteList ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
 /*左侧分类导航*/
-.le {
+#labelListBox {
     position: fixed;
-    top: 50px;
+    top: 60px;
     width: 300px;
     height: 800px;
     background: white;
 }
 
-.search-box {
+#searchBox {
     margin: 10px;
 }
 
-.search-box input {
+#searchBox input {
     margin-left: 10px;
 }
 
-.search-box label {
+#searchBox label {
     margin-left: 10px;
 }
 
@@ -60,49 +59,49 @@
     height: 34px;
 }
 
-.red-line {
+#redLine {
     margin-top: 15px;
     border: 3px solid #CD5C5C;
 }
 
-.sort-note a {
+#sortNoteBox a {
     padding: 10px 20px;
     color: black;
     text-decoration: none;
 }
 
-.choice-label {
+#labelInnerBox {
     height: 700px;
     overflow-y: hidden;
     overflow-x: hidden;
     padding-right: 10px;
 }
 
-.choice-label:hover {
+#labelInnerBox:hover {
     overflow-y: scroll;
     overflow-x: hidden;
     padding-right: 0;
 }
 
-.choice-label::-webkit-scrollbar { /*滚动条整体样式*/
+#labelInnerBox::-webkit-scrollbar { /*滚动条整体样式*/
     width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
 }
 
-.choice-label::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+#labelInnerBox::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
     border-radius: 10px;
     background: lightgray;
 }
 
-.choice-label::-webkit-scrollbar-track { /*滚动条里面轨道*/
+#labelInnerBox::-webkit-scrollbar-track { /*滚动条里面轨道*/
     border-radius: 10px;
     background: #EDEDED;
 }
 
-.choice-label img {
+#labelInnerBox img {
     margin: 5px;
 }
 
-.choice-label span {
+#labelInnerBox span {
     color: black;
     font-size: 24px;
 }
@@ -111,23 +110,23 @@
     background: #cccccc;
 }
 
-.sub-menu a {
+#subMenu a {
     text-decoration: none;
 }
 
-.sub-menu span {
+#subMenu span {
     font-size: 16px;
 }
 
 /* navMenu */
-.navMenu > li {
+#navMenu > li {
     display: block;
     margin: 0;
     padding: 0;
     border: 0;
 }
 
-.navMenu > li > a {
+#navMenu > li > a {
     display: block;
     padding-left: 0;
     line-height: 40px;
@@ -138,42 +137,40 @@
     font-size: 17px;
 }
 
-.navMenu > li > a > img {
+#navMenu > li > a > img {
     width: 30px;
     height: 30px;
     margin-right: 10px;
     margin-left: 10px;
 }
 
-.nav-menu > li:nth-of-type(1) > a {
+#navMenu > li:nth-of-type(1) > a {
     border-top: 1px solid transparent;
 }
 
-.nav-menu > li:last-child > a {
+#navMenu > li:last-child > a {
     border-bottom: 1px solid transparent;
 }
 
-.nav-menu > li > a > i {
+#navMenu > li > a > i {
     font-size: 20px;
     float: left;
     font-style: normal;
     margin: 0 5px;
 }
 
-.nav-menu li a .arrow:before {
+#navMenu li a .arrow:before {
     float: right;
     margin-right: 15px;
     display: inline;
     font-size: 16px;
     font-family: FontAwesome, serif;
-    line-height: 60px;
     content: "\f105";
     font-weight: 300;
     text-shadow: none;
 }
 
-.nav-menu li a .arrow.open:before {
-    float: right;
+#navMenu li a .arrow.open:before {
     margin-right: 15px;
     display: inline;
     height: auto;
@@ -183,15 +180,18 @@
     text-shadow: none;
 }
 
-.nav-menu > li > ul.sub-menu, .nav-menu > li > ul.sub-menu > li > ul.sub-menu {
+
+#navMenu > li > ul#subMenu, #navMenu > li > ul#subMenu > li > ul#subMenu {
     display: none;
-    list-style: none;
+
     clear: both;
     margin: 8px 0 0 10px;
     padding-bottom: 5px;
 }
 
-.nav-menu > li > ul.sub-menu li > a {
+
+
+#navMenu > li > ul#subMenu li > a {
     display: block;
     font-size: 16px;
     line-height: 36px;
@@ -202,104 +202,122 @@
 /*-----------------*/
 
 /*右侧笔记列表*/
-.ri {
-    float: left;
-    width: 70%;
-    min-width: 500px;
-    height: 830px;
+#noteListBox {
+    float: right;
+    width: 800px;
     margin-left: 350px;
 }
 
-.sort-note {
+#sortNoteBox {
     width: 100%;
     height: 40px;
     background: white;
     margin-bottom: 10px;
 }
 
-.sort-note ul {
+#sortNoteBox ul {
     list-style: none;
     line-height: 40px;
     float: left;
+    width: 60%;
 }
 
-.sort-note li {
+#sortNoteBox li {
     text-align: center;
     width: 100px;
     display: inline-block;
 }
 
-.sort-note ul .active{
+#sortNoteBox ul .active{
     background-color: indianred;
 }
 
-.sort-note li:hover {
+#sortNoteBox li:hover {
     background: indianred;
 }
 
-.notes {
+#notes {
     background: white;
-    height: 750px;
-    overflow: scroll;
-    overflow-x: hidden;
+    /*overflow: scroll;*/
+    /*overflow-x: hidden;*/
+    height: 1000px;
 }
 
-.notes::-webkit-scrollbar { /*滚动条整体样式*/
-    width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
-}
+/*#notes::-webkit-scrollbar { !*滚动条整体样式*!*/
+/*    width: 10px; !*高宽分别对应横竖滚动条的尺寸*!*/
+/*}*/
 
-.notes::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
-    border-radius: 10px;
-    background: lightgray;
-}
+/*#notes::-webkit-scrollbar-thumb { !*滚动条里面小方块*!*/
+/*    border-radius: 10px;*/
+/*    background: lightgray;*/
+/*}*/
 
-.notes::-webkit-scrollbar-track { /*滚动条里面轨道*/
-    border-radius: 10px;
-    background: #EDEDED;
-}
+/*#notes::-webkit-scrollbar-track { !*滚动条里面轨道*!*/
+/*    border-radius: 10px;*/
+/*    background: #EDEDED;*/
+/*}*/
 
-.one-notes {
+.oneNotes {
     border-bottom: 2px solid #F0F1F2;
     height: 100px;
 }
 
-.list-detail {
+.listDetail {
     padding: 15px 15px 0 15px;
     height: 100px;
 }
 
-.note-title {
-    min-width: 300px;
+.noteTitle {
+    height: 40px;
 }
 
-.note-title a:hover{
+.noteTitle a:hover{
     color: indianred;
 }
 
-.note-title a {
+.noteTitle a {
     color: black;
     text-decoration: none;
+    width: 300px;
+
 }
 
-.edit-note {
+.titleLink {
+    float: left;
+    width: 70%;
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.editNote {
     float: right;
     margin-right: 0;
     width: auto;
     height: 34px;
     line-height: 34px;
+
 }
 
-.v-line {
+.vLine {
     width: 20px;
     color: lightgray;
 }
 
-.note-footer img {
+.noteFooter >span {
+    float: left;
+    height: 44px;
+    line-height: 44px;
+}
+
+.noteFooter img {
     width: 16px;
     height: 16px;
 }
 
-.right-fo {
+.footClick {
     float: right;
     min-width: 100px;
     height: 42px;
@@ -307,7 +325,7 @@
     color: #B5B5B5;
 }
 
-.right-fo span {
+.footClick span {
     float: left;
     min-width: 20px;
     text-align: center;
@@ -317,7 +335,7 @@
     color: lightskyblue;
 }
 
-.left-fo {
+.footLabels {
     font-size: 12px;
     text-align: center;
     float: left;
@@ -325,7 +343,7 @@
     height: auto;
     line-height: 32px;
 }
-.left-fo span {
+.footLabels span {
     float: left;
     min-width: 50px;
     /*border: 1px solid #F0F1F2;*/
@@ -335,7 +353,7 @@
     padding: 3px;
 }
 
-.left-fo span:hover {
+.footLabels span:hover {
     border: 1px solid lightskyblue;
 }
 
@@ -349,7 +367,30 @@
     opacity: 0;
 }
 
+#searchBox {
+    height: 40px;
+}
 
+#searchBox input {
+    height: 30px;
+    margin: 5px;
+    outline-color: #CD5C5C;
+    border: 1px solid #e8e8ed;
+    background: #f5f6f7;
+    border-radius: 3px;
+}
 
+#searchBtn {
+    background-color: #CD5C5C;
+    color: white;
+    outline: none;
+    border-radius: 3px;
+    height: 30px;
+    width: 60px;
+    border: none;
+}
 
+#pagingBox {
+    text-align: right;
+}
 

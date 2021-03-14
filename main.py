@@ -20,7 +20,7 @@ class Main(Flask):
     生产环境中相关密钥需要从环境变量中读取
     """
     def __init__(self, name):
-        super(Main, self).__init__(name)
+        super(Main, self).__init__(name, static_url_path='')
         self.config['JSON_AS_ASCII'] = False
         # jwt密钥 用于登录验证
         self.config['JWT_SECRET_KEY'] = 'hello-world'
@@ -32,7 +32,7 @@ class Main(Flask):
         self.config['FLASK_ADMIN_SWATCH'] = 'united'
         self.config['BABEL_DEFAULT_LOCALE'] = 'zh_CN'
         # 设置静态文件缓存过期时间
-        self.send_file_max_age_default = timedelta(seconds=1)
+        # self.send_file_max_age_default = timedelta(seconds=1)
         self.permanent_session_lifetime = timedelta(days=1)
 
         db.init_app(self)

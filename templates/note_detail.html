@@ -2,33 +2,33 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-    <link rel="stylesheet" href="/editor.md/css/editormd.preview.css" />
-    <link rel="stylesheet" href="/css/myself/note-detail.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='editor.md/css/editormd.preview.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/note-detail.css') }}">
 
 {% endblock %}
 {% block content %}
-    <div class="mid-content">
+    <div class="midContent">
         <div class="msg-list">
             <div class="recommend-title">推荐</div>
             {% for i in res.get('note_title') %}
-            <div class="title-list" onclick="window.location.href='{{ url }}/detail/{{ i[0] }}'">
-                <a href="#" data-toggle="tooltip" data-placement="right" title="{{ i[1] }}">{{ i[1] }}</a>
+            <div class="title-list">
+                <a href="/detail/{{ i[0] }}" data-toggle="tooltip" data-placement="right" title="{{ i[1] }}">{{ i[1] }}</a>
             </div>
             {% endfor %}
 
         </div>
-        <div class="one-note">
+        <div class="oneNote">
             {% set j = res.get('note_det') %}
-            <div class="note-title">
+            <div class="noteTitle">
                 <h3>{{ j[1] }}</h3>
                 <br>
                 <p><span>{{ j[2] }}</span><span style="color: #54acd2">作者: hello</span><span>阅读数：{{ j[6] }}</span>
-                    <span id="upRi" class="up-ri"><a href="{{ url }}/update/{{ j[0] }}">修改</a></span></p>
+                    <span id="upRi" class="up-ri"><a href="/update/{{ j[0] }}">修改</a></span></p>
 
             </div>
-            <div class="note-label">
+            <div class="noteLabel">
                 {% for i in j[3].split('|')[:-1] %}
-                <span class="my-label" style="border-color: #cca4e3; text-align: center">{{ i }}</span>
+                <span class="myLabel" style="border-color: #cca4e3; text-align: center">{{ i }}</span>
                 {% endfor %}
             </div>
             <div class="spec-description">
@@ -36,7 +36,7 @@
                 <br>
                 {{ j[4] }}
             </div>
-            <div class="straight-line">
+            <div class="straightLine">
 
             </div>
             <div class="note-con">
@@ -49,10 +49,10 @@
         </div>
 
     </div>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/editor.md/editormd.js"></script>
-    <script src="/editor.md/lib/marked.min.js"></script>
-    <script src="/editor.md/lib/prettify.min.js"></script>
+    <script src="{{ url_for('static', filename="js/jquery.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="editor.md/editormd.js") }}"></script>
+    <script src="{{ url_for('static', filename="editor.md/lib/marked.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="editor.md/lib/prettify.min.js") }}"></script>
     <script type="text/javascript">
         $(function() {
           var testView = editormd.markdownToHTML("test-markdown-view", {
@@ -61,7 +61,7 @@
                 // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
                 width: "100%",
                 autoHeight: true,
-                path : "{{ url }}/editor.md/lib/"
+                path : "/editor.md/lib/"
             });
         });
         if(document.cookie && document.cookie.split("=")[0] === "token"){
