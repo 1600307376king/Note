@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='editor.md/css/editormd.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/adding-note.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/choice_label/tree.css') }}">
+
+
+    <script src="{{ url_for('static', filename='js/choice_label/comboTreePlugin.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <div>
+
+    </div>
+
+{% endblock %}

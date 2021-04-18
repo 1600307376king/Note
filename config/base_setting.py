@@ -5,7 +5,7 @@ import os
 # redis_obj = redis.Redis(connection_pool=pool)
 
 # 分页每页做大值
-PER_PAGE_MAX_NUM = 30
+PER_PAGE_MAX_NUM = 10
 
 # css 版本
 CSS_VERSION = '2019122231106'
@@ -62,13 +62,13 @@ DIALECT = 'mysql'
 DRIVER = 'mysqlconnector'
 USERNAME = 'root'
 PASSWORD = server_list[ENV_NAME]['mysql_password']
-HOST = 'localhost'
-PORT = '3306'
+HOST = '127.0.0.1'
+PORT = 3306
 DATABASE = 'note'
+CHARSET = 'utf8mb4'
 # 这个连接字符串变量名是固定的具体 参考 flask_sqlalchemy 文档 sqlalchemy会自动找到flask配置中的 这个变量
-SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8mb4'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
-                                                                       DATABASE)
-
+SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset={}'.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT,
+                                                                     DATABASE, CHARSET)
 
 # 邮件发送配置
 MAIL_SERVER = 'smtp.sendgrid.net'
@@ -76,7 +76,3 @@ MAIL_PORT = 587
 MAIL_USE_TLS = False
 MAIL_USERNAME = 'apikey'
 MAIL_PASSWORD = os.getenv('SENDGRID_API_KEY')  # 需要去邮箱页面设置里获取
-
-
-
-

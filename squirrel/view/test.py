@@ -26,7 +26,7 @@ class TestForm(FlaskForm):
     submit = SubmitField('submit')
 
 
-# @test_index.route('/ts/', methods=['GET', 'POST'])
+# @test_index.route('/ts/', methods=('GET', 'POST'))
 # def flask_test():
 #     test_form = TestForm()
 #     if request.method == 'POST':

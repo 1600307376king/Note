@@ -27,7 +27,7 @@
                     <ul>
                         <li><a href="{{ url_for('home_page.home') }}">首页</a></li>
                         <li><a href="{{ url_for('add_page.add_new_note') }}">添加笔记</a></li>
-                        <li><a>我的计划</a></li>
+                        <li><a href="{{ url_for('plan_page.display_plans') }}">我的计划</a></li>
                         <li><a href="/bl/">标签管理</a></li>
                     </ul>
                 </div>
@@ -48,8 +48,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
     <div id="allContent">
         {% block content %}

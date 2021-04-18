@@ -3,6 +3,7 @@
     height: auto;
     min-height: 1000px;
     margin: 0 auto;
+    min-width: 1200px;
 }
 
 .oneNote {
@@ -14,148 +15,139 @@
     margin-left: 10px;
 }
 
-.noteTitle {
-    padding: 20px;
-}
-
-.noteTitle span {
-    width: auto;
-    height: 30px;
-    padding: 10px;
-    margin-right: 20px;
-}
-
-.noteTitle input {
-    width: 400px;
-    border: 1px solid #cccccc;
-    height: 40px;
-    padding-left: 10px;
-    margin-left: 40px;
-}
-
-.curLabel .container {
+.noteProperty {
     width: 100%;
+    height: auto;
 }
 
-.choiceLabel {
-    margin-bottom: 0;
-    padding: 10px 10px 10px 0;
-    width: 90px;
-    margin-left: 0;
+.propertyName {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    float: left;
+    text-align: right;
+    font-weight: bold;
 }
 
-.choiceLabel > span {
-    background: #54acd2;
-    width: auto;
-    height: 30px;
-    color: white;
-    padding: 10px;
-    position: relative;
-}
-
-.addLabel {
-    padding: 20px;
-    outline: none;
-}
-
-.addLabel > span {
-    width: auto;
-    height: 30px;
-    padding: 10px;
-    margin-right: 20px;
-}
-
-.addLabel label input {
-    width: 150px;
-    height: 40px;
-    border: 1px solid #cccccc;
-    padding-left: 10px;
-
-}
-
-.btn-circle {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    padding: 10px;
-    font-size: 12px;
-    line-height: 1.33;
-    border-radius: 25px;
-    margin-left: 20px;
-}
-
-.note-con > label {
-    width:100%;
-    height: 300px;
-}
-
-.note-con > textarea{
-    padding: 10px;
-    width:100%;
-    height:100%;
-}
-
-.straightLine {
-    width: 100%;
-    height: 1px;
-    border: 1px solid #F0F1F2;
-}
-
-.noteLabel {
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 80px;
-}
-
-.myLabel {
-    border: 1px solid;
-    border-radius: 5px;
-    padding-left: 10px;
-    margin: 5px;
-    height: 34px;
+.propertyInput {
+    margin: 10px;
     display: inline-block;
-    line-height: 34px;
-}
-
-.rm {
     position: relative;
-    top: -15px;
-    right: -7px;
-    color: #cccccc;
 }
 
-.footButton {
+#labelAddBtnDiv {
+    display: inline-block;
+
+}
+
+#labelAddBtnDiv button {
+    width: 60px;
+    height: 30px;
+    background: #54acd2;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #cccccc;
+}
+
+.propertyInput > label > input {
+    /*margin-top: 20px;*/
+    width: 100px;
+    height: 36px;
+    border: 1px solid #CCCCCC;
+
+    /*box-shadow: 2px 2px 10px #cccccc;*/
+    outline: none;
+    padding-left: 10px;
+}
+
+#customLabels {
+    width: 200px;
+}
+
+#labelBar {
+    margin-left: 110px;
+}
+
+.propertyInput input:focus{
+    box-shadow: 2px 2px 10px #cccccc;
+}
+
+.propertyInput textarea {
+    outline: none;
+    padding-left: 10px;
+    width: 500px;
+    height: 100px;
+    border: 1px solid #cccccc;
+}
+
+#maxInputText{
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    font-weight: normal;
+}
+
+.propertyInput textarea:focus {
+    box-shadow: 2px 2px 10px #cccccc;
+}
+
+#noteTitle{
+    width: 400px;
+}
+
+.newLabel {
+    height: 30px;
+    display: inline-block;
+    border: 1px solid #2aabd2;
+    border-radius: 3px;
     text-align: center;
+    line-height: 30px;
+    margin-right: 10px;
 }
 
-.footButton input{
+.newLabel span {
+    margin: 10px;
+}
+
+.closeSymbol {
+    float: right;
+    margin-right: 5px;
+}
+
+.closeSymbol:hover{
+    font-size: 17px;
+    cursor: pointer;
+}
+
+/*.closeSymbol::before {*/
+
+/*    content: "\2A2F";*/
+/*}*/
+
+.CodeMirror {
+    min-height: 500px;
+}
+.CodeMirror-gutters {
+    min-height: 500px;
+}
+.CodeMirror-scroll {
+    margin-top: 0;
+    min-height: 500px;
+}
+
+#footButton {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#footButton button{
     height: 34px;
     width: 60px;
     color: white;
     background: #54acd2;
     border: 0;
     border-radius: 5px;
-}
-
-.instructions {
-    margin: 20px;
-}
-
-.instructions > span {
-    width: auto;
-    height: auto;
-    padding: 10px;
-    margin-right: 20px;
-    float: left;
-}
-
-.instructions textarea {
-    vertical-align:top;
-    width: 500px;
-    height: 100px;
-    border: 1px solid #cccccc;
-}
-
-#editor {
-
+    box-shadow: 2px 2px 5px #cccccc;
 }

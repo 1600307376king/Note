@@ -24,7 +24,7 @@ app = Main(__name__, template_folder=os.getcwd() + '/squirrel/templates/',
            static_folder=os.getcwd() + "/squirrel/static/")
 
 from squirrel.view.home_page.home import home_index
-from squirrel.view.add_note.add_note import add_index
+from squirrel.view.home_page.add_note import add_index
 from squirrel.view.home_page.note_detail import detail_index
 from squirrel.view.home_page.modification import mod_index
 from squirrel.view.test import test_index

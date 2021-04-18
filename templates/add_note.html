@@ -5,80 +5,61 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/myself/adding-note.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/choice_label/tree.css') }}">
 
-
+    <script src="{{ url_for('static', filename="js/jquery.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="editor.md/editormd.min.js") }}"></script>
     <script src="{{ url_for('static', filename='js/choice_label/comboTreePlugin.js') }}"></script>
-    <style>
-        .CodeMirror {
-            min-height: 500px;
-        }
-        .CodeMirror-gutters {
-            min-height: 500px;
-        }
-        .CodeMirror-scroll {
-            margin-top: 0;
-            min-height: 500px;
-        }
-    </style>
 {% endblock %}
 {% block content %}
     <div class="midContent">
         <div class="oneNote">
-            <div class="noteTitle">
-                <span style="background: #54acd2; color: white">标题</span>
-                <label>
-                    <input id="noteTitle" type="text" name="noteTitle">
-                </label>
-            </div>
-            <div class="curLabel" style="padding: 20px">
-                <div class="container" style="margin-left: 0">
-                    <div class="row" style="width: 100%">
-                        <div class="col-xs-2 choiceLabel">
-                            <span>选择标签</span>
-                        </div>
-                        <div class="col-xs-6" style="margin-left: 8px">
-                            <div id="justAnInputBox2" class="select-tree-wrap"></div>
+            <ol>
+                <li class="noteProperty">
+                    <div class="propertyName">标题</div>
+                    <div class="propertyInput">
+                        <label>
+                            <input id="noteTitle" type="text">
+                        </label>
+                    </div>
+                </li>
+                <li class="noteProperty">
+                    <div class="propertyName">标签</div>
+                    <div class="propertyInput">
+                        <div id="justAnInputBox2" class="select-tree-wrap"></div>
+                    </div>
+                </li>
+                <li class="noteProperty">
+                    <div class="propertyName">自定义标签</div>
+                    <div class="propertyInput">
+                        <label>
+                            <input id="customLabels" type="text">
+                        </label>
+                    </div>
+                    <div id="labelAddBtnDiv"><button type="button">添加</button></div>
+                </li>
+                <li>
+                    <div class="noteProperty">
+                        <div id="labelBar">
+
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="addLabel">
-                <span style="background: #54acd2; color: white">自定义标签</span>
-
-                <label>
-                    <input type="text" id="labelName">
-                </label>
-                <button id="addLabel" style="outline: none" type="button" class="btn btn-default btn-circle" onclick="addLabel()">
-                    <i class="glyphicon glyphicon-plus"></i>
-                </button>
-            </div>
-            <div id="noteLabel" class="noteLabel">
-
-
-            </div>
-
-            <div class="straightLine">
-
-            </div>
-
-            <div class="instructions">
-                <span style="background: #54acd2; color: white">笔记说明</span>
-                <label>
-                    <textarea id="instructions">
-
-                    </textarea>
-                </label>
-            </div>
-
+                </li>
+                <li class="noteProperty">
+                    <div class="propertyName">简介</div>
+                    <div class="propertyInput">
+                        <label>
+                            <textarea id="instructions"></textarea>
+                        </label>
+                        <span id="maxInputText">0/200</span>
+                    </div>
+                </li>
+            </ol>
             <div id="editor">
                 <label>
-                    <textarea style="display:none;" id="noteContent"></textarea>
+                    <textarea id="noteContent"></textarea>
                 </label>
             </div>
-            <div class="footButton">
-                <label>
-                    <input type="button" value="保存" onclick="saveNotes()">
-                </label>
+            <div id="footButton">
+                <button type="button" onclick="saveNotes()">保存</button>
             </div>
         </div>
     </div>
@@ -95,36 +76,27 @@
     </script>
     <script type="text/javascript">
         // 添加自定义标签
-        function addLabel(){
-            let labelName = document.getElementById('labelName');
-
-            if(labelName.value === "" || labelName.value === null)
-            {
+        $("#labelAddBtnDiv button").on("click", function (){
+            let labelName = $("#customLabels");
+            if(labelName.val() == "" || labelName.val() == null){
                 alert("请输入标签名");
-            }
-            else {
-                if(/^[a-zA-Z]+$/.test(labelName.value)){
-                    labelName.value = labelName.value.replace(labelName.value[0], labelName.value[0].toUpperCase());
+            }else{
+                if(/^[a-zA-Z]+$/.test(labelName.val())){
+                    labelName.val(labelName.val().toUpperCase());
                 }
-
-                let di = document.createElement('div');
-                di.classList.add("myLabel");
-                di.style.borderColor = "#cca4e3";
-
-                di.innerHTML = labelName.value + "<i class=\"glyphicon glyphicon-remove rm\" onclick=\"removeLabel(this)\"></i>";
-                let noteLabel = document.getElementById('noteLabel');
-                noteLabel.appendChild(di);
-                labelName.value = "";
+                $("#labelBar").append("<div class='newLabel'><span>"
+                    + labelName.val() + "</span><div class='closeSymbol'>X</div></div>");
+                labelName.val("");
             }
-        }
+        })
+
         // 删除标签
-        function removeLabel(e) {
-            // console.log(e.parentNode);
-            e.parentNode.remove();
-        }
+        $("#labelBar").on("click", ".closeSymbol", function (){
+            $(this).parents(".newLabel").remove();
+        })
+
     </script>
-    <script src="{{ url_for('static', filename="js/jquery.min.js") }}"></script>
-    <script src="{{ url_for('static', filename="editor.md/editormd.min.js") }}"></script>
+
     <script type="text/javascript">
         $(function() {
             var editor = editormd("editor", {
@@ -136,17 +108,20 @@
         });
     </script>
     <script>
+        $("#instructions").bind("input propertychange", function (){
+            $("#maxInputText").text($(this).val().length.toString() + "/200");
+        });
         // 保存
         function saveNotes() {
-            let noteTitle = document.getElementById("noteTitle").value;
-            let labels = document.getElementById("noteLabel").childNodes;
-            let existingLabel = document.getElementsByClassName("input-keyword-item");
-            let existingLabels = "";
-            for(let k = 0; k < existingLabel.length; k++){
-                let m = existingLabel[k].childNodes[0].innerText.toString();
-                existingLabels += m + "|";
-
+            let noteTitle = $("#noteTitle").val();
+            let labels = $(".input-keyword-item");
+            let labelsText = "";
+            for(let k = 0; k < labels.length; k++){
+                labelsText += labels[k].childNodes[0].innerText + "|"
             }
+            {#let existingLabel = document.getElementsByClassName("input-keyword-item");
+            let existingLabels = "";
+
 
             console.log(existingLabels);
             let customLabels = "";
@@ -160,8 +135,8 @@
             for(let k = 0; k < noteContent.length; k++){
                 strContent += noteContent[k].innerText + "\n";
             }
-            console.log(strContent);
-            $.ajax({
+            console.log(strContent);#}
+            {#$.ajax({
                 type: "POST",
                 url: "/add/",
                 data: JSON.stringify({'note_title': noteTitle, 'existing_label': existingLabels, 'custom_labels': customLabels,
@@ -174,16 +149,14 @@
                     "X-CSRFToken": $("meta[name='myNote']").attr("content")
                 },
                 success: function (response) {
-                    if(response.msg === 'ok'){
+                    if(response.msg == 1){
                         alert("保存成功！");
                         window.location.href = "/add/";
                     }else{
                         alert("保存失败")
                     }
                 }
-            })
-
-
+            })#}
         }
     </script>
 {% endblock %}

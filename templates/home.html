@@ -57,7 +57,7 @@
                                     </div>
 
                                     <div class="editNote">
-                                        <span><a href="/update/{{ r[0] }}/">修改</a></span>
+                                        <span><a href="/modification/{{ r[0] }}/">修改</a></span>
                                         <span class="vLine">|</span>
                                         <span><a class="deleteNote">删除</a></span>
                                     </div>
@@ -85,7 +85,7 @@
                     <ul class="pagination pagination-lg">
                         <li class="pagingBtn"><a href="#">&laquo;</a></li>
                         {% for p in range(1, res["pages"] + 1) %}
-                        {% if p == res["page"] %}
+                        {% if p == 1 %}
                             <li class="pagingBtn active"><a href="#">{{ p }}</a></li>
 
                         {% else %}
@@ -161,12 +161,14 @@
 
             // 筛选请求
             filterData() {
+                var curPage = this.screenConditions['curPage'];
                 $.ajax({
                     type: "POST",
                     url: "/filter_col/",
                     data: JSON.stringify(this.screenConditions),
                     headers: {
                         'Content-Type': 'application/json',
+                        "X-CSRFToken": $("meta[name='myNote']").attr("content")
                     },
                     success: function (response) {
                         // 删除所有li 并重新添加li
@@ -176,7 +178,7 @@
                         pagingObj.empty();
                         var resArr = response.note_msg
                         var pagingCount = response.page_count;
-                        var curPage = response.cur_page;
+
                         for (var i=0;i<resArr.length;i++){
                             var labelList = resArr[i][2].split("|")
                             var labelStr = ""
@@ -192,7 +194,7 @@
                                 "                                </div>" +
 
                                 "                                <div class=\"editNote\">\n" +
-                                "                                    <span><a href=\"/update/" + resArr[i][0] + "/\">修改</a></span>\n" +
+                                "                                    <span><a href=\"/modification/" + resArr[i][0] + "/\">修改</a></span>\n" +
                                 "                                    <span class=\"vLine\">|</span>\n" +
                                 "                                    <span><a class=\"deleteNote\">删除</a></span>\n" +
                                 "                                </div>" +
@@ -276,7 +278,7 @@
 
                                     // “修改”href
                                     cloneData.childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[0].href
-                                        = "/update/" + responseData[j][0] +"/";
+                                        = "/modification/" + responseData[j][0] +"/";
 
                                     //修改标签名称
                                     let labelList = responseData[j][2].split('|');
@@ -363,6 +365,7 @@
             let labelName = $(this).children('a').children('span').text();
             let generalScreen = $(this).text();
             let keywordInputVal = $("#searchBox label input").val();
+            screen.screenConditions["curPage"] = 1;
             screen.setAllScreenVal(labelName, generalScreen, keywordInputVal);
             screen.filterData();
         });
@@ -371,6 +374,7 @@
         $("#searchBtn").on('click', function () {
             var curKeyword = $("#searchBox label input").val();
             let generalScreen = $("#sortNoteBox ul").children('li.filter-col.active').text();
+            screen.screenConditions["curPage"] = 1;
             screen.setAllScreenVal("", generalScreen, curKeyword);
             screen.filterData();
         })
@@ -380,6 +384,7 @@
             let labelName = $(this).children('a').children('span').text();
             let generalScreen = $("#sortNoteBox ul").children('li.filter-col.active').text();
             let keywordInputVal = $("#searchBox label input").val();
+            screen.screenConditions["curPage"] = 1;
             screen.setAllScreenVal(labelName, generalScreen, keywordInputVal);
             screen.filterData();
         });
@@ -407,6 +412,7 @@
             screen.setGeneralScreenVal(generalScreen);
             screen.setKeywordVal(keywordInputVal);
             screen.setCurPage(curPage);
+            console.log(screen.screenConditions);
             screen.filterData();
         })
     </script>

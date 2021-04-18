@@ -68,9 +68,9 @@
                     <input type="button" value="保存" onclick="saveNote()">
                 </label>
             </div>
-            <div id="noteUuid" class="{{ x[4] }}">
-
-            </div>
+{#            <div id="noteUuid" class="{{ x[4] }}">#}
+{##}
+{#            </div>#}
         </div>
     </div>
 
@@ -128,18 +128,19 @@
             let noteContent = document.getElementById("noteContent").innerText;
              $.ajax({
                 type: "POST",
-                url: "/modification/" + noteId,
+                url: "/modification/" + noteId + "/",
                 data: JSON.stringify({'note_title': noteTitle, 'str_labels': strLabels, 'note_instructions': noteInstructions,
                     'str_content': noteContent
                 }),
                 dataType: "json",
                 headers: {
                     'Content-Type': 'application/json',
+                    "X-CSRFToken": $("meta[name='myNote']").attr("content")
                 },
                 success: function (response) {
-                    if(response.msg === 'ok'){
+                    if(response.msg == '1'){
                         alert("修改成功！");
-                        window.location.href = "/update/" + noteId;
+                        window.location.href = "/modification/" + noteId + "/";
                     }else{
                         alert("修改失败")
                     }
