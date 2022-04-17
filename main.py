@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from squirrel.view.tool.static_file_version import CreateNewVersion
-from flask_debugtoolbar import DebugToolbarExtension
 from flask_jwt_extended import JWTManager
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy

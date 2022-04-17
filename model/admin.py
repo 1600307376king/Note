@@ -16,7 +16,10 @@ class AdminInfo(db.Model, UserMixin):
 
     def __unicode__(self):
         return self.adminName
+
+
 ''
+
 
 class User(db.Model):
     __table_name__ = 'User'
@@ -32,4 +35,3 @@ class User(db.Model):
 
     def __repr__(self):
         return self.UserId
-

@@ -1,4 +1,3 @@
-import redis
 import os
 
 # pool = redis.ConnectionPool(host='localhost', port=6379)
